@@ -38,7 +38,7 @@ public class AdminController {
 	@RequestMapping("/adminPage/users")
 	public String adminPageUsers(Model model) {
 		model.addAttribute("users", userService.getUserList());
-		return "admin/adminPage(users).html";
+		return "/admin/adminPage(users).html";
 	}
 
 	@RequestMapping("/adminPage/products")
