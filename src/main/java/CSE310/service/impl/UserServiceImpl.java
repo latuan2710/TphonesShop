@@ -1,0 +1,49 @@
+package CSE310.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import CSE310.model.User;
+import CSE310.repository.UserRepository;
+import CSE310.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Override
+	public List<User> getUserList() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	public User findUserById(long id) {
+		// TODO Auto-generated method stub
+		return userRepository.findById(id);
+	}
+
+	@Override
+	public void save(User user) {
+		userRepository.save(user);
+	}
+
+	@Override
+	public void edit(User user) {
+		userRepository.save(user);
+		
+	}
+
+	@Override
+	public void delete(long id) {
+		userRepository.deleteById(id);
+		
+	}
+	@Override
+	public User findUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
+}

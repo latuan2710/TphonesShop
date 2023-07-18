@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+	<title>Admin Page</title>
+	<!-- Bootstrap Core CSS -->
+	<link href="/css/bootstrap_min.css" rel="stylesheet">
+	<link href="/css/bootstrap_extension.css" rel="stylesheet">
+
+
+	<link href="/css/jquery_dataTables_min.css" rel="stylesheet" type="text/css" />
+	<link href="/css/buttons_dataTables_min.css" rel="stylesheet" type="text/css" />
+	<!-- Menu CSS -->
+	<link href="/css/sidebar_nav_min.css" rel="stylesheet">
+	<!-- animation CSS -->
+	<link href="/css/animate.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="/css/style.css" rel="stylesheet">
+	<!-- color CSS -->
+	<link href="/css/blue_dark.css" id="theme" rel="stylesheet">
+</head>
+
+<body>
+	<div id="wrapper">
+		<!-- Top Navigation -->
+		<nav class="navbar navbar-default navbar-static-top m-b-0">
+			<div class="navbar-header">
+				<a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<i class="ti-menu"></i>
+				</a>
+				<div class="top-left-part">
+					<a class="logo" href="index.html">
+						<b>
+							<img src="/image/eliteadmin_logo.png" alt="home" class="dark-logo" />
+							<!--<img src="/image/eliteadmin_logo_dark.png" alt="home" class="light-logo" />-->
+						</b>
+						<span class="hidden-xs">
+							<img src="/image/logo_text.png" alt="home" class="dark-logo" />
+							<!--<img src="/image/eliteadmin_text_dark.png" alt="home" class="light-logo" />-->
+						</span>
+					</a>
+				</div>
+				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
+					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
+								class="ti-menu icon-arrow-left-circle"></i></a></li>
+					<li>
+						<h4 class="page-title">Data Table</h4>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-header -->
+			<!-- /.navbar-top-links -->
+			<!-- /.navbar-static-side -->
+		</nav>
+		<!-- End Top Navigation -->
+		<!-- Left navbar-header -->
+		<div th:fragment="sidebar" class="sidebar" role="navigation">
+			<div class="wp-sidebar-nav">
+				<div class="user-profile">
+					<div class="dropdown user-pro-body">
+						<div>
+							<img src="/image/avatar.png" alt="user-img" class="img-circle">
+						</div>
+						<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button"
+							aria-haspopup="true" aria-expanded="false">
+							Steave Gection
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu animated flipInY">
+							<li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+							<li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
+							<li><a href="#"><i class="ti-email"></i> Inbox</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="login.html"><i class="fa fa-power-off"></i>Logout</a></li>
+						</ul>
+					</div>
+				</div>
+				<ul class="wp-side-menu">
+					<li>
+						<a href="/adminPage/users">
+							<i class="fa fa-circle-o text-success"></i>
+							<span class="hide-menu">Users</span>
+						</a>
+					</li>
+					<li>
+						<a href="/adminPage/products">
+							<i class="fa fa-circle-o text-success"></i>
+							<span class="hide-menu">Products</span>
+						</a>
+					</li>
+					<li>
+						<a href="/adminPage/brands">
+							<i class="fa fa-circle-o text-success"></i>
+							<span class="hide-menu">brands</span>
+						</a>
+					</li>
+					<li>
+						<a href="/adminPage/orders">
+							<i class="fa fa-circle-o text-success"></i>
+							<span class="hide-menu">History Order</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- Left navbar-header end -->
+		<!-- Page Content -->
+		<div id="page-wrapper">
+			<div class="container-fluid">
+				<div class="row bg-title">
+					<div class="col-12">
+						<a href="/register" target="_blank"
+							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+							Add User
+						</a>
+						<ol class="breadcrumb">
+							<li><a href="#">Dashboard</a></li>
+							<li class="active">Users Table</li>
+						</ol>
+					</div>
+				</div>
+				<!-- /row -->
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="white-box">
+							<h3 class="box-title m-b-30">Users Table</h3>
+							<div class="table-responsive">
+								<table id="users" class="table table-striped">
+									<thead>
+										<tr>
+											<th>N.o</th>
+											<th>Username</th>
+											<th>Password</th>
+											<th>Address</th>
+											<th>Function</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="user,object :${users}">
+											<td th:text="${object.index+1}">1</td>
+											<td th:text="${user.username}">latuan2710</td>
+											<td th:text="${user.password}">tuan124</td>
+											<td th:text="${user.address}">89,D12, Phu Tan, Thu Dau Mot, Binh Duong</td>
+											<td>
+												<a th:href="@{/editProduct(id=${user.id})}"
+													class="btn btn-warning">Edit</a>
+												<a th:href="@{${'/deleteProduct/'+user.id}}"
+													class="btn btn-danger">Delete</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+			<footer class="footer text-center"> 2023 &copy; Tphones Admin brought to you all things</footer>
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<div th:fragment="script-fragment">
+		<!-- jQuery -->
+		<script src="/js/jquery_min.js"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="/js/tether_min.js"></script>
+		<script src="/js/bootstrap_min.js"></script>
+		<script src="/js/bootstrap_extension_min.js"></script>
+		<!-- Menu Plugin JavaScript -->
+		<script src="/js/wp_sidebar.js"></script>
+		<!--Wave Effects -->
+		<script src="/js/waves.js"></script>
+		<!-- Custom Theme JavaScript -->
+		<script src="/js/custom_min.js"></script>
+		<script src="/js/jquery_dataTables_min.js"></script>
+		<!-- <script src="/js/buttons_html5_min.js"></script>
+        <script src="/js/buttons_print_min.js"></script>-->
+	</div>
+
+	<script>
+		$('#users').dataTable({
+			"columnDefs": [{
+				"targets": 4,
+				"orderable": false
+			}]
+		});
+		$(window).ready(function () {
+			$(".wp-side-menu li:nth-child(1)").addClass("selected")
+		})
+	</script>
+</body>
+
+</html>

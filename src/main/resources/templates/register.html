@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tphones Login</title>
+	<link rel="shortcut icon" href="logo.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		body {
+			background-color: #f8f9fa;
+		}
+
+		.register-container {
+			height: 600px;
+		}
+
+		h1.logo {
+			font-family: "Kalam", cursive;
+			font-size: 90px;
+			color: blue;
+		}
+
+		#logo-link:hover {
+			text-decoration: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row justify-content-center align-items-center register-container">
+			<div class="col-md-4 login-left">
+				<a id="logo-link" href="/">
+					<h1 class="logo">Tphones</h1>
+				</a>
+			</div>
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-body">
+						<form id="register" action="/register" th:object="${user}" method="post">
+							<div class="form-group">
+								<label for="username">Username</label>
+								<input type="text" onchange="checkUsername()" class="form-control" id="username"
+									name="username" th:utext="*{username}" placeholder="Enter your username" required>
+								<div id="alert-username" role="alert" class="alert alert-danger d-none">Your username
+									existed</div>
+							</div>
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" id="password" name="password"
+									placeholder="Enter your password" th:utext="*{password}" required>
+							</div>
+							<div class="form-group">
+								<label for="re-password">Password Again</label>
+								<input type="password" onchange="checkpass()" class="form-control" id="re-password"
+									placeholder="Enter your password again" required>
+								<div id="alert-password" role="alert" class="alert alert-danger d-none">Check your
+									password again</div>
+							</div>
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" th:utext="*{email}" id="email" name="email"
+									placeholder="Enter your email" required>
+							</div>
+							<div class="form-group">
+								<label for="address">Address</label>
+								<input type="text" class="form-control" id="address" th:utext="*{address}" name="address"
+									placeholder="Enter your address" required>
+							</div>
+							<button type="submit" class="btn btn-primary login-button w-100">Register</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script th:inline="javascript">
+		let usernames = /*[[${usernames}]]*/null;
+
+		function checkpass() {
+			if ($('#re-password').val() != $('#password').val()) {
+				$("#alert-password").removeClass("d-none");
+			} else {
+				$("#alert-password").addClass("d-none");
+			}
+		}
+
+		function checkUsername() {
+			if (usernames.includes($('#username').val())) {
+				$("#alert-username").removeClass("d-none");
+			} else {
+				$("#alert-username").addClass("d-none");
+			}
+		}
+
+	</script>
+</body>
+
+</html>
