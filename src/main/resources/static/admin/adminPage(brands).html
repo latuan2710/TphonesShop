@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="admin/adminPage(users) :: head">
+</head>
+
+<body>
+	<div id="wrapper">
+		<!-- Top Navigation -->
+		<nav class="navbar navbar-default navbar-static-top m-b-0">
+			<div class="navbar-header">
+				<a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<i class="ti-menu"></i>
+				</a>
+				<div class="top-left-part">
+					<a class="logo" href="index.html">
+						<b>
+							<img src="/image/eliteadmin_logo.png" alt="home" class="dark-logo" />
+						</b>
+						<span class="hidden-xs">
+							<img src="/image/logo_text.png" alt="home" class="dark-logo" />
+						</span>
+					</a>
+				</div>
+				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
+					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
+								class="ti-menu icon-arrow-left-circle"></i></a></li>
+					<li>
+						<h4 class="page-title">Data Table</h4>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-header -->
+			<!-- /.navbar-top-links -->
+			<!-- /.navbar-static-side -->
+		</nav>
+		<!-- End Top Navigation -->
+		<!-- Left navbar-header -->
+		<div th:replace="admin/adminPage(users) :: sidebar">
+		</div>
+	</div>
+	<!-- Left navbar-header end -->
+	<!-- Page Content -->
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<div class="row bg-title">
+				<div class="col-12">
+					<a href="/register" target="_blank"
+						class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+						Add Brand
+					</a>
+					<ol class="breadcrumb">
+						<li><a href="#">Dashboard</a></li>
+						<li class="active">Brands Table</li>
+					</ol>
+				</div>
+			</div>
+			<!-- /row -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="white-box">
+						<h3 class="box-title m-b-30">Brands Table</h3>
+						<div class="table-responsive">
+							<table id="brands" class="table table-striped">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>Brand Name</th>
+										<th>Function</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="brand,object :${brands}">
+										<td th:text="${object.index+1}">1</td>
+										<td th:text="${brand.name}">SamSung</td>
+										<td>
+											<a th:href="@{/editProduct(id=${brand.id})}"
+												class="btn btn-warning">Edit</a>
+											<a th:href="@{${'/deleteProduct/'+brand.id}}"
+												class="btn btn-danger">Delete</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+		<footer class="footer text-center"> 2023 &copy; Tphones Admin brought to you all things</footer>
+	</div>
+	<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<div th:replace="admin/adminPage(users) :: script-fragment">
+	</div>
+	<script>
+		$('#brands').dataTable({
+			"columnDefs": [{
+				"targets": 2,
+				"orderable": false
+			}]
+		});
+		$(window).ready(function () {
+			$(".wp-side-menu li:nth-child(3)").addClass("selected")
+		})
+	</script>
+</body>
+
+</html>
