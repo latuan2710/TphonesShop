@@ -7,13 +7,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+	<link rel="icon" type="/image/png" sizes="16x16" href="/image/favicon.png">
 	<title>Admin Page</title>
 	<!-- Bootstrap Core CSS -->
-	<link href="/css/bootstrap_min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 	<link href="/css/bootstrap_extension.css" rel="stylesheet">
-
-
 	<link href="/css/jquery_dataTables_min.css" rel="stylesheet" type="text/css" />
 	<link href="/css/buttons_dataTables_min.css" rel="stylesheet" type="text/css" />
 	<!-- Menu CSS -->
@@ -39,11 +37,9 @@
 					<a class="logo" href="index.html">
 						<b>
 							<img src="/image/eliteadmin_logo.png" alt="home" class="dark-logo" />
-							<!--<img src="/image/eliteadmin_logo_dark.png" alt="home" class="light-logo" />-->
 						</b>
 						<span class="hidden-xs">
 							<img src="/image/logo_text.png" alt="home" class="dark-logo" />
-							<!--<img src="/image/eliteadmin_text_dark.png" alt="home" class="light-logo" />-->
 						</span>
 					</a>
 				</div>
@@ -86,25 +82,25 @@
 				</div>
 				<ul class="wp-side-menu">
 					<li>
-						<a href="/adminPage/users">
+						<a href="adminPage/users">
 							<i class="fa fa-circle-o text-success"></i>
 							<span class="hide-menu">Users</span>
 						</a>
 					</li>
 					<li>
-						<a href="/adminPage/products">
+						<a href="adminPage/products">
 							<i class="fa fa-circle-o text-success"></i>
 							<span class="hide-menu">Products</span>
 						</a>
 					</li>
 					<li>
-						<a href="/adminPage/brands">
+						<a href="adminPage/brands">
 							<i class="fa fa-circle-o text-success"></i>
 							<span class="hide-menu">brands</span>
 						</a>
 					</li>
 					<li>
-						<a href="/adminPage/orders">
+						<a href="adminPage/orders">
 							<i class="fa fa-circle-o text-success"></i>
 							<span class="hide-menu">History Order</span>
 						</a>
@@ -118,7 +114,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="/register" target="_blank"
+						<a href="register" target="_blank"
 							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
 							Add User
 						</a>
@@ -173,7 +169,7 @@
 	<!-- /#wrapper -->
 	<div th:fragment="script-fragment">
 		<!-- jQuery -->
-		<script src="/js/jquery_min.js"></script>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 		<!-- Bootstrap Core JavaScript -->
 		<script src="/js/tether_min.js"></script>
 		<script src="/js/bootstrap_min.js"></script>
@@ -184,9 +180,7 @@
 		<script src="/js/waves.js"></script>
 		<!-- Custom Theme JavaScript -->
 		<script src="/js/custom_min.js"></script>
-		<script src="/js/jquery_dataTables_min.js"></script>
-		<!-- <script src="/js/buttons_html5_min.js"></script>
-        <script src="/js/buttons_print_min.js"></script>-->
+		<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	</div>
 
 	<script>

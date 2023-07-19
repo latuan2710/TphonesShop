@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="admin/adminPage(users) :: head">
+<head th:replace="~{admin/adminPage(users) :: head}">
 </head>
 
 <body>
@@ -37,7 +37,7 @@
 		</nav>
 		<!-- End Top Navigation -->
 		<!-- Left navbar-header -->
-		<div th:replace="admin/adminPage(users) :: sidebar"></div>
+		<div th:replace="~{admin/adminPage(users) :: sidebar}"></div>
 		<!-- Left navbar-header end -->
 		<!-- Page Content -->
 		<div id="page-wrapper">
@@ -102,7 +102,7 @@
 		<!-- /#page-wrapper -->
 	</div>
 	<!-- /#wrapper -->
-	<div th:replace="admin/adminPage(users) :: script-fragment"></div>
+	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
 	<script>
 		$('#products').dataTable({
 			"columnDefs": [{
