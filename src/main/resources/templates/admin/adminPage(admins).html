@@ -122,11 +122,11 @@
 					<div class="col-12">
 						<a href="register" target="_blank"
 							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
-							Add User
+							Add Admin
 						</a>
 						<ol class="breadcrumb">
 							<li><a href="#">Dashboard</a></li>
-							<li class="active">Users Table</li>
+							<li class="active">Admins Table</li>
 						</ol>
 					</div>
 				</div>
@@ -134,28 +134,26 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="white-box">
-							<h3 class="box-title m-b-30">Users Table</h3>
+							<h3 class="box-title m-b-30">Admins Table</h3>
 							<div class="table-responsive">
-								<table id="users" class="table table-striped">
+								<table id="admins" class="table table-striped">
 									<thead>
 										<tr>
 											<th>N.o</th>
 											<th>Username</th>
 											<th>Password</th>
-											<th>Address</th>
 											<th>Function</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="user,object :${users}">
+										<tr th:each="admin,object :${admin}">
 											<td th:text="${object.index+1}">1</td>
-											<td th:text="${user.username}">latuan2710</td>
-											<td th:text="${user.password}">tuan124</td>
-											<td th:text="${user.address}">89,D12, Phu Tan, Thu Dau Mot, Binh Duong</td>
+											<td th:text="${admin.username}">admin</td>
+											<td th:text="${admin.password}">admin</td>
 											<td>
-												<a th:href="@{/editProduct(id=${user.id})}"
+												<a th:href="@{/editProduct(id=${admin.id})}"
 													class="btn btn-warning">Edit</a>
-												<a th:href="@{${'/deleteProduct/'+user.id}}"
+												<a th:href="@{${'/deleteProduct/'+admin.id}}"
 													class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
@@ -190,14 +188,14 @@
 	</div>
 
 	<script>
-		$('#users').dataTable({
+		$('#admins').dataTable({
 			"columnDefs": [{
-				"targets": 4,
+				"targets": 3,
 				"orderable": false
 			}]
 		});
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(2)").addClass("selected")
+			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
 	</script>
 </body>
