@@ -10,7 +10,7 @@
 	<link rel="icon" type="/image/png" sizes="16x16" href="/image/favicon.png">
 	<title>Admin Page</title>
 	<!-- Bootstrap Core CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/bootstrap_min.css">
 	<link href="/css/bootstrap_extension.css" rel="stylesheet">
 	<link href="/css/jquery_dataTables_min.css" rel="stylesheet" type="text/css" />
 	<link href="/css/buttons_dataTables_min.css" rel="stylesheet" type="text/css" />
@@ -120,10 +120,10 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="register" target="_blank"
+						<button id="add_admin" target="_blank"
 							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
 							Add Admin
-						</a>
+						</button>
 						<ol class="breadcrumb">
 							<li><a href="#">Dashboard</a></li>
 							<li class="active">Admins Table</li>
@@ -187,6 +187,72 @@
 		<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 	</div>
 
+	<div class="register_admin d-none">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="white-box">
+					<h3 class="box-title m-b-30">Admin Register</h3>
+					<div class="row">
+						<div class="col-sm-12 col-xs-12">
+							<form action="/register/admin" method="post">
+								<div class="form-group">
+									<label for="username">User Name</label>
+									<input type="text" class="form-control" id="username" placeholder="Enter Username">
+								</div>
+								<div class="form-group">
+									<label for="password">Password</label>
+									<input type="password" class="form-control" id="password" placeholder="Password">
+								</div>
+								<div class="form-group">
+									<label for="confirm_password">Password</label>
+									<input type="password" class="form-control" id="confirm_password"
+										placeholder="Confirm Password">
+								</div>
+								<button type="submit"
+									class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+								<button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+							</form>
+						</div>
+					</div>
+					<button class=" close_admin_form"><i class="fa fa-times"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<style>
+		.register_admin {
+			position: fixed;
+			top: 0;
+			height: 100%;
+			width: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 9999;
+			left: 0;
+			right: 0;
+		}
+
+		.register_admin .white-box {
+			position: relative;
+		}
+
+		.register_admin .white-box>button {
+			border: 0;
+			background-color: rgba(255, 255, 255, 0);
+		}
+
+		.register_admin>.row {
+			padding-top: 10%;
+			margin: 0 10%;
+		}
+
+		.register_admin .close_admin_form {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+		}
+	</style>
+
 	<script>
 		$('#admins').dataTable({
 			"columnDefs": [{
@@ -196,6 +262,26 @@
 		});
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
+		})
+
+		$("#add_admin").click(function () {
+			$(".register_admin").toggleClass("d-none");
+		})
+
+		$(".close_admin_form").click(function () {
+			$(".register_admin").toggleClass("d-none");
+		})
+
+		$("#confirm_password").change(function () {
+			{
+				if ($(this).val() != $("#password").val()) {
+					$(this).parent().addClass("has-danger")
+					$(this).addClass("form-control-danger")
+				} else {
+					$(this).parent().removeClass("has-danger")
+					$(this).removeClass("form-control-danger")
+				}
+			}
 		})
 	</script>
 </body>
