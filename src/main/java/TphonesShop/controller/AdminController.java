@@ -1,16 +1,6 @@
 package TphonesShop.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-
-import javax.crypto.Cipher;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -47,7 +37,7 @@ public class AdminController {
 	UserService userService;
 	@Resource
 	AdminService adminService;
-
+	
 	@RequestMapping("/adminPage/admins")
 	public String adminPageAdmins(Model model) {
 		model.addAttribute("admins", adminService.getAdminList());
@@ -93,7 +83,7 @@ public class AdminController {
 
 	@PostMapping("submitProduct")
 	public String addProduct(Model model, @RequestParam("productImg") MultipartFile file,
-			@ModelAttribute("product") Product product, @Param("id") int id) {
+			@ModelAttribute("product") Product product,@Param("id") int id) {
 		System.out.println(product);
 		try {
 			byte[] imageData = file.getBytes();
@@ -128,37 +118,5 @@ public class AdminController {
 
 		productService.delete(id);
 		return adminPageProducts(model);
-	}
-
-	private byte[] encode(String password) throws Exception {
-		byte[] byteEncrypted = null;
-		PublicKey publicKey = getPublicKey();
-		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-		byteEncrypted = cipher.doFinal(password.getBytes());
-		return byteEncrypted;
-	}
-
-	private String decode(byte[] byteEncrypted) throws Exception {
-		PrivateKey privateKey = getPrivateKey();
-		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.DECRYPT_MODE, privateKey);
-		byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
-		String decrypted = new String(byteDecrypted);
-		return decrypted;
-	}
-
-	public PrivateKey getPrivateKey() throws Exception {
-		byte[] keyBytes = Files.readAllBytes(new File("PrivateKey.rsa").toPath());
-		PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
-		KeyFactory kf = KeyFactory.getInstance("RSA");
-		return kf.generatePrivate(spec);
-	}
-
-	public PublicKey getPublicKey() throws Exception {
-		byte[] keyBytes = Files.readAllBytes(new File("PublicKey.rsa").toPath());
-		X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-		KeyFactory kf = KeyFactory.getInstance("RSA");
-		return kf.generatePublic(spec);
 	}
 }

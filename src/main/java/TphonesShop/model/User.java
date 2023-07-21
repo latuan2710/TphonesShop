@@ -1,5 +1,6 @@
 package TphonesShop.model;
 
+import TphonesShop.security.PasswordSecurity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +14,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
+	@Column(name = "Id")
 	private long id;
 	private String address;
 	private String username;
@@ -23,11 +24,11 @@ public class User {
 	public User() {
 	}
 
-	public User(String address, String username, String password, String email) {
+	public User(String address, String username, String password, String email) throws Exception {
 		super();
 		this.address = address;
 		this.username = username;
-		this.password = password;
+		setPassword(password);
 		this.email = email;
 	}
 
@@ -56,11 +57,20 @@ public class User {
 	}
 
 	public String getPassword() {
-		return password;
+		String str="";
+		try {
+			PasswordSecurity passwordSecurity=new PasswordSecurity();
+			str=passwordSecurity.decode(password);
+		} catch (Exception e) {
+			str="";
+		}
+		
+		return str;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String password) throws Exception {
+		PasswordSecurity passwordSecurity=new PasswordSecurity();
+		this.password = passwordSecurity.encode(password);
 	}
 
 	public String getEmail() {
