@@ -1,27 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" type="/image/png" sizes="16x16" href="/image/favicon.png">
-	<title>Admin Page</title>
-	<!-- Bootstrap Core CSS -->
-	<link rel="stylesheet" href="/css/bootstrap_min.css">
-	<link href="/css/bootstrap_extension.css" rel="stylesheet">
-	<link href="/css/jquery_dataTables_min.css" rel="stylesheet" type="text/css" />
-	<link href="/css/buttons_dataTables_min.css" rel="stylesheet" type="text/css" />
-	<!-- Menu CSS -->
-	<link href="/css/sidebar_nav_min.css" rel="stylesheet">
-	<!-- animation CSS -->
-	<link href="/css/animate.css" rel="stylesheet">
-	<!-- Custom CSS -->
-	<link href="/css/style.css" rel="stylesheet">
-	<!-- color CSS -->
-	<link href="/css/blue_dark.css" id="theme" rel="stylesheet">
+<head th:replace="~{admin/adminPage(users) :: head}">
 </head>
 
 <body>
@@ -34,7 +14,7 @@
 					<i class="ti-menu"></i>
 				</a>
 				<div class="top-left-part">
-					<a class="logo" href="index.html">
+					<a class="logo" href="/">
 						<b>
 							<img src="/image/eliteadmin_logo.png" alt="home" class="dark-logo" />
 						</b>
@@ -57,62 +37,7 @@
 		</nav>
 		<!-- End Top Navigation -->
 		<!-- Left navbar-header -->
-		<div th:fragment="sidebar" class="sidebar" role="navigation">
-			<div class="wp-sidebar-nav">
-				<div class="user-profile">
-					<div class="dropdown user-pro-body">
-						<div>
-							<img src="/image/avatar.png" alt="user-img" class="img-circle">
-						</div>
-						<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button"
-							aria-haspopup="true" aria-expanded="false">
-							Steave Gection
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu animated flipInY">
-							<li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-							<li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-							<li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="login.html"><i class="fa fa-power-off"></i>Logout</a></li>
-						</ul>
-					</div>
-				</div>
-				<ul class="wp-side-menu">
-					<li>
-						<a href="/adminPage/admins">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">Admins</span>
-						</a>
-					</li>
-					<li>
-						<a href="/adminPage/users">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">Users</span>
-						</a>
-					</li>
-					<li>
-						<a href="/adminPage/products">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">Products</span>
-						</a>
-					</li>
-					<li>
-						<a href="/adminPage/brands">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">brands</span>
-						</a>
-					</li>
-					<li>
-						<a href="/adminPage/orders">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">History Order</span>
-						</a>
-					</li>
-				</ul>
-			</div>
+		<div th:replace="~{admin/adminPage(users) :: sidebar}">
 		</div>
 		<!-- Left navbar-header end -->
 		<!-- Page Content -->
@@ -171,20 +96,7 @@
 		<!-- /#page-wrapper -->
 	</div>
 	<!-- /#wrapper -->
-	<div th:fragment="script-fragment">
-		<!-- jQuery -->
-		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-		<!-- Bootstrap Core JavaScript -->
-		<script src="/js/tether_min.js"></script>
-		<script src="/js/bootstrap_min.js"></script>
-		<script src="/js/bootstrap_extension_min.js"></script>
-		<!-- Menu Plugin JavaScript -->
-		<script src="/js/wp_sidebar.js"></script>
-		<!--Wave Effects -->
-		<script src="/js/waves.js"></script>
-		<!-- Custom Theme JavaScript -->
-		<script src="/js/custom_min.js"></script>
-		<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+	<div th:replace="~{admin/adminPage(users) :: script-fragment}">
 	</div>
 
 	<div class="register_admin d-none">
