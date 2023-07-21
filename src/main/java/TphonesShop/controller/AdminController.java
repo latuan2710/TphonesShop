@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import TphonesShop.model.Order;
 import TphonesShop.model.Product;
+import TphonesShop.service.AdminService;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
@@ -34,6 +35,14 @@ public class AdminController {
 	ProductService productService;
 	@Resource
 	UserService userService;
+	@Resource
+	AdminService adminService;
+	
+	@RequestMapping("/adminPage/admins")
+	public String adminPageAdmins(Model model) {
+		model.addAttribute("admins", adminService.getAdminList());
+		return "/admin/adminPage(admins).html";
+	}
 
 	@RequestMapping("/adminPage/users")
 	public String adminPageUsers(Model model) {

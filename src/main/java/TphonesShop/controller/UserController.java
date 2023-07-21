@@ -67,12 +67,13 @@ public class UserController {
 		return index(model, httpSession);
 	}
 
-	@PostMapping("/login")
+	@PostMapping("/login/user")
 	public String login(@Param("username") String username, @Param("password") String password, Model model,
 			HttpSession httpSession) {
 
 		if (username.equals("admin") && password.equals("admin")) {
-			return adminController.adminPageUsers(model);
+			System.out.println("admin log ok");
+			return adminController.adminPageAdmins(model);
 		}
 
 		User user = userService.findUserByUsername(username);
