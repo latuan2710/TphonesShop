@@ -129,24 +129,23 @@ public class AdminController {
 		productService.delete(id);
 		return adminPageProducts(model);
 	}
-	
-	public void test(String... args) throws Exception {
-		// TODO Auto-generated method stub
-		PrivateKey privateKey = getPrivateKey();
+
+	private byte[] encode(String password) throws Exception {
+		byte[] byteEncrypted = null;
 		PublicKey publicKey = getPublicKey();
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+		byteEncrypted = cipher.doFinal(password.getBytes());
+		return byteEncrypted;
+	}
 
-		String original = "tuab1234";
-		byte[] byteEncrypted = cipher.doFinal(original.getBytes());
-		String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
-
+	private String decode(byte[] byteEncrypted) throws Exception {
+		PrivateKey privateKey = getPrivateKey();
+		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);
 		byte[] byteDecrypted = cipher.doFinal(byteEncrypted);
 		String decrypted = new String(byteDecrypted);
-		System.out.println("original  text: " + original);
-		System.out.println("encrypted text: " + encrypted);
-		System.out.println("decrypted text: " + decrypted);
+		return decrypted;
 	}
 
 	public PrivateKey getPrivateKey() throws Exception {
