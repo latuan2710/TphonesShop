@@ -5,75 +5,128 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Add Product</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-	<style>
-		#div-show-img {
-			height: 500px;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/bootstrap_min.css">
+	<link rel="stylesheet" href="/css/bootstrap_extension.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/drop.css">
+
 </head>
 
 <body>
-	<div class="container">
-		<h1 class="mt-4">Add Product</h1>
-
-		<form th:action="@{/submitProduct(id=${product.id})}" method="POST" enctype="multipart/form-data" th:object="${product}">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="name">Name:</label>
-						<input th:value="${product.name}" type="text" class="form-control" id="name" name="name" required>
-					</div>
-
-					<div class="form-group">
-						<label for="quantity">Quantity:</label>
-						<input th:value="${product.quantity}" type="number" class="form-control" id="quantity" name="quantity" required>
-					</div>
-
-					<div class="form-group">
-						<label for="cost">Cost:</label>
-						<input th:value="${product.cost}" type="number" step="0.01" class="form-control" id="cost" name="cost" required>
-					</div>
-
-					<div class="form-group">
-						<label for="description">Description:</label>
-						<textarea th:text="${product.description}" class="form-control" id="description" name="description" rows="4" required></textarea>
-					</div>
-
-					<div class="form-group">
-						<label for="brand">Brand:</label>
-						<select class="form-control" id="brand" name="brand" th:value="${product.cost}" required>
-							<option th:each="brand:${brands}" th:text="${brand.name}"
-								th:value="${brand.name}">Brand 1</option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label for="image">Image:</label>
-						<input onchange="loadFile()" type="file" class="form-control-file" id="image" name="productImg"
-							accept="image/*" required>
-						<br>
-						<div id="div-show-img">
-							<img class="mw-100 d-none" id="show-img" alt="image" loading="lazy" />
+	<form class="form-horizontal">
+		<div class="row">
+			<div class="col-sm-6 ol-md-6 col-xs-12">
+				<div class="white-box">
+					<h3 class="box-title">Product Image</h3>
+					<label for="input-file-now">Upload your product image here</label>
+					<div class="dropify-wrapper">
+						<div class="dropify-message">
+							<span class="file-icon"></span>
+							<p>Drag and drop a file here or click</p>
+							<p class="dropify-error">Ooops, something wrong appended.</p>
 						</div>
-
+						<div class="dropify-loader"></div>
+						<div class="dropify-errors-container">
+							<ul></ul>
+						</div>
+						<input type="file" id="input-file-now" class="dropify">
+						<button type="button" class="dropify-clear">Remove</button>
+						<div class="dropify-preview">
+							<span class="dropify-render"></span>
+							<div class="dropify-infos">
+								<div class="dropify-infos-inner">
+									<p class="dropify-filename">
+										<span class="file-icon"></span>
+										<span class="dropify-filename-inner"></span>
+									</p>
+									<p class="dropify-infos-message">Drag and drop or click to replace</p>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary">Add Product</button>
-		</form>
-	</div>
-	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+			<div class="col-sm-6 ol-md-6 col-xs-12">
+				<div class="white-box">
+					<h3 class="box-title m-b-30">Add Product</h3>
+
+					<div class="form-group">
+						<label class="col-md-12">Product Name</label>
+						<div class="col-md-12">
+							<input type="text" class="form-control" name="productName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-12">Brand</label>
+						<div class="col-sm-12">
+							<select name="productBrand" class="custom-select col-12" id="inlineFormCustomSelect">
+								<option value="SamSung">SamSung</option>
+								<option value="Apple">Apple</option>
+								<option value="Xiaomi">Xiaomi</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="example-number-input" class="col-sm-12">Cost</label>
+						<div class="col-md-12">
+							<input class="form-control" type="number" value="1" id="example-number-input">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="example-number-input" class="col-sm-12">Quantity</label>
+						<div class="col-md-12">
+							<input class="form-control" type="number" value="1" id="example-number-input">
+						</div>
+					</div>
+					<div class="form-check">
+						<label class="custom-control custom-checkbox">
+							<input type="checkbox" id="sale-check" class="custom-control-input">
+							<span class="custom-control-indicator"></span>
+							<span class="custom-control-description">Sale</span>
+						</label>
+					</div>
+					<div id="discount-form" class="form-group d-none">
+						<label for="example-number-input" class="col-sm-12">Discount</label>
+						<div class="col-md-12">
+							<input class="form-control" type="number" value="1" id="example-number-input">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-12">Description</label>
+						<div class="col-md-12">
+							<textarea class="form-control" rows="5"></textarea>
+						</div>
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn btn-info"> <i class="fa fa-check"></i> Save</button>
+						<button type="button" class="btn btn-default">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script src="/js/jquery_min.js"></script>
 	<script>
-		var loadFile = function () {
-			var output = document.getElementById('show-img');
-			output.src = URL.createObjectURL(event.target.files[0]);
-			output.onload = function () {
-				URL.revokeObjectURL(output.src)
-			}
-			$("#show-img").removeClass("d-none");
-		};
+		$("#input-file-now").change(function (event) {
+			$(".dropify-render").html(`<img src="` + window.URL.createObjectURL(this.files[0]) + `">`)
+			$(".dropify-preview").css("display", "block");
+			$(".dropify-clear").css("display", "block");
+			let part = $(this).val().split("\\");
+			$(".dropify-filename-inner").text(part[part.length - 1])
+		})
+		$(".dropify-clear").click(function () {
+			$(".dropify-preview").css("display", "none");
+			$(".dropify-clear").css("display", "none");
+			$("#input-file-now").val("");
+		})
+		$("#sale-check").click(function () {
+			if (this.checked == true) {
+				$("#discount-form").toggleClass("d-none")
+			}else[
+			$("#discount-form").toggleClass("d-none")
+			]
+		})
 	</script>
 </body>
 
