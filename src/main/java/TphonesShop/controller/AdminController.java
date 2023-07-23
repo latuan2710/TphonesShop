@@ -79,8 +79,13 @@ public class AdminController {
 	public String toAddProductPage(Model model, Product product) {
 		model.addAttribute("brands", brandService.getBrandList());
 		model.addAttribute("product", product);
-		System.out.println(product);
 		return "admin/saveProduct.html";
+	}
+
+	@RequestMapping("/add-brand")
+	public String toSaveBrandPage(Model model, Brand brand) {
+		model.addAttribute("brand", brand);
+		return "admin/saveBrand.html";
 	}
 
 	@RequestMapping("/editProduct")
@@ -88,17 +93,27 @@ public class AdminController {
 		return toAddProductPage(model, productService.findProductById(id));
 	}
 
+	@RequestMapping("/editBrand")
+	public String editBrand(Model model, Brand brand, @Param("id") int id) {
+		return toSaveBrandPage(model, brandService.findBrandById(id));
+	}
+
 	@PostMapping("/submitProduct")
 	public String saveProduct(Model model, @RequestParam("productImg") MultipartFile file,
-			@ModelAttribute("product") Product product) {
-		System.out.println(product);
+			@RequestParam(value = "sale", required = false) boolean sale, @ModelAttribute("product") Product product) {
 		try {
 			product = productService.save(product);
+
 			String fileName = product.getId() + ".png";
 			String uploadDir = "product-upload/";
+
 			product.setImage("/product-upload/" + fileName);
+			product.setSale(sale);
+
 			saveFile(uploadDir, fileName, file);
+
 			productService.save(product);
+
 			System.out.println("Product added successfully.");
 
 		} catch (Exception e) {
@@ -106,38 +121,28 @@ public class AdminController {
 		}
 		return adminPageProducts(model);
 	}
-	
+
 	@PostMapping("/saveBrand")
-	public String saveBrand(Model model, @RequestParam("productImg") MultipartFile file,
+	public String saveBrand(Model model, @RequestParam("brandImg") MultipartFile file,
 			@ModelAttribute("brand") Brand brand) {
 		try {
 			brand = brandService.save(brand);
+
 			String fileName = brand.getId() + ".png";
-			String uploadDir = "product-upload/";
+			String uploadDir = "brand-upload/";
+
 			brand.setImage("/brand-upload/" + fileName);
+
 			saveFile(uploadDir, fileName, file);
+
 			brandService.save(brand);
-			System.out.println("Product added successfully.");
+
+			System.out.println("Brand added successfully.");
 
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return adminPageProducts(model);
-	}
-
-	private void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
-		Path uploadPath = Paths.get(uploadDir);
-
-		if (!Files.exists(uploadPath)) {
-			Files.createDirectories(uploadPath);
-		}
-
-		try (InputStream inputStream = multipartFile.getInputStream()) {
-			Path filePath = uploadPath.resolve(fileName);
-			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException ioe) {
-			throw new IOException("Could not save image file: " + fileName, ioe);
-		}
+		return adminPageBrands(model);
 	}
 
 	@GetMapping("/deleteProduct/{id}")
@@ -152,4 +157,37 @@ public class AdminController {
 		productService.delete(id);
 		return adminPageProducts(model);
 	}
+
+	@GetMapping("/deleteBrand/{id}")
+	public String deleteBrand(@PathVariable("id") Long id, Model model) {
+
+		Brand brand = brandService.findBrandById(id);
+
+		for (Product product : productService.getProductsByBrand(brand.getName())) {
+			deleteProduct(product.getId(), model);
+		}
+
+		brandService.delete(id);
+		return adminPageBrands(model);
+	}
+
+	private void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
+
+		String orgName = multipartFile.getOriginalFilename();
+		if (orgName != "") {
+			Path uploadPath = Paths.get(uploadDir);
+
+			if (!Files.exists(uploadPath)) {
+				Files.createDirectories(uploadPath);
+			}
+
+			try (InputStream inputStream = multipartFile.getInputStream()) {
+				Path filePath = uploadPath.resolve(fileName);
+				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException ioe) {
+				throw new IOException("Could not save image file: " + fileName, ioe);
+			}
+		}
+	}
+
 }

@@ -16448,6 +16448,7 @@ a.fc-event:not([href]):not([tabindex]) {
   text-align: center;
 }
 
-#products img {
+#products img,
+#brands img {
   height: 100px;
 }

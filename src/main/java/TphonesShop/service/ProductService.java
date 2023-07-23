@@ -7,6 +7,8 @@ import TphonesShop.model.Product;
 public interface ProductService {
 	public List<Product> getProductList();
 
+	public List<Product> getProductsByBrand(String brand_name);
+
 	public Product findProductById(long id);
 
 	public Product save(Product Product);

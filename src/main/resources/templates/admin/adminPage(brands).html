@@ -46,7 +46,7 @@
 		<div class="container-fluid">
 			<div class="row bg-title">
 				<div class="col-12">
-					<a href="/register" target="_blank"
+					<a href="/add-brand" target="_blank"
 						class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
 						Add Brand
 					</a>
@@ -66,6 +66,7 @@
 								<thead>
 									<tr>
 										<th>No</th>
+										<th>Brand Image</th>
 										<th>Brand Name</th>
 										<th>Function</th>
 									</tr>
@@ -73,11 +74,12 @@
 								<tbody>
 									<tr th:each="brand,object :${brands}">
 										<td th:text="${object.index+1}">1</td>
+										<td><img th:src="${brand.image}" alt=""></td>
 										<td th:text="${brand.name}">SamSung</td>
 										<td>
-											<a th:href="@{/editProduct(id=${brand.id})}"
+											<a th:href="@{/editBrand(id=${brand.id})}"
 												class="btn btn-warning">Edit</a>
-											<a th:href="@{${'/deleteProduct/'+brand.id}}"
+											<a th:href="@{${'/deleteBrand/'+brand.id}}"
 												class="btn btn-danger">Delete</a>
 										</td>
 									</tr>
@@ -100,7 +102,7 @@
 	<script>
 		$('#brands').dataTable({
 			"columnDefs": [{
-				"targets": 2,
+				"targets": [1,3],
 				"orderable": false
 			}]
 		});

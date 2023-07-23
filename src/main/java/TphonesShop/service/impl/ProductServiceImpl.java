@@ -42,4 +42,9 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.deleteById(id);
 
 	}
+
+	@Override
+	public List<Product> getProductsByBrand(String brand_name) {
+		return productRepository.getProductsByBrand(brand_name);
+	}
 }
