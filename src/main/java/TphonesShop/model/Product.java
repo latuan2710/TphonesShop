@@ -1,11 +1,9 @@
 package TphonesShop.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,34 +14,28 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
-	private int quantity;
-	private int cost;
-	private String description;
-	@Lob
-	@Column(columnDefinition = "MEDIUMBLOB")
-	private byte[] image;
 	private String brand;
+	private int quantity;
+	private double cost;
+	private boolean isSale;
+	private int discount;
+	private String description;
+	private String image;
 
 	public Product() {
-		super();
 	}
 
-	public Product(String name, int quantity, int cost, String description) {
+	public Product(String name, String brand, int quantity, double cost, boolean isSale, int discount,
+			String description, String image) {
 		super();
 		this.name = name;
-		this.quantity = quantity;
-		this.cost = cost;
-		this.description = description;
-	}
-
-	public Product(String name, int quantity, int cost, String description, byte[] imageData, String brand) {
-		super();
-		this.name = name;
-		this.quantity = quantity;
-		this.cost = cost;
-		this.description = description;
-		this.image = imageData;
 		this.brand = brand;
+		this.quantity = quantity;
+		this.cost = cost;
+		this.isSale = isSale;
+		this.discount = discount;
+		this.description = description;
+		this.image = image;
 	}
 
 	public long getId() {
@@ -62,6 +54,14 @@ public class Product {
 		this.name = name;
 	}
 
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -70,12 +70,28 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public int getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(int cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+	public boolean isSale() {
+		return isSale;
+	}
+
+	public void setSale(boolean isSale) {
+		this.isSale = isSale;
+	}
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
 	}
 
 	public String getDescription() {
@@ -86,33 +102,19 @@ public class Product {
 		this.description = description;
 	}
 
-	public byte[] getImageData() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImageData(byte[] imageData) {
-		this.image = imageData;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", quantity=" + quantity + ", cost=" + cost + ", description="
-				+ description + ", brand=" + brand + "]";
+		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", quantity=" + quantity + ", cost=" + cost
+				+ ", isSale=" + isSale + ", discount=" + discount + ", description=" + description + ", image=" + image
+				+ "]";
 	}
+
 }

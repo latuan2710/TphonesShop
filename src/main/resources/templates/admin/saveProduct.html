@@ -13,7 +13,8 @@
 </head>
 
 <body>
-	<form class="form-horizontal">
+	<form class="form-horizontal" th:action="@{/submitProduct(id=${product.id})}" enctype="multipart/form-data"
+		method="post">
 		<div class="row">
 			<div class="col-sm-6 ol-md-6 col-xs-12">
 				<div class="white-box">
@@ -29,7 +30,7 @@
 						<div class="dropify-errors-container">
 							<ul></ul>
 						</div>
-						<input type="file" id="input-file-now" class="dropify">
+						<input name="productImg" type="file" id="input-file-now" class="dropify">
 						<button type="button" class="dropify-clear">Remove</button>
 						<div class="dropify-preview">
 							<span class="dropify-render"></span>
@@ -60,9 +61,8 @@
 						<label class="col-sm-12">Brand</label>
 						<div class="col-sm-12">
 							<select name="productBrand" class="custom-select col-12" id="inlineFormCustomSelect">
-								<option value="SamSung">SamSung</option>
-								<option value="Apple">Apple</option>
-								<option value="Xiaomi">Xiaomi</option>
+								<option th:each="brand:${brands}" th:value="${brand.name}" th:text="${brand.name}">
+									SamSung</option>
 							</select>
 						</div>
 					</div>
@@ -99,7 +99,8 @@
 					</div>
 					<div class="form-actions">
 						<button type="submit" class="btn btn-info"> <i class="fa fa-check"></i> Save</button>
-						<button type="button" class="btn btn-default">Cancel</button>
+						<button type="button" onclick="location.href='/adminPage/products'"
+							class="btn btn-default">Cancel</button>
 					</div>
 				</div>
 			</div>
@@ -123,8 +124,8 @@
 		$("#sale-check").click(function () {
 			if (this.checked == true) {
 				$("#discount-form").toggleClass("d-none")
-			}else[
-			$("#discount-form").toggleClass("d-none")
+			} else[
+				$("#discount-form").toggleClass("d-none")
 			]
 		})
 	</script>

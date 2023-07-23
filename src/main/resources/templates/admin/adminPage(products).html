@@ -44,7 +44,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="/add-product" target="_blank"
+						<a th:href="@{/add-product}" target="_blank"
 							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
 							Add Product
 						</a>
@@ -75,7 +75,7 @@
 									<tbody>
 										<tr th:each="product,index :${products}">
 											<td th:text="${index.index}+1">1</td>
-											<td><img src="Iphone 11.jpg" th:src="@{${'/image/display/'+ product.id}}"
+											<td><img th:src="${product.image}"
 													alt=""></td>
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>

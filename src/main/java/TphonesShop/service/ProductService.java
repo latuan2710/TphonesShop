@@ -9,7 +9,7 @@ public interface ProductService {
 
 	public Product findProductById(long id);
 
-	public void save(Product Product);
+	public Product save(Product Product);
 
 	public void edit(Product Product);
 

@@ -106,7 +106,7 @@ public class UserController {
 
 	public List<Product> getHotSale(List<Product> products) {
 		List<Product> hotSale = new ArrayList<>();
-		products.sort((p1, p2) -> Integer.compare(p1.getCost(), p2.getCost()));
+		products.sort((p1, p2) -> Double.compare(p1.getCost(), p2.getCost()));
 
 		for (int i = 0; i < products.size(); i++) {
 			if (i == 8)

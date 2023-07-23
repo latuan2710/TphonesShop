@@ -14,12 +14,15 @@ public class Brand {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
+	private String image = "";
 
 	public Brand() {
 	}
 
-	public Brand(String name) {
+	public Brand(String name, String image) {
+		super();
 		this.name = name;
+		this.image = image;
 	}
 
 	public long getId() {
@@ -38,9 +41,17 @@ public class Brand {
 		this.name = name;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	@Override
 	public String toString() {
-		return "brand:" + id;
+		return "Brand [id=" + id + ", name=" + name + ", image=" + image + "]";
 	}
 
 }
