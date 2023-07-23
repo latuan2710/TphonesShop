@@ -47,7 +47,7 @@
 			<div class="row bg-title">
 				<div class="col-12">
 					<a href="/add-brand" target="_blank"
-						class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+						class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 						Add Brand
 					</a>
 					<ol class="breadcrumb">
@@ -79,7 +79,7 @@
 										<td>
 											<a th:href="@{/editBrand(id=${brand.id})}"
 												class="btn btn-warning">Edit</a>
-											<a th:href="@{${'/deleteBrand/'+brand.id}}"
+											<a th:href="@{${'/deleteBrand/'+brand.id}}" onclick="return delete_confirm()"
 												class="btn btn-danger">Delete</a>
 										</td>
 									</tr>
@@ -109,6 +109,15 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(4)").addClass("selected")
 		})
+		function delete_confirm() {
+			let text = "This brand and the products associated with it will be permanently deleted \n Do you want to continue?";
+			if (confirm(text) == true) {
+				return true;
+			} else {
+				console.log("false")
+				return false;
+			}
+		}
 	</script>
 </body>
 

@@ -46,7 +46,7 @@
 				<div class="row bg-title">
 					<div class="col-12">
 						<button id="add_admin" target="_blank"
-							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add Admin
 						</button>
 						<ol class="breadcrumb">
@@ -79,7 +79,7 @@
 												<a th:href="@{/editProduct(id=${admin.id})}"
 													class="btn btn-warning">Edit</a>
 												<a th:href="@{${'/deleteProduct/'+admin.id}}"
-													class="btn btn-danger">Delete</a>
+													onclick="return delete_confirm()" class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
 									</tbody>
@@ -194,6 +194,15 @@
 				}
 			}
 		})
+		function delete_confirm() {
+			let text = "This account will be permanently deleted \n Do you want to continue?";
+			if (confirm(text) == true) {
+				return true;
+			} else {
+				console.log("false")
+				return false;
+			}
+		}
 	</script>
 </body>
 

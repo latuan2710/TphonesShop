@@ -45,7 +45,7 @@
 				<div class="row bg-title">
 					<div class="col-12">
 						<a th:href="@{/add-product}" target="_blank"
-							class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">
+							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add Product
 						</a>
 						<ol class="breadcrumb">
@@ -75,8 +75,7 @@
 									<tbody>
 										<tr th:each="product,index :${products}">
 											<td th:text="${index.index}+1">1</td>
-											<td><img th:src="${product.image}"
-													alt=""></td>
+											<td><img th:src="${product.image}" alt=""></td>
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>
 											<td th:text="${product.quantity}">12</td>
@@ -84,7 +83,7 @@
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
 													class="btn btn-warning">Edit</a>
-												<a th:href="@{${'/deleteProduct/'+product.id}}"
+												<a th:href="@{${'/deleteProduct/'+product.id}}" onclick="return delete_confirm()"
 													class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
@@ -113,6 +112,15 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(3)").addClass("selected")
 		})
+		function delete_confirm() {
+			let text = "This product will be permanently deleted \n Do you want to continue?";
+			if (confirm(text) == true) {
+				return true;
+			} else {
+				console.log("false")
+				return false;
+			}
+		}
 	</script>
 </body>
 
