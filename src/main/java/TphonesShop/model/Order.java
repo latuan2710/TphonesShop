@@ -24,7 +24,7 @@ public class Order {
 	private LocalDateTime time;
 	private String product;
 	private String username;
-	private boolean isbuyed;
+	private boolean isbuyed=false;
 
 	public Order() {
 	}
