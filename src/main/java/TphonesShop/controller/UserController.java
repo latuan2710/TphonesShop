@@ -53,7 +53,7 @@ public class UserController {
 		model.addAttribute("products", products);
 		model.addAttribute("hotSale", hotSale);
 		model.addAttribute("brands", brandService.getBrandList());
-		return "index.html";
+		return "user/index.html";
 	}
 
 	@GetMapping("/loginPage")
