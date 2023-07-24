@@ -15,8 +15,8 @@ public class Product {
 	private long id;
 	private String name;
 	private String brand;
-	private int quantity;
 	private double cost;
+	private double final_cost;
 	private boolean isSale;
 	private int discount;
 	private String description;
@@ -25,12 +25,11 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, String brand, int quantity, double cost, boolean isSale, int discount,
+	public Product(String name, String brand, double cost, boolean isSale, int discount,
 			String description, String image) {
 		super();
 		this.name = name;
 		this.brand = brand;
-		this.quantity = quantity;
 		this.cost = cost;
 		this.isSale = isSale;
 		this.discount = discount;
@@ -62,20 +61,24 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 	public double getCost() {
 		return cost;
 	}
 
 	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+	public double getFinal_cost() {
+		return final_cost;
+	}
+
+	public void setFinal_cost() {
+		if (isSale) {
+			this.final_cost = this.cost * (discount / 100);
+		} else {
+			this.final_cost = this.cost;
+		}
 	}
 
 	public boolean isSale() {
@@ -112,7 +115,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", quantity=" + quantity + ", cost=" + cost
+		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", cost=" + cost
 				+ ", isSale=" + isSale + ", discount=" + discount + ", description=" + description + ", image=" + image
 				+ "]";
 	}

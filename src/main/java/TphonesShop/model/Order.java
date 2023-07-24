@@ -19,22 +19,26 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private int quantity;
-	private int cost;
-	@CurrentTimestamp
-	private LocalDateTime time;
+	private double cost;
+	private double totalCost;
 	private String product;
 	private String username;
-	private boolean isbuyed=false;
+	private boolean isbuyed = false;
+	private String image;
+	@CurrentTimestamp
+	private LocalDateTime time;
 
 	public Order() {
 	}
 
-	public Order(String user, String products, int quantity, int cost) {
+	public Order(String user, String products, int quantity, double cost, String image) {
 		super();
 		this.product = products;
 		this.username = user;
 		this.quantity = quantity;
-		this.cost = cost * quantity;
+		this.cost = cost;
+		this.image = image;
+		setTotalCost(cost);
 	}
 
 	public long getId() {
@@ -53,7 +57,7 @@ public class Order {
 		this.quantity = quantity;
 	}
 
-	public int getCost() {
+	public double getCost() {
 		return cost;
 	}
 
@@ -92,6 +96,26 @@ public class Order {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(double totalCost) {
+		this.totalCost = cost * quantity;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@Override

@@ -67,24 +67,25 @@
 											<th>Image Product</th>
 											<th>NameProduct</th>
 											<th>Brand</th>
-											<th>Quantity</th>
 											<th>Price</th>
+											<th>Description</th>
 											<th>Function</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="product,index :${products}">
 											<td th:text="${index.index}+1">1</td>
-											<td><img th:src="${product.image}" alt=""></td>
+											<td><a th:href="@{product/show/(id=${product.id})}"><img
+														th:src="${product.image}" alt=""></a></td>
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>
-											<td th:text="${product.quantity}">12</td>
-											<td th:text="'$'+${product.cost}">$1000</td>
+											<td th:text="'$'+${product.final_cost}">$1000</td>
+											<td th:text="${product.description}">12</td>
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
 													class="btn btn-warning">Edit</a>
-												<a th:href="@{${'/deleteProduct/'+product.id}}" onclick="return delete_confirm()"
-													class="btn btn-danger">Delete</a>
+												<a th:href="@{${'/deleteProduct/'+product.id}}"
+													onclick="return delete_confirm()" class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
 									</tbody>
@@ -105,7 +106,7 @@
 	<script>
 		$('#products').dataTable({
 			"columnDefs": [{
-				"targets": [1, 6],
+				"targets": [1, 5, 6],
 				"orderable": false
 			}]
 		});
