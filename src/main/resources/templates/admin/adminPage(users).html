@@ -22,6 +22,8 @@
 	<link href="/css/style.css" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="/css/blue_dark.css" id="theme" rel="stylesheet">
+	<!--Sweatalert CSS-->
+	<link href="/css/sweetalert.css" id="theme" rel="stylesheet">
 </head>
 
 <body>
@@ -151,7 +153,7 @@
 											<td>
 												<a th:href="@{/editProduct(id=${user.id})}"
 													class="btn btn-warning">Edit</a>
-												<a th:href="@{${'/deleteProduct/'+user.id}}" onclick="return delete_confirm();"
+												<a href="javascript:void(0)" th:onclick="'delete_confirm('+${user.id}+');'"
 													class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
@@ -183,6 +185,7 @@
 		<!-- Custom Theme JavaScript -->
 		<script src="/js/custom_min.js"></script>
 		<script src="/js/jquery_dataTables_min.js"></script>
+
 	</div>
 
 	<script>
@@ -195,14 +198,34 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(2)").addClass("selected")
 		})
-		function delete_confirm() {
-			let text = "This account will be permanently deleted \n Do you want to continue?";
-			if (confirm(text) == true) {
-				return true;
-			} else {
-				console.log("false")
-				return false;
-			}
+		function delete_confirm(data_id) {
+			let text = "This account will be permanently deleted";
+			$("body").append(`
+			<div class="sweet-overlay"></div>
+	<div class="sweet-alert showSweetAlert visible">
+		<div class="sa-icon sa-warning pulseWarning">
+			<span class="sa-body pulseWarningIns"></span>
+			<span class="sa-dot pulseWarningIns"></span>
+		</div>
+		<h2>Are you sure?</h2>
+		<p>${text}</p>
+		<div class="sa-button-container">
+			<div class="sa-confirm-button-container">
+				<button onclick='confirm(${data_id})' class="confirm">
+					Yes,delete it!
+				</button>
+			</div>
+			<button onclick='cancel()' class="cancel">Cancel</button>
+		</div>
+	</div>
+			`)
+		}
+		function cancel() {
+			$(".sweet-overlay").remove();
+			$(".sweet-alert").remove()
+		}
+		function confirm(id) {
+			location.href="/deleteUser/"+id
 		}
 	</script>
 </body>

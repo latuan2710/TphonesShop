@@ -75,8 +75,11 @@
 									<tbody>
 										<tr th:each="product,index :${products}">
 											<td th:text="${index.index}+1">1</td>
-											<td><a th:href="@{product/show/(id=${product.id})}"><img
-														th:src="${product.image}" alt=""></a></td>
+											<td>
+												<a th:href="@{${'product/'+product.name}}">
+													<img th:src="${product.image}" alt="">
+												</a>
+											</td>
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>
 											<td th:text="'$'+${product.final_cost}">$1000</td>
@@ -84,8 +87,7 @@
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
 													class="btn btn-warning">Edit</a>
-												<a th:href="@{${'/deleteProduct/'+product.id}}"
-													onclick="return delete_confirm()" class="btn btn-danger">Delete</a>
+												<a href="javascript:void(0)" th:onclick="'delete_confirm('+${product.id}+');'" class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
 									</tbody>
@@ -113,14 +115,34 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(3)").addClass("selected")
 		})
-		function delete_confirm() {
-			let text = "This product will be permanently deleted \n Do you want to continue?";
-			if (confirm(text) == true) {
-				return true;
-			} else {
-				console.log("false")
-				return false;
-			}
+		function delete_confirm(data_id) {
+			let text = "This product will be permanently deleted.";
+			$("body").append(`
+			<div class="sweet-overlay"></div>
+	<div class="sweet-alert showSweetAlert visible">
+		<div class="sa-icon sa-warning pulseWarning">
+			<span class="sa-body pulseWarningIns"></span>
+			<span class="sa-dot pulseWarningIns"></span>
+		</div>
+		<h2>Are you sure?</h2>
+		<p>${text}</p>
+		<div class="sa-button-container">
+			<div class="sa-confirm-button-container">
+				<button onclick='confirm(${data_id})' class="confirm">
+					Yes,delete it!
+				</button>
+			</div>
+			<button onclick='cancel()' class="cancel">Cancel</button>
+		</div>
+	</div>
+			`)
+		}
+		function cancel() {
+			$(".sweet-overlay").remove();
+			$(".sweet-alert").remove()
+		}
+		function confirm(id) {
+			location.href="/deleteProduct/"+id
 		}
 	</script>
 </body>
