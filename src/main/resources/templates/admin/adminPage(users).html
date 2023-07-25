@@ -72,9 +72,7 @@
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu animated flipInY">
-							<li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="login.html"><i class="fa fa-power-off"></i>Logout</a></li>
+							<li><a href="/login"><i class="fa fa-power-off"></i>Logout</a></li>
 						</ul>
 					</div>
 				</div>
@@ -153,7 +151,8 @@
 											<td>
 												<a th:href="@{/editProduct(id=${user.id})}"
 													class="btn btn-warning">Edit</a>
-												<a href="javascript:void(0)" th:onclick="'delete_confirm('+${user.id}+');'"
+												<a href="javascript:void(0)"
+													th:onclick="'delete_confirm('+${user.id}+');'"
 													class="btn btn-danger">Delete</a>
 											</td>
 										</tr>
@@ -225,7 +224,7 @@
 			$(".sweet-alert").remove()
 		}
 		function confirm(id) {
-			location.href="/deleteUser/"+id
+			location.href = "/deleteUser/" + id
 		}
 	</script>
 </body>
