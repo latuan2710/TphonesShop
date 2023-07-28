@@ -81,8 +81,8 @@
 										</td>
 										<td th:text="${brand.name}">SamSung</td>
 										<td>
-											<a th:href="@{/editBrand(id=${brand.id})}" class="btn btn-warning">Edit</a>
-											<a href="javascript:void(0)" th:onclick="'delete_confirm('+${brand.id}+');'" class="btn btn-danger">Delete</a>
+											<a th:href="@{/editBrand(id=${brand.id})}" class="btn btn-outline-warning">Edit</a>
+											<a href="javascript:void(0)" th:onclick="'delete_confirm('+${brand.id}+');'" class="btn btn-outline-danger">Delete</a>
 										</td>
 									</tr>
 								</tbody>

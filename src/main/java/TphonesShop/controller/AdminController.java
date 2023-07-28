@@ -10,7 +10,6 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import TphonesShop.model.Admin;
 import TphonesShop.model.Brand;
-import TphonesShop.model.Order;
 import TphonesShop.model.Product;
 import TphonesShop.service.AdminService;
 import TphonesShop.service.BrandService;
@@ -48,6 +47,7 @@ public class AdminController {
 	@RequestMapping("/adminPage/admins")
 	public String adminPageAdmins(Model model) {
 		model.addAttribute("admins", adminService.getAdminList());
+		model.addAttribute("logError", false);
 		return "/admin/adminPage(admins).html";
 	}
 
@@ -75,7 +75,7 @@ public class AdminController {
 		return "admin/adminPage(orders).html";
 	}
 
-	@RequestMapping("/add-product")
+	@RequestMapping("/adminPage/add-product")
 	public String toAddProductPage(Model model, Product product) {
 		model.addAttribute("brands", brandService.getBrandList());
 		model.addAttribute("product", product);
@@ -88,38 +88,18 @@ public class AdminController {
 		return "admin/saveBrand.html";
 	}
 
-	@RequestMapping("/editProduct")
-	public String editProduct(Model model, Product product, @Param("id") int id) {
-		return toAddProductPage(model, productService.findProductById(id));
+	@RequestMapping("/add-admin")
+	public String toSaveAdminPage(Model model, Admin admin) {
+		model.addAttribute("saveAdmin", admin);
+		return "admin/saveAdmin.html";
 	}
 
-	@RequestMapping("/editBrand")
-	public String editBrand(Model model, Brand brand, @Param("id") int id) {
-		return toSaveBrandPage(model, brandService.findBrandById(id));
-	}
+	/* SAVE */
 
-	@PostMapping("/submitProduct")
-	public String saveProduct(Model model, @RequestParam("productImg") MultipartFile file,
-			@RequestParam(value = "sale", required = false) boolean sale, @ModelAttribute("product") Product product) {
-		try {
-			product = productService.save(product);
-
-			String fileName = product.getId() + ".png";
-			String uploadDir = "product-upload/";
-
-			product.setImage("/product-upload/" + fileName);
-			product.setSale(sale);
-
-			saveFile(uploadDir, fileName, file);
-
-			productService.save(product);
-
-			System.out.println("Product added successfully.");
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return adminPageProducts(model);
+	@PostMapping("/saveAdmin/{id}")
+	public String saveAdmin(Model model, @ModelAttribute("saveAdmin") Admin admin) {
+		adminService.save(admin);
+		return adminPageAdmins(model);
 	}
 
 	@PostMapping("/saveBrand")
@@ -145,15 +125,68 @@ public class AdminController {
 		return adminPageBrands(model);
 	}
 
+	@PostMapping("/saveProduct")
+	public String saveProduct(Model model, @RequestParam("productImg") MultipartFile file,
+			@RequestParam(value = "sale", required = false) boolean sale, @ModelAttribute("product") Product product) {
+		try {
+			product = productService.save(product);
+
+			String fileName = product.getId() + ".png";
+			String uploadDir = "product-upload/";
+
+			product.setImage("/product-upload/" + fileName);
+			product.setSale(sale);
+			productService.save(product);
+
+			saveFile(uploadDir, fileName, file);
+
+			System.out.println("Product added successfully.");
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return adminPageProducts(model);
+	}
+
+	/* EDIT */
+
+	@RequestMapping("/editAdmin")
+	public String editAdmin(Model model, @Param("id") int id) {
+		return toSaveAdminPage(model, adminService.findAdminById(id));
+	}
+
+	@RequestMapping("/editUser")
+	public String editUser(Model model, @Param("id") int id) {
+		UserController userController = new UserController();
+		return userController.toRegisterPage(model, userService.findUserById(id));
+	}
+
+	@RequestMapping("/editProduct")
+	public String editProduct(Model model, Product product, @Param("id") int id) {
+		return toAddProductPage(model, productService.findProductById(id));
+	}
+
+	@RequestMapping("/editBrand")
+	public String editBrand(Model model, Brand brand, @Param("id") int id) {
+		return toSaveBrandPage(model, brandService.findBrandById(id));
+	}
+
+	/* DELETE */
+
+	@GetMapping("/deleteAdmin/{id}")
+	public String deleteAdmin(@PathVariable("id") Long id, Model model) {
+		adminService.delete(id);
+		return adminPageAdmins(model);
+	}
+
+	@GetMapping("/deleteUser/{id}")
+	public String deleteUser(@PathVariable("id") Long id, Model model) {
+		userService.delete(id);
+		return adminPageUsers(model);
+	}
+
 	@GetMapping("/deleteProduct/{id}")
 	public String deleteProduct(@PathVariable("id") Long id, Model model) {
-
-		Product product = productService.findProductById(id);
-
-		for (Order order : orderService.getOrdersByProduct(product.getName())) {
-			orderService.delete(order.getId());
-		}
-
 		productService.delete(id);
 		return adminPageProducts(model);
 	}
@@ -170,6 +203,8 @@ public class AdminController {
 		brandService.delete(id);
 		return adminPageBrands(model);
 	}
+
+	/* SAVE METHOD */
 
 	private void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 

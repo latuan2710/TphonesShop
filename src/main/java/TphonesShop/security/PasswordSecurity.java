@@ -12,23 +12,33 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 
 public class PasswordSecurity {
-	public String encode(String password) throws Exception {
-		byte[] byteEncrypted = null;
-		PublicKey publicKey = getPublicKey();
-		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-		byteEncrypted = cipher.doFinal(password.getBytes());
-		String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
-		return encrypted;
+	public String encode(String password) {
+		try {
+			byte[] byteEncrypted = null;
+			PublicKey publicKey = getPublicKey();
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+			byteEncrypted = cipher.doFinal(password.getBytes());
+			String encrypted = Base64.getEncoder().encodeToString(byteEncrypted);
+			return encrypted;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return "";
 	}
 
-	public String decode(String encrypted) throws Exception {
-		PrivateKey privateKey = getPrivateKey();
-		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.DECRYPT_MODE, privateKey);
-		byte[] byteDecrypted = cipher.doFinal(Base64.getDecoder().decode(encrypted));
-		String decrypted = new String(byteDecrypted);
-		return decrypted;
+	public String decode(String encrypted) {
+		try {
+			PrivateKey privateKey = getPrivateKey();
+			Cipher cipher = Cipher.getInstance("RSA");
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+			byte[] byteDecrypted = cipher.doFinal(Base64.getDecoder().decode(encrypted));
+			String decrypted = new String(byteDecrypted);
+			return decrypted;
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return "";
 	}
 
 	private PrivateKey getPrivateKey() throws Exception {

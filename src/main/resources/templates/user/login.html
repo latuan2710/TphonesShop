@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{user/index.html :: head}">
+</head>
+
+<body id="account" class="template-login">
+	<div class="wrapper">
+		<!-- Header control start -->
+		<div id="shopify-section-header-two" class="shopify-section">
+			<!--Header Area Start-->
+			<header th:replace="~{user/index.html :: header}">
+			</header>
+			<!--Header Area End-->
+		</div>
+		<!-- Header control end -->
+		<div class="breadcrumb-wrapper">
+			<div class="breadcrumb-area breadcrumbs overlay-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h1 class="breadmome-name breadcrumbs-title">Account</h1>
+								<nav class role="navigation" aria-label="breadcrumbs">
+									<ul class="breadcrumb-list">
+										<li>
+											<a href="/" title="Back to the home page">Home</a>
+										</li>
+										<li>
+											<span>Account</span>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- BREADCRUMBS SETCTION END -->
+		<main>
+			<!--Login Area Strat-->
+			<div class="customer-page theme-default-margin login-area">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+							<div class="login">
+								<div id="CustomerLoginForm">
+									<form method="post" action="/login" id="customer_login" accept-charset="UTF-8"
+										data-login-with-shop-sign-in="true" onsubmit="return checkLogin();">
+										<input type="hidden" name="form_type" value="customer_login"><input
+											type="hidden" name="utf8" value="✓">
+										<div class="login-form-container">
+											<div class="login-form">
+												<div id="CustomerLoginForm">
+													<label for="username">Username</label>
+													<input type="text" name="username" id="username" class="input-full"
+														autocorrect="off" autocapitalize="off" autofocus>
+													<label for="password" "">Password</label>
+													<input type="password" value name="password" id="password"
+														class="input-full">
+													<div class="button-box">
+														<button type="submit" class="default-btn">Sign In</button>
+														<a href="#recover" id="RecoverPassword">Forgot your
+															password?</a>
+													</div>
+												</div>
+												<div class="no-account">
+													<a href="/register" id="customer_register_link">Create
+														account</a>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div id="RecoverPasswordForm" class="d-none">
+									<form method="post" action="/account/recover" accept-charset="UTF-8">
+										<input type="hidden" name="form_type" value="recover_customer_password"><input
+											type="hidden" name="utf8" value="✓">
+										<div class="login-form-container">
+											<div class="login-text">
+												<h2>Reset your password</h2>
+												<p>We will send you an email to reset your password.</p>
+											</div>
+											<div class="login-form">
+												<label for="RecoverEmail">Email</label>
+												<input type="email" value name="email" id="RecoverEmail"
+													class="input-full" autocorrect="off" autocapitalize="off">
+												<div class="login-toggle-btn">
+													<div class="form-action-button">
+														<button type="submit" class="default-btn">Submit</button>
+														<a href="#" id="HideRecoverPasswordLink">Cancel</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--Login Area End-->
+			</div>
+		</main>
+		<!--Footer Area Start-->
+		<div th:replace="~{user/index.html :: footer-top}">
+		</div>
+		<footer th:replace="~{user/index.html :: footer}">
+		</footer>
+		<!--Footer Area End-->
+		<script th:inline="javascript">
+			$("#RecoverPassword").click(function () {
+				$("#RecoverPasswordForm").toggleClass("d-none");
+				$("#CustomerLoginForm").toggleClass("d-none");
+			})
+			$("#HideRecoverPasswordLink").click(function () {
+				$("#RecoverPasswordForm").toggleClass("d-none");
+				$("#CustomerLoginForm").toggleClass("d-none");
+			})
+			/*---------------------------------
+				  Sticky Menu Active
+			  -----------------------------------*/
+
+			$(window).on('scroll', function () {
+				if ($(this).scrollTop() > 50) {
+					$('.header-sticky').addClass("is-sticky");
+				}
+				else {
+					$('.header-sticky').removeClass("is-sticky");
+				}
+			});
+
+			let log_error =/*[[${logError}]]*/ 'logError';
+			if (log_error) {
+				$("#customer_login").prepend(`<div class="errors"><ul><li>Incorrect username or password.</li></ul></div>`)
+			}
+
+		</script>
+</body>
+
+</html>

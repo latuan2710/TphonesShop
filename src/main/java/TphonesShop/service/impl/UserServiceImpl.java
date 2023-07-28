@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Override
 	public List<User> getUserList() {
 		return userRepository.findAll();
@@ -32,18 +32,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void edit(User user) {
-		userRepository.save(user);
-		
+	public void delete(long id) {
+		userRepository.deleteById(id);
+
 	}
 
 	@Override
-	public void delete(long id) {
-		userRepository.deleteById(id);
-		
-	}
-	@Override
 	public User findUserByUsername(String username) {
 		return userRepository.findByUsername(username);
+	}
+
+	@Override
+	public List<String> getListName() {
+		return userRepository.getListName();
 	}
 }

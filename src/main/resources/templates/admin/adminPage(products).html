@@ -44,7 +44,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a th:href="@{/add-product}" target="_blank"
+						<a href="/adminPage/add-product"
 							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add Product
 						</a>
@@ -68,7 +68,6 @@
 											<th>NameProduct</th>
 											<th>Brand</th>
 											<th>Price</th>
-											<th>Description</th>
 											<th>Function</th>
 										</tr>
 									</thead>
@@ -83,11 +82,12 @@
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>
 											<td th:text="'$'+${product.final_cost}">$1000</td>
-											<td th:text="${product.description}">12</td>
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
-													class="btn btn-warning">Edit</a>
-												<a href="javascript:void(0)" th:onclick="'delete_confirm('+${product.id}+');'" class="btn btn-danger">Delete</a>
+													class="btn btn-outline-warning">Edit</a>
+												<a href="javascript:void(0)"
+													th:onclick="'delete_confirm('+${product.id}+');'"
+													class="btn btn-outline-danger">Delete</a>
 											</td>
 										</tr>
 									</tbody>
@@ -108,7 +108,7 @@
 	<script>
 		$('#products').dataTable({
 			"columnDefs": [{
-				"targets": [1, 5, 6],
+				"targets": [1, 5],
 				"orderable": false
 			}]
 		});
@@ -142,7 +142,7 @@
 			$(".sweet-alert").remove()
 		}
 		function confirm(id) {
-			location.href="/deleteProduct/"+id
+			location.href = "/deleteProduct/" + id
 		}
 	</script>
 </body>

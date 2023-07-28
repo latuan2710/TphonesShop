@@ -24,7 +24,7 @@ public class User {
 	public User() {
 	}
 
-	public User(String address, String username, String password, String email) throws Exception {
+	public User(String address, String username, String password, String email) {
 		super();
 		this.address = address;
 		this.username = username;
@@ -57,19 +57,12 @@ public class User {
 	}
 
 	public String getPassword() {
-		String str="";
-		try {
-			PasswordSecurity passwordSecurity=new PasswordSecurity();
-			str=passwordSecurity.decode(password);
-		} catch (Exception e) {
-			str="";
-		}
-		
-		return str;
+		PasswordSecurity passwordSecurity = new PasswordSecurity();
+		return passwordSecurity.decode(this.password);
 	}
 
-	public void setPassword(String password) throws Exception {
-		PasswordSecurity passwordSecurity=new PasswordSecurity();
+	public void setPassword(String password) {
+		PasswordSecurity passwordSecurity = new PasswordSecurity();
 		this.password = passwordSecurity.encode(password);
 	}
 

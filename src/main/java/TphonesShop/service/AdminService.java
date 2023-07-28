@@ -7,13 +7,13 @@ import TphonesShop.model.Admin;
 public interface AdminService {
 	public List<Admin> getAdminList();
 
-    public Admin findAdminById(long id);
-    
-    public Admin findAdminByUsername(String username);
+	public Admin findAdminById(long id);
 
-    public void save(Admin Admin);
+	public Admin findAdminByUsername(String username);
 
-    public void edit(Admin Admin);
+	public void save(Admin Admin);
 
-    public void delete(long id);
+	public void delete(long id);
+
+	public List<String> getListName();
 }

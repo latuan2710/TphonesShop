@@ -2,14 +2,12 @@ package TphonesShop.controller;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import TphonesShop.model.Brand;
-import TphonesShop.model.Order;
-import TphonesShop.model.Product;
+import TphonesShop.model.Admin;
 import TphonesShop.model.User;
+import TphonesShop.service.AdminService;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
@@ -27,24 +25,53 @@ public class RestController {
 	ProductService productService;
 	@Resource
 	UserService userService;
+	@Resource
+	AdminService adminService;
 
-	@GetMapping(value = "/get/user/{id}")
-	public User getUser(@PathVariable int id) {
-		return userService.findUserById(id);
+	@PostMapping("/checkLogin")
+	public boolean checkPassLog(@RequestParam("password") String password, @RequestParam("username") String name) {
+
+		User user = userService.findUserByUsername(name);
+		if (user == null) {
+			Admin admin = adminService.findAdminByUsername(name);
+
+			if (admin == null) {
+				return false;
+			} else {
+				if (admin.getPassword().equals(password)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} else {
+			if (user.getPassword().equals(password)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
 	}
 
-	@GetMapping(value = "/get/all/user")
-	public List<User> getAllUsers() {
-		return userService.getUserList();
+	@PostMapping("/checkUser")
+	public boolean checkUser(@RequestParam("username") String name) {
+		System.out.println(name);
+		for (String username : userService.getListName()) {
+			if (username.equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	@GetMapping(value = "/get/all/order")
-	public List<Order> getAllOrders() {
-		return orderService.getOrderList();
-	}
-
-	@GetMapping(value = "/add-to-cart")
-	public String ok(@Param("text") String text) {
-		return text;
+	@PostMapping("/checkAdmin")
+	public boolean checkAdmin(@RequestParam("username") String name) {
+		for (String username : adminService.getListName()) {
+			if (username.equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="no-js supports-no-cookies" lang="en">
+<!--<![endif]-->
+
+<head th:replace="~{user/index.html :: head}">
+</head>
+
+<body id="create-account" class="template-register">
+	<div class="wrapper">
+		<!-- Header control start -->
+		<div id="shopify-section-header-two" class="shopify-section">
+			<!--Header Area Start-->
+			<header th:replace="~{user/index.html :: header}"></header>
+			<!--Header Area End-->
+		</div>
+		<!-- Header control end -->
+		<div class="breadcrumb-wrapper">
+			<div class="breadcrumb-area breadcrumbs overlay-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h1 class="breadmome-name breadcrumbs-title">Create Admin</h1>
+								<nav class role="navigation" aria-label="breadcrumbs">
+									<ul class="breadcrumb-list">
+										<li>
+											<a href="/" title="Back to the home page">Home</a>
+										</li>
+										<li>
+											<span>Create Admin</span>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- BREADCRUMBS SETCTION END -->
+		<main>
+			<div class="customer-page theme-default-margin">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+							<div class="login">
+								<div class="login-form-container">
+									<div class="login-text">
+										<h2>Create Account</h2>
+										<p>Please Register using account detail bellow.</p>
+									</div>
+									<div class="register-form">
+										<form method="post" th:object="${saveAdmin}"
+											th:action="@{${'/saveAdmin/'+saveAdmin.id}}" id="create_admin"
+											accept-charset="UTF-8" data-login-with-shop-sign-up="true">
+											<label for="username">Username</label>
+											<input type="text" name="username" id="username" class="input-full"
+												th:field="*{username}">
+											<label for="password">Password</label>
+											<input type="password" name="password" id="password" class="input-full"
+												th:value="${saveAdmin.getPassword()}">
+												<div class="form-action-button">
+													<button type="submit" class="default-btn">Submit</button>
+												</div>
+										</form>
+										<div class="account-optional-action">
+											<a href="/adminPage/admins">Return to Dashboard</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!--Footer Area Start-->
+		<div th:replace="~{user/index.html :: footer-top}"> </div>
+		<footer th:replace="~{user/index.html :: footer}"></footer>
+		<!--Footer Area End-->
+		<script>
+			/*---------------------------------
+				Sticky Menu Active
+			-----------------------------------*/
+
+			$(window).on('scroll', function () {
+				if ($(this).scrollTop() > 50) {
+					$('.header-sticky').addClass("is-sticky");
+				}
+				else {
+					$('.header-sticky').removeClass("is-sticky");
+				}
+			});
+			$("#username").change(function () {
+				$.post('/checkAdmin', {username: $(this).val()}, function (data) {
+					console.log(data)
+					if (data) {
+						$(".errors").remove()
+						$("#create_admin").prepend(`<div class="errors"><ul><li>This account existed.</li></ul></div>`)
+					} else {
+						$(".errors").remove()
+					}
+				})
+			})
+		</script>
+</body>
+
+</html>

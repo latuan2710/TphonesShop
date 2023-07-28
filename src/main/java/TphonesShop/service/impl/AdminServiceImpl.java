@@ -13,37 +13,37 @@ import TphonesShop.service.AdminService;
 public class AdminServiceImpl implements AdminService {
 
 	@Autowired
-	private AdminRepository AdminRepository;
-	
+	private AdminRepository adminRepository;
+
 	@Override
 	public List<Admin> getAdminList() {
-		return AdminRepository.findAll();
+		return adminRepository.findAll();
 	}
 
 	@Override
 	public Admin findAdminById(long id) {
 		// TODO Auto-generated method stub
-		return AdminRepository.findById(id);
+		return adminRepository.findById(id);
 	}
 
 	@Override
 	public void save(Admin Admin) {
-		AdminRepository.save(Admin);
-	}
-
-	@Override
-	public void edit(Admin Admin) {
-		AdminRepository.save(Admin);
-		
+		adminRepository.save(Admin);
 	}
 
 	@Override
 	public void delete(long id) {
-		AdminRepository.deleteById(id);
-		
+		adminRepository.deleteById(id);
+
 	}
+
 	@Override
 	public Admin findAdminByUsername(String username) {
-		return AdminRepository.findByUsername(username);
+		return adminRepository.findByUsername(username);
+	}
+
+	@Override
+	public List<String> getListName() {
+		return adminRepository.getListName();
 	}
 }

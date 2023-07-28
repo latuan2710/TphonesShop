@@ -1,5 +1,6 @@
 package TphonesShop.model;
 
+import TphonesShop.security.PasswordSecurity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Admin {
 	public Admin(String username, String password) {
 		super();
 		this.username = username;
-		this.password = password;
+		setPassword(password);
 	}
 
 	public long getId() {
@@ -44,11 +45,14 @@ public class Admin {
 	}
 
 	public String getPassword() {
-		return password;
+		PasswordSecurity passwordSecurity = new PasswordSecurity();
+		return passwordSecurity.decode(password);
+
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		PasswordSecurity passwordSecurity = new PasswordSecurity();
+		this.password = passwordSecurity.encode(password);
 	}
 
 }

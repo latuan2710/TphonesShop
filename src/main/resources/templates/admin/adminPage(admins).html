@@ -45,7 +45,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<button id="add_admin" target="_blank"
+						<button id="add_admin" target="_blank" onclick="location.href='/add-admin'"
 							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add Admin
 						</button>
@@ -71,16 +71,16 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="admin,object :${admin}">
+										<tr th:each="admin,object :${admins}">
 											<td th:text="${object.index+1}">1</td>
 											<td th:text="${admin.username}">admin</td>
 											<td th:text="${admin.password}">admin</td>
 											<td>
-												<a th:href="@{/editProduct(id=${admin.id})}"
-													class="btn btn-warning">Edit</a>
+												<a th:href="@{/editAdmin(id=${admin.id})}"
+													class="btn btn-outline-warning">Edit</a>
 												<a href="javascript:void(0)"
 													th:onclick="'delete_confirm('+${admin.id}+');'"
-													class="btn btn-danger">Delete</a>
+													class="btn btn-outline-danger">Delete</a>
 											</td>
 										</tr>
 									</tbody>
@@ -99,72 +99,6 @@
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}">
 	</div>
-
-	<div class="register_admin d-none">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="white-box">
-					<h3 class="box-title m-b-30">Admin Register</h3>
-					<div class="row">
-						<div class="col-sm-12 col-xs-12">
-							<form action="/register/admin" method="post">
-								<div class="form-group">
-									<label for="username">User Name</label>
-									<input type="text" class="form-control" id="username" placeholder="Enter Username">
-								</div>
-								<div class="form-group">
-									<label for="password">Password</label>
-									<input type="password" class="form-control" id="password" placeholder="Password">
-								</div>
-								<div class="form-group">
-									<label for="confirm_password">Password</label>
-									<input type="password" class="form-control" id="confirm_password"
-										placeholder="Confirm Password">
-								</div>
-								<button type="submit"
-									class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-							</form>
-						</div>
-					</div>
-					<button class=" close_admin_form"><i class="fa fa-times"></i></button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<style>
-		.register_admin {
-			position: fixed;
-			top: 0;
-			height: 100%;
-			width: 100%;
-			background-color: rgba(0, 0, 0, 0.5);
-			z-index: 9999;
-			left: 0;
-			right: 0;
-		}
-
-		.register_admin .white-box {
-			position: relative;
-		}
-
-		.register_admin .white-box>button {
-			border: 0;
-			background-color: rgba(255, 255, 255, 0);
-		}
-
-		.register_admin>.row {
-			padding-top: 10%;
-			margin: 0 10%;
-		}
-
-		.register_admin .close_admin_form {
-			position: absolute;
-			top: 10px;
-			right: 10px;
-		}
-	</style>
-
 	<script>
 		$('#admins').dataTable({
 			"columnDefs": [{
@@ -174,26 +108,6 @@
 		});
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
-		})
-
-		$("#add_admin").click(function () {
-			$(".register_admin").toggleClass("d-none");
-		})
-
-		$(".close_admin_form").click(function () {
-			$(".register_admin").toggleClass("d-none");
-		})
-
-		$("#confirm_password").change(function () {
-			{
-				if ($(this).val() != $("#password").val()) {
-					$(this).parent().addClass("has-danger")
-					$(this).addClass("form-control-danger")
-				} else {
-					$(this).parent().removeClass("has-danger")
-					$(this).removeClass("form-control-danger")
-				}
-			}
 		})
 
 		function delete_confirm(data_id) {
