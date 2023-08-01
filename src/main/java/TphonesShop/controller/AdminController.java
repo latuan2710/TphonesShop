@@ -27,8 +27,6 @@ import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
 import TphonesShop.service.UserService;
 import jakarta.annotation.Resource;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class AdminController {
@@ -65,6 +63,7 @@ public class AdminController {
 
 	@RequestMapping("/adminPage/brands")
 	public String adminPageBrands(Model model) {
+		model.addAttribute("brand", new Brand());
 		model.addAttribute("brands", brandService.getBrandList());
 		return "admin/adminPage(brands).html";
 	}
@@ -192,7 +191,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/deleteBrand/{id}")
-	public String deleteBrand(@PathVariable("id") Long id, Model model) {
+	public String deleteBrand(@PathVariable("id") Long id, Model model) throws IOException {
 
 		Brand brand = brandService.findBrandById(id);
 
@@ -200,11 +199,12 @@ public class AdminController {
 			deleteProduct(product.getId(), model);
 		}
 
+		deleteFile(brand.getImage());
 		brandService.delete(id);
 		return adminPageBrands(model);
 	}
 
-	/* SAVE METHOD */
+	/* SAVE IMAGE METHOD */
 
 	private void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 
@@ -222,6 +222,22 @@ public class AdminController {
 			} catch (IOException ioe) {
 				throw new IOException("Could not save image file: " + fileName, ioe);
 			}
+		}
+	}
+
+	/* DELETE IMAGE METHOD */
+
+	private void deleteFile(String img) throws IOException {
+		StringBuilder stringBuilder = new StringBuilder(img);
+		stringBuilder.deleteCharAt(0);
+		
+		img = stringBuilder.toString();
+		
+		Path path = Paths.get(img);
+		if(Files.deleteIfExists(path)) {
+			System.out.println("Delete Image Successfully");
+		}else {
+			System.out.println("Fail To Delete Image");
 		}
 	}
 
