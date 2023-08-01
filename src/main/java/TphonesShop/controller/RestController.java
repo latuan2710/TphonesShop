@@ -1,11 +1,11 @@
 package TphonesShop.controller;
 
-import java.util.List;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import TphonesShop.model.Admin;
+import TphonesShop.model.Brand;
 import TphonesShop.model.User;
 import TphonesShop.service.AdminService;
 import TphonesShop.service.BrandService;
@@ -73,5 +73,10 @@ public class RestController {
 			}
 		}
 		return false;
+	}
+
+	@PostMapping("/get/brand/{id}")
+	public Brand getBrandById(@PathVariable("id") long id) {
+		return brandService.findBrandById(id);
 	}
 }
