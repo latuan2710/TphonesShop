@@ -55,12 +55,11 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="white-box">
-							<form class="form-horizontal" th:object="${saveAdmin}"
-								th:action="@{'/saveAdmin/'+${saveAdmin.id}}" enctype="multipart/form-data"
-								method="post">
+							<form class="form-horizontal" th:object="${saveUser}"
+								th:action="@{'/saveUser/'+${saveUser.id}}" enctype="multipart/form-data" method="post">
 								<div class="row">
 									<div class="col-12 form-group">
-										<label for="username" class="col-md-12">Admin Username</label>
+										<label for="username" class="col-md-12">Username</label>
 										<div class="col-md-12">
 											<input id="username" th:field="*{username}" type="text" class="form-control"
 												name="username">
@@ -71,7 +70,7 @@
 										<div class="col-md-12">
 											<div class="input-group">
 												<input type="password" class="form-control" id="password"
-													th:value="${saveAdmin.getPassword()}" name="password">
+													th:value="${saveUser.getPassword()}" name="password">
 												<button type="button" class="input-group-addon" id="basic-addon2"
 													onclick="showPass()">
 													<i class="fa fa-eye-slash"></i>
@@ -79,10 +78,24 @@
 											</div>
 										</div>
 									</div>
+									<div class="col-12 form-group">
+										<label for="email" class="col-md-12">Email</label>
+										<div class="col-md-12">
+											<input id="email" th:field="*{email}" type="email" class="form-control"
+												name="email">
+										</div>
+									</div>
+									<div class="col-12 form-group">
+										<label for="address" class="col-md-12">Address</label>
+										<div class="col-md-12">
+											<input id="address" th:field="*{address}" type="text" class="form-control"
+												name="address">
+										</div>
+									</div>
 									<div class="col-12 form-actions">
 										<button type="submit" class="btn btn-info"> <i class="fa fa-check"></i>
 											Save</button>
-										<button type="button" onclick="location.href='/adminPage/admins'"
+										<button type="button" onclick="location.href='/adminPage/users'"
 											class="btn btn-default">Cancel</button>
 									</div>
 								</div>
@@ -101,7 +114,7 @@
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
 	<script th:inline="javascript">
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(1)").addClass("selected")
+			$(".wp-side-menu li:nth-child(2)").addClass("selected")
 		})
 	</script>
 </body>

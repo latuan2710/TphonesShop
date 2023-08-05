@@ -59,35 +59,77 @@
 			<!-- /row -->
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="white-box">
-						<h3 class="box-title m-b-30">Brands Table</h3>
-						<div class="table-responsive">
-							<table id="brands" class="table table-striped">
-								<thead>
-									<tr>
-										<th>No</th>
-										<th>Brand Image</th>
-										<th>Brand Name</th>
-										<th>Function</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="brand,object :${brands}">
-										<td th:text="${object.index+1}">1</td>
-										<td>
-											<a th:href="@{${'/brand/'+brand.name}}">
-												<img th:src="${brand.image}" alt="">
-											</a>
-										</td>
-										<td th:text="${brand.name}">SamSung</td>
-										<td>
-											<a th:href="@{/editBrand(id=${brand.id})}" class="btn btn-outline-warning">Edit</a>
-											<a href="javascript:void(0)" th:onclick="'delete_confirm('+${brand.id}+');'" class="btn btn-outline-danger">Delete</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+					<div class="white-box row">
+						<div class="col-lg-6 form-container">
+							<form class="form-horizontal" action="/saveBrand?id=1" enctype="multipart/form-data"
+								th:object="${brand}" method="post">
+								<div class="row">
+									<div class="col-12 mb-5">
+										<h3 class="box-title">Brand Image</h3>
+										<label for="input-file-now">Upload your product image here</label>
+										<div class="dropify-wrapper">
+											<div class="dropify-message">
+												<span class="file-icon"></span>
+												<p>Drag and drop a file here or click</p>
+											</div>
+											<div class="dropify-loader"></div>
+											<input name="brandImg" type="file" id="input-file-now" class="dropify">
+											<div class="dropify-preview">
+												<span class="dropify-render"></span>
+											</div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="form-group">
+											<label for="name" class="col-md-12">Brand Name</label>
+											<div class="col-md-12">
+												<input type="text" id="name" class="form-control" name="productName"
+													th:field="*{name}">
+											</div>
+										</div>
+										<div class="form-actions">
+											<button type="submit" class="btn btn-info"> <i class="fa fa-check"></i>
+												Save</button>
+											<button type="button" onclick="location.href='/adminPage/brands'"
+												class="btn btn-default">Cancel</button>
+										</div>
+									</div>
+								</div>
+							</form>
 						</div>
+						<div class="col-lg-6">
+							<h3 class="box-title m-b-30">Brands Table</h3>
+							<div class="table-responsive">
+								<table id="brands" class="table table-striped">
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>Brand Image</th>
+											<th>Brand Name</th>
+											<th>Function</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="brand,object :${brands}">
+											<td th:text="${object.index+1}">1</td>
+											<td>
+												<a th:href="@{${'/brand/'+brand.name}}">
+													<img th:src="${brand.image}" alt="">
+												</a>
+											</td>
+											<td th:text="${brand.name}">SamSung</td>
+											<td>
+												<button th:data-id="${brand.id}" onclick="editBrand(this)"
+													class="btn btn-outline-warning">Edit</button>
+												<button th:onclick="'delete_confirm('+${brand.id}+');'"
+													class="btn btn-outline-danger">Delete</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -133,13 +175,29 @@
 	</div>
 			`)
 		}
-		function cancel() {
-			$(".sweet-overlay").remove();
-			$(".sweet-alert").remove()
-		}
+
 		function confirm(id) {
-			location.href="/deleteBrand/"+id
+			location.href = "/deleteBrand/" + id
 		}
+		$("#input-file-now").change(function (event) {
+			$(".dropify-render").html(`<img src="` + window.URL.createObjectURL(this.files[0]) + `">`)
+			$(".dropify-preview").css("display", "block");
+		})
+
+		function editBrand(e) {
+			let data_id = $(e).attr("data-id")
+			if (screen.width <= 991) {
+				location.href = `/editBrand?id=${data_id}`
+			} else {
+				$.post(`/get/brand/${data_id}`, function (brand) {
+					$(".form-container form").attr("action", `/saveBrand?id=${brand.id}`);
+					$("#name").val(brand.name);
+					$(".dropify-render").html(`<img src="` + brand.image + `">`)
+					$(".dropify-preview").css("display", "block");
+				})
+			}
+		}
+
 	</script>
 </body>
 

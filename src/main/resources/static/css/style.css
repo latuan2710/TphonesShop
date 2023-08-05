@@ -20463,9 +20463,24 @@ a.fc-event:not([href]):not([tabindex]) {
 	text-align: center;
 }
 
+#admins tr>td:last-child,
+#users tr>td:last-child,
+#brands tr>td:last-child,
+#products tr>td:last-child {
+	display: flex;
+	gap: 5px
+}
+
+#products tr>td:nth-child(2),
+#brands tr>td:nth-child(2){
+	width: 200px;
+	height: 100px;
+}
+
 #products img,
 #brands img {
-	height: 100px;
+	max-height: 100%;
+	max-width: 100%;
 }
 
 .sweet-overlay {
@@ -20491,4 +20506,10 @@ a.fc-event:not([href]):not([tabindex]) {
 	display: inline-block;
 	background-color: rgb(221, 107, 85);
 	box-shadow: rgba(221, 107, 85, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
+}
+
+@media only screen and (max-width: 991px) {
+	.form-container {
+		display: none;
+	}
 }

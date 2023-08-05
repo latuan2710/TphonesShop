@@ -45,7 +45,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<button id="add_admin" target="_blank" onclick="location.href='/add-admin'"
+						<button id="add_admin" onclick="location.href='/add-admin'"
 							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add Admin
 						</button>
@@ -58,33 +58,68 @@
 				<!-- /row -->
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="white-box">
-							<h3 class="box-title m-b-30">Admins Table</h3>
-							<div class="table-responsive">
-								<table id="admins" class="table table-striped">
-									<thead>
-										<tr>
-											<th>N.o</th>
-											<th>Username</th>
-											<th>Password</th>
-											<th>Function</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="admin,object :${admins}">
-											<td th:text="${object.index+1}">1</td>
-											<td th:text="${admin.username}">admin</td>
-											<td th:text="${admin.password}">admin</td>
-											<td>
-												<a th:href="@{/editAdmin(id=${admin.id})}"
-													class="btn btn-outline-warning">Edit</a>
-												<a href="javascript:void(0)"
-													th:onclick="'delete_confirm('+${admin.id}+');'"
-													class="btn btn-outline-danger">Delete</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+						<div class="white-box row">
+							<div class="col-lg-6 form-container">
+								<h3 class="box-title m-b-30">Add Admin</h3>
+								<form class="form-horizontal" action="/saveAdmin/0" enctype="multipart/form-data"
+									th:object="${saveAdmin}" method="post">
+									<div class="row">
+										<div class="col-12 form-group">
+											<label for="username" class="col-md-12">Admin Username</label>
+											<div class="col-md-12">
+												<input id="username" type="text" class="form-control"
+													th:field="*{username}">
+											</div>
+										</div>
+										<div class="col-12 form-group">
+											<label for="password" class="col-md-12">Password</label>
+											<div class="col-md-12">
+												<div class="input-group">
+													<input type="password" class="form-control" id="password"
+														th:field="*{password}">
+													<button type="button" class="input-group-addon" id="basic-addon2"
+														onclick="showPass()">
+														<i class="fa fa-eye-slash"></i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="col-12 form-actions">
+											<button type="submit" class="btn btn-info"> <i class="fa fa-check"></i>
+												Save</button>
+											<button type="button" onclick="location.href='/adminPage/admins'"
+												class="btn btn-default">Cancel</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="col-lg-6">
+								<h3 class="box-title m-b-30">Admins Table</h3>
+								<div class="table-responsive">
+									<table id="admins" class="table table-striped">
+										<thead>
+											<tr>
+												<th>N.o</th>
+												<th>Username</th>
+												<th>Password</th>
+												<th>Function</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="admin,object :${admins}">
+												<td th:text="${object.index+1}">1</td>
+												<td th:text="${admin.username}">admin</td>
+												<td th:text="${admin.password}">admin</td>
+												<td>
+													<button th:data-id="${admin.id}" onclick="editAdmin(this)"
+														class="btn btn-outline-warning">Edit</button>
+													<button th:onclick="'delete_confirm('+${admin.id}+');'"
+														class="btn btn-outline-danger">Delete</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -132,12 +167,22 @@
 	</div>
 			`)
 		}
-		function cancel() {
-			$(".sweet-overlay").remove();
-			$(".sweet-alert").remove()
-		}
+
 		function confirm(id) {
 			location.href = "/deleteAdmin/" + id
+		}
+
+		function editAdmin(e) {
+			let data_id = $(e).attr("data-id")
+			if (screen.width <= 991) {
+				location.href = `/editAdmin?id=${data_id}`
+			} else {
+				$.post(`/get/admin/${data_id}`, function (admin) {
+					$(".form-container form").attr("action", `/saveAdmin/${admin.id}`);
+					$("#username").val(admin.username);
+					$("#password").val(admin.password);
+				})
+			}
 		}
 	</script>
 </body>

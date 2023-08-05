@@ -95,13 +95,5 @@ public class UserController {
 		return "user/register.html";
 	}
 
-	@PostMapping("/saveUser/{id}")
-	public String saveUser(Model model, @ModelAttribute("saveUser") User user) {
-		userService.save(user);
-
-		if (httpSession.getAttribute("admin") != null) {
-			return adminController.adminPageUsers(model);
-		}
-		return toLoginPage(model);
-	}
+	
 }

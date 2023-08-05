@@ -24,6 +24,14 @@
 	<link href="/css/blue_dark.css" id="theme" rel="stylesheet">
 	<!--Sweatalert CSS-->
 	<link href="/css/sweetalert.css" id="theme" rel="stylesheet">
+	<!--Drop Image CSS-->
+	<link href="/css/drop.css" id="theme" rel="stylesheet">
+	<style>
+		form {
+			position: sticky;
+			top: 10px;
+		}
+	</style>
 </head>
 
 <body>
@@ -116,7 +124,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="/register" target="_blank"
+						<a href="/add-user"
 							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add User
 						</a>
@@ -184,7 +192,7 @@
 		<!-- Custom Theme JavaScript -->
 		<script src="/js/custom_min.js"></script>
 		<script src="/js/jquery_dataTables_min.js"></script>
-
+		<script src="/js/scripts.js"></script>
 	</div>
 
 	<script>
@@ -218,10 +226,6 @@
 		</div>
 	</div>
 			`)
-		}
-		function cancel() {
-			$(".sweet-overlay").remove();
-			$(".sweet-alert").remove()
 		}
 		function confirm(id) {
 			location.href = "/deleteUser/" + id

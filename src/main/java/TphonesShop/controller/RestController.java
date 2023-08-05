@@ -79,4 +79,9 @@ public class RestController {
 	public Brand getBrandById(@PathVariable("id") long id) {
 		return brandService.findBrandById(id);
 	}
+	
+	@PostMapping("/get/admin/{id}")
+	public Admin getAdminById(@PathVariable("id") long id) {
+		return adminService.findAdminById(id);
+	}
 }

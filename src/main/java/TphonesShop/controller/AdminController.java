@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import TphonesShop.model.Admin;
 import TphonesShop.model.Brand;
 import TphonesShop.model.Product;
+import TphonesShop.model.User;
 import TphonesShop.service.AdminService;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.OrderService;
@@ -46,6 +47,7 @@ public class AdminController {
 	public String adminPageAdmins(Model model) {
 		model.addAttribute("admins", adminService.getAdminList());
 		model.addAttribute("logError", false);
+		model.addAttribute("saveAdmin", new Admin());
 		return "/admin/adminPage(admins).html";
 	}
 
@@ -74,7 +76,21 @@ public class AdminController {
 		return "admin/adminPage(orders).html";
 	}
 
-	@RequestMapping("/adminPage/add-product")
+	/* ADD */
+
+	@RequestMapping("/add-admin")
+	public String toSaveAdminPage(Model model, Admin admin) {
+		model.addAttribute("saveAdmin", admin);
+		return "admin/saveAdmin.html";
+	}
+	
+	@RequestMapping("/add-user")
+	public String toSaveUserPage(Model model, User user) {
+		model.addAttribute("saveUser", user);
+		return "admin/saveUser.html";
+	}
+
+	@RequestMapping("/add-product")
 	public String toAddProductPage(Model model, Product product) {
 		model.addAttribute("brands", brandService.getBrandList());
 		model.addAttribute("product", product);
@@ -87,18 +103,18 @@ public class AdminController {
 		return "admin/saveBrand.html";
 	}
 
-	@RequestMapping("/add-admin")
-	public String toSaveAdminPage(Model model, Admin admin) {
-		model.addAttribute("saveAdmin", admin);
-		return "admin/saveAdmin.html";
-	}
-
 	/* SAVE */
 
 	@PostMapping("/saveAdmin/{id}")
 	public String saveAdmin(Model model, @ModelAttribute("saveAdmin") Admin admin) {
 		adminService.save(admin);
 		return adminPageAdmins(model);
+	}
+	
+	@PostMapping("/saveUser/{id}")
+	public String saveUser(Model model, @ModelAttribute("saveUser") User user) {
+		userService.save(user);
+		return adminPageUsers(model);
 	}
 
 	@PostMapping("/saveBrand")
@@ -156,8 +172,7 @@ public class AdminController {
 
 	@RequestMapping("/editUser")
 	public String editUser(Model model, @Param("id") int id) {
-		UserController userController = new UserController();
-		return userController.toRegisterPage(model, userService.findUserById(id));
+		return toSaveUserPage(model, userService.findUserById(id));
 	}
 
 	@RequestMapping("/editProduct")
@@ -230,13 +245,13 @@ public class AdminController {
 	private void deleteFile(String img) throws IOException {
 		StringBuilder stringBuilder = new StringBuilder(img);
 		stringBuilder.deleteCharAt(0);
-		
+
 		img = stringBuilder.toString();
-		
+
 		Path path = Paths.get(img);
-		if(Files.deleteIfExists(path)) {
+		if (Files.deleteIfExists(path)) {
 			System.out.println("Delete Image Successfully");
-		}else {
+		} else {
 			System.out.println("Fail To Delete Image");
 		}
 	}

@@ -44,7 +44,7 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="/adminPage/add-product"
+						<a href="/add-product"
 							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
 							Add Product
 						</a>
@@ -137,10 +137,7 @@
 	</div>
 			`)
 		}
-		function cancel() {
-			$(".sweet-overlay").remove();
-			$(".sweet-alert").remove()
-		}
+
 		function confirm(id) {
 			location.href = "/deleteProduct/" + id
 		}
