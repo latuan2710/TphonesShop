@@ -10,6 +10,9 @@ import TphonesShop.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	Product findById(long id);
 
+	@Query(value = "SELECT * FROM cse310.products where name=?1", nativeQuery = true)
+	Product findBynameProduct(String name);
+
 	@Query(value = "SELECT * FROM cse310.products where brand=?1", nativeQuery = true)
 	public List<Product> getProductsByBrand(String brand_name);
 }

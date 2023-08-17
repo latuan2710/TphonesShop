@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{user/index.html :: head}">
+</head>
+
+<body id="account" class="template-login">
+	<div class="wrapper">
+		<!-- Header control start -->
+		<div id="shopify-section-header-two" class="shopify-section">
+			<!--Header Area Start-->
+			<header th:replace="~{user/index.html :: header}">
+			</header>
+			<!--Header Area End-->
+		</div>
+		<!-- Header control end -->
+		<div class="breadcrumb-wrapper">
+			<div class="breadcrumb-area breadcrumbs overlay-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h1 class="breadmome-name breadcrumbs-title">About Us</h1>
+								<nav class role="navigation" aria-label="breadcrumbs">
+									<ul class="breadcrumb-list">
+										<li>
+											<a href="/" title="Back to the home page">Home</a>
+										</li>
+										<li>
+											<span>About Us</span>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- BREADCRUMBS SETCTION END -->
+		<main>
+			<div id="shopify-section-template--14393660801094__main" class="shopify-section">
+				<!--About Us Area Start-->
+				<div id="section-template--14393660801094__main" class="about-us-area mt-80">
+					<div class="container">
+						<div class="row  ">
+							<div class="col-lg-6 col-12">
+								<!--About Us Image Start-->
+								<div class="about-us-img-wrapper mb-30">
+									<div class="about-us-image img-full">
+										<img src="/image(user)/about-image.png"
+											alt="">
+									</div>
+								</div>
+								<!--About Us Image End-->
+							</div>
+							<div class="col-lg-6 col-12">
+								<!--About Us Content Start-->
+								<div class="about-us-content">
+									<h2>Our company</h2>
+									<p>Welcome to Tpohones, your one-stop shop for all your phone call needs. We take
+										pride in offering top-quality phones and accessories to enhance your
+										communication experience. Whether you're in need of a new smartphone, a reliable
+										landline phone, or hands-free accessories to make your calls more convenient,
+										you can find it all here at Tpohones. With a wide selection of brands and
+										models, we strive to cater to every customer's unique requirements and
+										preferences. Our team of experts is dedicated to providing exceptional customer
+										service and ensuring your satisfaction every step of the way. Shop with
+										confidence at Tpohones, where quality and reliability meet affordability.</p>
+									<p>At Tpohones, we understand the importance of staying connected in today's
+										fast-paced world. Our mission is to make the process of buying a phone as easy
+										and enjoyable as possible. We carefully curate our inventory to offer the latest
+										and most innovative devices, ensuring that you have access to cutting-edge
+										technology. With competitive prices and frequent promotions, we strive to
+										provide our customers with the best value for their money. Additionally, our
+										website is designed with user-friendly navigation, making it simple to find
+										exactly what you're looking for. Whether you're a tech enthusiast or just in
+										need of a reliable communication device, we're here to meet your needs. Trust
+										Tpohones to deliver exceptional products and exceptional service.</p>
+								</div>
+								<!--About Us Content End-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--About Us Area End-->
+			</div>
+		</main>
+		<!--Footer Area Start-->
+		<div th:replace="~{user/index.html :: footer-top}">
+		</div>
+		<footer th:replace="~{user/index.html :: footer}">
+		</footer>
+		<!--Footer Area End-->
+		<script th:inline="javascript">
+			$(window).ready(() => {$('ul.main-menu li:nth-child(4)').addClass("active")})
+
+		</script>
+</body>
+
+</html>

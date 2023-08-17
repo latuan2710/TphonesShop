@@ -268,23 +268,26 @@
 									<ul class="header-top-menu">
 										<li class="drodown-show">
 											<span>
-												My Account
+												<span th:if="${session.user}==null">My Account</span>
+												<span th:if="${session.user}!=null">
+													Hi, [(${session.user.fullName})]
+												</span>
 												<i class="ion-ios-arrow-down"></i>
 											</span>
 											<ul class="ht-dropdown">
 												<li th:if="${session.admin==null}"><a href="/account">My Account</a>
 												</li>
+												<li th:if="${session.user != null && session.user.type == 'admin'}">
+													<a href="/adminPage/users">Dashboard</a>
+												</li>
 												<li th:if="${session.admin==null}"><a href="/cart">Cart</a></li>
-												<li th:if="${session.user==null && session.admin==null}">
+												<li th:if="${session.user==null}">
 													<a href=" /login">Sign In</a>
 												</li>
-												<li th:if="${session.user==null && session.admin==null}">
+												<li th:if="${session.user==null}">
 													<a href=" /register">Sign Up</a>
 												</li>
-												<li th:if="${session.admin!=null}">
-													<a href="/adminPage/admins">Dashboard</a>
-												</li>
-												<li th:if="${session.user!=null || session.admin!=null}">
+												<li th:if="${session.user!=null}">
 													<a href="/logout">Log out</a>
 												</li>
 											</ul>
@@ -336,31 +339,6 @@
 							<div class="col-md-3 col-lg-3 ">
 								<!--Mini Cart Start-->
 								<div class="mini-cart">
-									<a href="/cart">
-										<span class="cart-info">
-											<span class="cart-total"><span class="bigcounter">0</span></span>
-											<span class="text">My Cart</span>
-										</span>
-									</a>
-									<!--Cart Dropdown Start-->
-									<div class="header-cart">
-										<ul class="cart-items">
-											<li class="cart-empty-title" style="display:block;">
-												<h5>Your cart is currently empty.</h5>
-											</li>
-											<li class="single-cart-item single-cart-item-loop" style="display:none;">
-											</li>
-										</ul>
-										<div class="cart-total cart-total-price" style="display:none;">
-											<h5>Total: <span class="shopping-cart__total"><span
-														class="money">0.00$</span></span></h5>
-										</div>
-										<div class="checkout" style="display:none;">
-											<a class="minicart-edit-cart" href="/cart">View Cart</a>
-											<a href="/checkout">Checkout</a>
-										</div>
-									</div>
-									<!--Cart Dropdown End-->
 								</div>
 								<!--Mini Cart End-->
 							</div>
@@ -385,7 +363,7 @@
 								<div class="header-menu-area">
 									<nav>
 										<ul class="main-menu">
-											<li class="active">
+											<li>
 												<a href="/">Home </a>
 											</li>
 											<li>
@@ -402,10 +380,10 @@
 												</ul>
 											</li>
 											<li>
-												<a href="#">About Us </a>
+												<a href="/about">About Us </a>
 											</li>
 											<li>
-												<a href="#">Contact Us </a>
+												<a href="/contact">Contact Us </a>
 											</li>
 										</ul>
 									</nav>
@@ -518,7 +496,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -552,7 +530,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -586,7 +564,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -620,7 +598,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -654,7 +632,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -688,7 +666,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -743,7 +721,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -777,7 +755,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -811,7 +789,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -845,7 +823,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -879,7 +857,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -913,7 +891,7 @@
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-												<span class="sticker">Sale</span>
+
 												<span class="percent-count sticker">-27%</span>
 											</div>
 											<div class="product-action">
@@ -1061,10 +1039,10 @@
 												<a href="#"> Products</a>
 											</li>
 											<li>
-												<a href="#"> About Us</a>
+												<a href="/about"> About Us</a>
 											</li>
 											<li>
-												<a href="#"> Contact Us</a>
+												<a href="/contact"> Contact Us</a>
 											</li>
 										</ul>
 									</div>
@@ -1110,65 +1088,10 @@
 					<!--Footer Bottom Area End-->
 				</div>
 			</div>
-			<script>
-				let product_width = parseInt($(".product-list .col-md-3.col-6").width()) + 30;
-				console.log(product_width)
-				$("button.to-left").click(function () {
-					let parent_id = $(this).closest(" .product-area").attr("id");
-					let left = parseInt($("#" + parent_id + " .product-list>div").css("translate"));
-					if (left < 0) {
-						left += product_width;
-					}
-					$("#" + parent_id + " .product-list>div").css("translate", left + "px")
-				})
-
-				$("button.to-right").click(function () {
-					let parent_id = $(this).closest(".product-area").attr("id");
-					let right = parseInt($("#" + parent_id + " .product-list>div").css("translate"));
-					let product_size = $("#" + parent_id + " .product-list .single-product").length;
-					let max;
-
-					if ($(window).width() >= 768) {
-						max = -product_width * (product_size - 4);
-					} else {
-						max = -product_width * (product_size - 2);
-					}
-					if (right > max) {
-						right -= product_width;
-					}
-					$("#" + parent_id + " .product-block-content>div").css("translate", right + "px")
-				})
-
-				$("#AddToCart").click(function () {
-					$("body").append(`
-				          <div class="modal fade ajax-popup show" id="modalAddToCart" tabindex="-1" role="dialog">
-				        <div class="modal-dialog white-modal modal-md">
-				          <div class="modal-content">
-				            <div class="modal-body">
-				              <div class="modal-content-text">
-				                <span class="productmsg"></span>
-				                <span class="success-message">Added to cart successfully!</span>
-				              </div>
-				              <div class="modal-button">
-				                <a href="/cart" class="">View Cart</a>
-				              </div>
-				              <div class="modal-close">
-				                <button type="button" class="close" onclick="closeModal()"><i
-				                    class="ion-close"></i></button>
-				              </div>
-				            </div>
-				          </div>
-				        </div>
-				      </div>`)
-				})
-
-				function closeModal() {
-					$("#modalAddToCart").remove();
-				}
-			</script>
 		</footer>
 		<!--Footer Area End-->
 		<script th:inline="javascript">
+			$(window).ready(() => { $('ul.main-menu li:nth-child(1)').addClass("active") })
 			$('#product-list .bestsellerSlide').owlCarousel({
 				smartSpeed: 1000,
 				nav: true, navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
@@ -1190,9 +1113,10 @@
 					}
 				}
 			})
-			let brands =/*[[${brands}]]*/ 'brands';
 
-			function load_category() {
+			//categoty slide start
+			$.post("/getBrandList", function (data) {
+				let brands = data;
 				let str = "";
 
 				for (let i = 0; i < brands.length; i++) {
@@ -1220,9 +1144,18 @@
 					}
 				}
 				$('.categori-block-content').html(str);
-				console.log("ok")
+			})
+			//categoty slide end
+
+			product_carousel('#iphones')
+			product_carousel('#samsungs')
+
+			//cart action start
+			let alert =/*[[${alert}]]*/ 'alert';
+			if (alert) {
+				alert_cart()
 			}
-			load_category();
+			//cart action end
 		</script>
 </body>
 

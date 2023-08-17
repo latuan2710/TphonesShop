@@ -11,6 +11,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Order findById(long id);
 
-	@Query(value = "SELECT * FROM cse310.orders where product=?1", nativeQuery = true)
-	public List<Order> getOrdersByProduct(String product_name);
+	@Query(value = "SELECT * FROM cse310.orders where status=?1 and username=?2 ", nativeQuery = true)
+	public List<Order> getOrders(boolean status, String username);
 }

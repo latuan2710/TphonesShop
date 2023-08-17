@@ -26,9 +26,9 @@
 				</div>
 				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
 					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
-								class="ti-menu icon-arrow-left-circle"></i></a></li>
+								class="ti-menu"></i></a></li>
 					<li>
-						<h4 class="page-title">Add Product</h4>
+						<h4 class="page-title">Add User</h4>
 					</li>
 				</ul>
 			</div>
@@ -47,7 +47,7 @@
 					<div class="col-12">
 						<ol class="breadcrumb">
 							<li><a href="#">Dashboard</a></li>
-							<li class="active">Add Admin</li>
+							<li class="active">Add User</li>
 						</ol>
 					</div>
 				</div>
@@ -79,6 +79,19 @@
 										</div>
 									</div>
 									<div class="col-12 form-group">
+										<label for="fullName" class="col-md-12">Full Name</label>
+										<div class="col-md-12">
+											<input id="fullName" th:field="*{fullName}" type="text"
+												class="form-control">
+										</div>
+									</div>
+									<div class="col-12 form-group">
+										<label for="phone" class="col-md-12">Phone</label>
+										<div class="col-md-12">
+											<input id="phone" th:field="*{phone}" type="text" class="form-control">
+										</div>
+									</div>
+									<div class="col-12 form-group">
 										<label for="email" class="col-md-12">Email</label>
 										<div class="col-md-12">
 											<input id="email" th:field="*{email}" type="email" class="form-control"
@@ -86,10 +99,26 @@
 										</div>
 									</div>
 									<div class="col-12 form-group">
+										<label for="birth" class="col-md-12">Date Of Birth</label>
+										<div class="col-md-12">
+											<input id="birth" th:field="*{dateOfBirth}" type="date"
+												class="form-control">
+										</div>
+									</div>
+									<div class="col-12 form-group">
 										<label for="address" class="col-md-12">Address</label>
 										<div class="col-md-12">
 											<input id="address" th:field="*{address}" type="text" class="form-control"
 												name="address">
+										</div>
+									</div>
+									<div class="col-12 form-group">
+										<label for="type" class="col-md-12">Type</label>
+										<div class="col-md-12">
+											<select class="form-control" id="type" th:field="*{type}">
+												<option value="admin">Admin</option>
+												<option value="user">User</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-12 form-actions">
@@ -113,8 +142,13 @@
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
 	<script th:inline="javascript">
+		var user_id = /*[[${saveUser.id}]]*/ 'user_id';
+		if(user_id!=0){
+			$('#username').attr("readonly",'')
+			$('#password').attr("readonly",'')
+		}
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(2)").addClass("selected")
+			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
 	</script>
 </body>

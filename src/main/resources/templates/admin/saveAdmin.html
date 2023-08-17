@@ -100,6 +100,7 @@
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
 	<script th:inline="javascript">
+		var user_id = /*[[${message}]]*/ 'default';
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})

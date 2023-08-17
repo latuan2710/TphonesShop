@@ -25,7 +25,7 @@
 				</div>
 				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
 					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
-								class="ti-menu icon-arrow-left-circle"></i></a></li>
+								class="ti-menu"></i></a></li>
 					<li>
 						<h4 class="page-title">Data Table</h4>
 					</li>
@@ -67,6 +67,7 @@
 											<th>Image Product</th>
 											<th>NameProduct</th>
 											<th>Brand</th>
+											<th>Quantity</th>
 											<th>Price</th>
 											<th>Function</th>
 										</tr>
@@ -75,13 +76,14 @@
 										<tr th:each="product,index :${products}">
 											<td th:text="${index.index}+1">1</td>
 											<td>
-												<a th:href="@{${'product/'+product.name}}">
-													<img th:src="${product.image}" alt="">
+												<a th:href="@{${'/product/'+product.name}}">
+													<img th:src="${product.featuredImage}" alt="">
 												</a>
 											</td>
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>
-											<td th:text="'$'+${product.final_cost}">$1000</td>
+											<td th:text="${product.quantity}">12</td>
+											<td th:text="'$'+${product.final_price}">$1000</td>
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
 													class="btn btn-outline-warning">Edit</a>
@@ -105,15 +107,15 @@
 	</div>
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
-	<script>
+	<script th:inline="javascript">
 		$('#products').dataTable({
 			"columnDefs": [{
-				"targets": [1, 5],
+				"targets": [1, 6],
 				"orderable": false
 			}]
 		});
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(3)").addClass("selected")
+			$(".wp-side-menu li:nth-child(2)").addClass("selected")
 		})
 		function delete_confirm(data_id) {
 			let text = "This product will be permanently deleted.";
@@ -141,6 +143,7 @@
 		function confirm(id) {
 			location.href = "/deleteProduct/" + id
 		}
+		alert_action(/*[[${alert}]]*/)
 	</script>
 </body>
 

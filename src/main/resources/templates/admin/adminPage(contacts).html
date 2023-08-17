@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{admin/adminPage(users) :: head}">
+</head>
+
+<body>
+	<div id="wrapper">
+		<!-- Top Navigation -->
+		<nav class="navbar navbar-default navbar-static-top m-b-0">
+			<div class="navbar-header">
+				<a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<i class="ti-menu"></i>
+				</a>
+				<div class="top-left-part">
+					<a class="logo" href="/">
+						<b>
+							<img src="/image/eliteadmin_logo.png" alt="home" class="dark-logo" />
+						</b>
+						<span class="hidden-xs">
+							<img src="/image/logo_text.png" alt="home" class="dark-logo" />
+						</span>
+					</a>
+				</div>
+				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
+					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
+								class="ti-menu"></i></a></li>
+					<li>
+						<h4 class="page-title">Data Table</h4>
+					</li>
+				</ul>
+			</div>
+			<!-- /.navbar-header -->
+			<!-- /.navbar-top-links -->
+			<!-- /.navbar-static-side -->
+		</nav>
+		<!-- End Top Navigation -->
+		<!-- Left navbar-header -->
+		<div th:replace="~{admin/adminPage(users) :: sidebar}">
+		</div>
+	</div>
+	<!-- Left navbar-header end -->
+	<!-- Page Content -->
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<div class="row bg-title">
+				<div class="col-12">
+					<ol class="breadcrumb">
+						<li><a href="#">Dashboard</a></li>
+						<li class="active">Orders Table</li>
+					</ol>
+				</div>
+			</div>
+			<!-- /row -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="white-box">
+						<h3 class="box-title m-b-30">Orders Table</h3>
+						<div class="table-responsive">
+							<table id="contacts" class="table table-striped">
+								<thead>
+									<tr>
+										<th>Time</th>
+										<th>Name</th>
+										<th>Email</th>
+										<th>Phone</th>
+										<th>Message</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="contact:${contacts}">
+										<td th:text="${contact.getTime()}">10/10/2020 12:45</td>
+										<td th:text="${contact.name}">latuan2710</td>
+										<td th:text="${contact.email}">Iphone 13 pro max</td>
+										<td th:text="${contact.phone}">092115</td>
+										<td th:text="${contact.message}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+		<footer class="footer text-center"> 2023 &copy; Tphones Admin brought to you all things</footer>
+	</div>
+	<!-- /#page-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<div th:replace="~{admin/adminPage(users) :: script-fragment}">
+	</div>
+	<script>
+		$("#contacts").dataTable();
+		$(window).ready(function () {
+			$(".wp-side-menu li:nth-child(5)").addClass("selected")
+		})
+	</script>
+</body>
+
+</html>

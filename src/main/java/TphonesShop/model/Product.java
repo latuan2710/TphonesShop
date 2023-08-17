@@ -1,5 +1,8 @@
 package TphonesShop.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,27 +19,18 @@ public class Product {
 	private long id;
 	private String name;
 	private String brand;
-	private double cost;
-	private double final_cost;
-	private boolean isSale;
-	private int discount;
-	@Column(length = 3000)
+	private int quantity;
+	private double price;
+	private double final_price;
+	private double discount = 0;
+	private String summary;
+	@Column(length = 10000)
 	private String description;
-	private String image;
+	private String featuredImage;
+	private List<String> imageList;
 
 	public Product() {
-	}
-
-	public Product(String name, String brand, double cost, boolean isSale, int discount,
-			String description, String image) {
-		super();
-		this.name = name;
-		this.brand = brand;
-		this.cost = cost;
-		this.isSale = isSale;
-		this.discount = discount;
-		this.description = description;
-		this.image = image;
+		this.imageList = new ArrayList<>();
 	}
 
 	public long getId() {
@@ -63,40 +57,48 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public double getCost() {
-		return cost;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setCost(double cost) {
-		this.cost = cost;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
-	public double getFinal_cost() {
-		return final_cost;
+	public double getPrice() {
+		return price;
 	}
 
-	public void setFinal_cost() {
-		if (isSale) {
-			this.final_cost = this.cost * (discount / 100);
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public double getFinal_price() {
+		return final_price;
+	}
+
+	public void setFinal_price() {
+		if (discount == 0) {
+			final_price = price;
 		} else {
-			this.final_cost = this.cost;
+			final_price = price * ((100 - discount) / 100);
 		}
 	}
 
-	public boolean isSale() {
-		return isSale;
-	}
-
-	public void setSale(boolean isSale) {
-		this.isSale = isSale;
-	}
-
-	public int getDiscount() {
+	public double getDiscount() {
 		return discount;
 	}
 
-	public void setDiscount(int discount) {
+	public void setDiscount(double discount) {
 		this.discount = discount;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public String getDescription() {
@@ -107,19 +109,20 @@ public class Product {
 		this.description = description;
 	}
 
-	public String getImage() {
-		return image;
+	public String getFeaturedImage() {
+		return featuredImage;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setFeaturedImage(String image) {
+		this.featuredImage = image;
 	}
 
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", cost=" + cost
-				+ ", isSale=" + isSale + ", discount=" + discount + ", description=" + description + ", image=" + image
-				+ "]";
+	public List<String> getImageList() {
+		return imageList;
+	}
+
+	public void setImageList(List<String> imageList) {
+		this.imageList = imageList;
 	}
 
 }

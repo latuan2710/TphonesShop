@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{user/index.html :: head}">
+</head>
+
+<body id="account" class="template-login">
+	<style>
+		.shopify-payment-button__button--unbranded {
+			border-radius: 4px;
+			border: none;
+			box-shadow: 0 0 0 0 transparent;
+			color: white;
+			cursor: pointer;
+			display: block;
+			font-size: 1em;
+			font-weight: 500;
+			line-height: 1;
+			text-align: center;
+			width: 100%;
+			transition: background 0.2s ease-in-out;
+		}
+
+		.product-block-content .row {
+			flex-wrap: nowrap;
+			overflow-x: scroll;
+		}
+
+		.product-block-content .row.active {
+			cursor: grab;
+		}
+
+		.product-block-content .row::-webkit-scrollbar {
+			display: none;
+		}
+
+		.button-action {
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			gap: 2px;
+		}
+
+		.button-action button {
+			width: 28px;
+			height: 28px;
+			line-height: 26px;
+			border: 1px solid #e5e5e5;
+			text-align: center;
+			border-radius: 3px;
+			color: #333;
+			font-size: 16px;
+			transition: all .3s ease-in-out;
+		}
+
+		.button-action button:hover {
+			color: white;
+			border-color: #613f99;
+			background-color: #613f99;
+		}
+
+		#modalAddToCart {
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+	</style>
+	<div class="wrapper">
+		<!-- Header control start -->
+		<div id="shopify-section-header-two" class="shopify-section">
+			<!--Header Area Start-->
+			<header th:replace="~{user/index.html :: header}">
+			</header>
+			<!--Header Area End-->
+		</div>
+		<!-- Header control end -->
+		<div class="breadcrumb-wrapper">
+			<div class="breadcrumb-area breadcrumbs overlay-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h1 class="breadmome-name breadcrumbs-title" th:text="${product.name}">Product Title
+									Here</h1>
+								<nav class role="navigation" aria-label="breadcrumbs">
+									<ul class="breadcrumb-list">
+										<li>
+											<a href="/" title="Back to the home page">Home</a>
+										</li>
+										<li>
+											<span th:text="${product.name}">Product Title Here</span>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- BREADCRUMBS SETCTION END -->
+		<main>
+			<div id="product_detail">
+				<div class="single-product-area mt-80 mb-80">
+					<div class="container">
+						<div class="row">
+							<div id="ProductPhotoImg" class="col-md-5 d-flex align-items-center justify-content-center">
+								<img class="mh-100 mw-100" th:src="${product.featuredImage}">
+							</div>
+							<div class="col-md-7">
+								<div class="single-product-content">
+									<div class="product-details">
+										<h1 class="single-product-name" th:text="${product.name}">Product title here
+										</h1>
+										<div class="product-sku">Brand <span class="variant-sku"
+												th:text="${product.brand}"></span></div>
+										<div class="single-product-price">
+											<div class="product-discount">
+												<span class="sale-price" id="ComparePrice">
+													<span class="money" th:if="${product.discount}!=0"
+														th:text="'$'+${product.price}">$60.00</span>
+												</span>
+												<span class="price" id="ProductPrice">
+													<span class="money"
+														th:text="'$'+${product.final_price}">$39.00</span>
+												</span>
+												<span class="discount" th:if="${product.discount}!=0"
+													th:text="'-'+${product.discount}+'%'">-35%</span>
+											</div>
+											<!-- For Unit Price  -->
+											<small class="unit_price_box caption  hidden">
+												<dd>
+													<span id="product__unit_price"></span>
+													<span aria-hidden="true">/</span>
+													<span id="product__unit_price_value">
+													</span>
+												</dd>
+											</small>
+											<!-- For Unit Price  -->
+										</div>
+										<div class="product-inventory">
+											<span class="inventory-title">Availability:</span> <span
+												class="variant-inventory">[(${product.quantity})] left in
+												stock</span>
+										</div>
+										<div class="product-info">
+											<p th:text="${product.summary}">
+											</p>
+										</div>
+										<div data-countdown="2019/05/24"></div>
+										<div class="product-add-to-cart">
+											<span class="control-label">Quantity</span>
+											<div class="cart-plus-minus">
+												<input class="cart-plus-minus-box" type="text" name="quantity"
+													value="1">
+											</div>
+											<div class="add">
+												<button type="submit" class="add-to-cart" id="AddToCart"
+													th:data-name="${product.name}" th:data-id="${product.id}">
+													Add to cart
+												</button>
+											</div>
+										</div>
+										<div class="direct-buy-button">
+											<div data-shopify="payment-button" data-has-selling-plan="false"
+												data-has-fixed-selling-plan="false" class="shopify-payment-button">
+												<button type="button" class="shopify-payment-button__button--unbranded"
+													id="buy-now" th:data-name="${product.name}"
+													th:data-id="${product.id}">
+													Buy it now
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="single-product-review-tab mt-80">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="single-product-review-and-description-area">
+									<!--Review And Description Tab Menu Start-->
+									<ul class="nav dec-and-review-menu">
+										<li>
+											<a href="#pro-dec" data-toggle="tab" role="tab" class="active"
+												aria-selected="true">
+												Description
+											</a>
+										</li>
+									</ul>
+									<!--Review And Description Tab Menu End-->
+									<div class="tab-content product-review-content-tab mt-30">
+										<div class="tab-pane active" id="pro-dec" role="tabpanel">
+											<div class="single-product-description">[(${product.description})]</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+		</main>
+		<!--Footer Area Start-->
+		<div th:replace="~{user/index.html :: footer-top}">
+		</div>
+		<footer th:replace="~{user/index.html :: footer}">
+		</footer>
+		<!--Footer Area End-->
+		<script th:inline="javascript">
+
+		</script>
+</body>
+
+</html>

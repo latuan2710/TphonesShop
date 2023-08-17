@@ -14,7 +14,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
-	
+
 	@Override
 	public List<Order> getOrderList() {
 		return orderRepository.findAll();
@@ -22,30 +22,23 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order findOrderById(long id) {
-		// TODO Auto-generated method stub
 		return orderRepository.findById(id);
-	}
-
-	@Override
-	public void save(Order order) {
-		orderRepository.save(order);
-	}
-
-	@Override
-	public void edit(Order order) {
-		orderRepository.save(order);
-		
 	}
 
 	@Override
 	public void delete(long id) {
 		orderRepository.deleteById(id);
-		
+
 	}
 
 	@Override
-	public List<Order> getOrdersByProduct(String product_name) {
-		return orderRepository.getOrdersByProduct(product_name);
+	public Order save(Order order) {
+		return orderRepository.save(order);
+	}
+
+	@Override
+	public List<Order> getOrders(boolean status, String username) {
+		return orderRepository.getOrders(status, username);
 	}
 
 }

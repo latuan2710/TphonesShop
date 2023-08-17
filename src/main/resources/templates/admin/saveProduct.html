@@ -6,6 +6,8 @@
 
 <body>
 	<link rel="stylesheet" href="/css/drop.css">
+	<link rel="stylesheet" href="/css/bootstrap-wysihtml5.css">
+
 	<div id="wrapper">
 		<!-- Top Navigation -->
 		<nav class="navbar navbar-default navbar-static-top m-b-0">
@@ -61,20 +63,14 @@
 								<div class="row">
 									<div class="col-sm-6 ol-md-6 col-xs-12">
 										<div class="white-box">
-											<h3 class="box-title">Product Image</h3>
 											<label for="input-file-now">Upload your product image here</label>
 											<div class="dropify-wrapper">
 												<div class="dropify-message">
 													<span class="file-icon"></span>
 													<p>Drag and drop a file here or click</p>
-													<p class="dropify-error">Ooops, something wrong appended.</p>
 												</div>
-												<div class="dropify-loader"></div>
-												<div class="dropify-errors-container">
-													<ul></ul>
-												</div>
-												<input name="productImg" type="file" id="input-file-now"
-													class="dropify">
+												<input type="file" id="input-file-now" class="dropify"
+													name="product_img">
 												<div class="dropify-preview">
 													<span class="dropify-render">
 													</span>
@@ -84,13 +80,11 @@
 									</div>
 									<div class="col-sm-6 ol-md-6 col-xs-12">
 										<div class="white-box">
-											<h3 class="box-title m-b-30">Add Product</h3>
-
 											<div class="form-group">
 												<label for="productName" class="col-md-12">Product Name</label>
 												<div class="col-md-12">
 													<input id="productName" th:field="*{name}" type="text"
-														class="form-control" name="productName">
+														class="form-control">
 												</div>
 											</div>
 											<div class="form-group">
@@ -107,31 +101,38 @@
 											<div class="form-group">
 												<label for="cost" class="col-sm-12">Cost</label>
 												<div class="col-md-12">
-													<input th:field="*{cost}" class="form-control" type="number"
-														value="1" id="cost">
-												</div>
-											</div>
-											<div class="form-check">
-												<label class="custom-control custom-checkbox">
-													<input name="sale" type="checkbox" id="sale-check"
-														class="custom-control-input">
-													<span class="custom-control-indicator"></span>
-													<span class="custom-control-description">Sale</span>
-												</label>
-											</div>
-											<div id="discount-form" class="form-group d-none">
-												<label for="discount" class="col-sm-12">Discount</label>
-												<div class="col-md-12">
-													<input th:field="*{discount}" class="form-control" type="number"
-														id="discount">
+													<input th:field="*{price}" class="form-control" type="text"
+														onkeydown="return onlyNumbers(event)" value="1" id="cost">
 												</div>
 											</div>
 											<div class="form-group">
-												<label for="description" class="col-md-12">Description</label>
+												<label for="quantity" class="col-sm-12">Quantity</label>
 												<div class="col-md-12">
-													<textarea th:field="*{description}" class="form-control"
-														id="description" rows="5"></textarea>
+													<input th:field="*{quantity}" class="form-control" type="text"
+														onkeydown="return onlyNumbers(event)" value="1" id="quantity">
 												</div>
+											</div>
+											<div class="form-group">
+												<label for="discount" class="col-sm-12">Discount</label>
+												<div class="col-md-12">
+													<input th:field="*{discount}" class="form-control" type="text"
+														onkeydown="return onlyNumbers(event)" id="discount">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="white-box">
+											<div class="form-group">
+												<label for="summary" class="col-sm-12 p-0">Summary</label>
+												<div class="col-md-12 p-0">
+													<textarea class="form-control" id="summary" rows="2"
+														th:field="*{summary}"></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<textarea class="textarea_editor form-control" rows="15"
+													placeholder="Enter text ..." th:field="*{description}"></textarea>
 											</div>
 											<div class="form-actions">
 												<button type="submit" class="btn btn-info"> <i class="fa fa-check"></i>
@@ -155,9 +156,13 @@
 	</div>
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
+	<script src="/js/wysihtml5-0.3.0.js"></script>
+	<script src="/js/bootstrap-wysihtml5.js"></script>
 	<script>
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(3)").addClass("selected")
+			$(".wp-side-menu li:nth-child(2)").addClass("selected")
+			$('.textarea_editor').wysihtml5();
+			$('.dropify-wrapper').height($('form > div > div:nth-child(2)').height() - 115 + 'px')
 		})
 	</script>
 	<script th:inline="javascript">
@@ -165,30 +170,22 @@
 			$(".dropify-render").html(`<img src="` + window.URL.createObjectURL(this.files[0]) + `">`)
 			$(".dropify-preview").css("display", "block");
 		})
-		$("#sale-check").click(function () {
-			if (this.checked == true) {
-				$("#discount-form").toggleClass("d-none")
-			} else[
-				$("#discount-form").toggleClass("d-none")
-			]
-		})
-		let product_img = /*[[${product.image}]]*/ 'product_img';
+
+		let product_img = /*[[${product.featuredImage}]]*/ 'product_featuredImage';
 		if (product_img != null) {
 			$(".dropify-render").html(`<img src="` + product_img + `">`)
 			$(".dropify-preview").css("display", "block");
 		}
-		let product_brand = /*[[${product.brand}]]*/ 'product_brand';
-		console.log(product_brand)
-		if (product_brand != null) {
-			$("#productBrand option").each(function () {
-				if ($(this).val() == product_brand) {
-					$(this).attr("selected", true)
-				}
-			})
-		}
-		let product_sale = /*[[${product.isSale}]]*/ 'product_sale';
-		if (product_sale == true) {
-			$("#sale-check").click()
+
+		function onlyNumbers(event) {
+			if (event.ctrlKey || event.altKey || event.metaKey || event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+				return true;
+			}
+			if (/^\d|-$/i.test(event.key)) {
+				return true;
+			}
+			event.preventDefault();
+			return false;
 		}
 	</script>
 </body>

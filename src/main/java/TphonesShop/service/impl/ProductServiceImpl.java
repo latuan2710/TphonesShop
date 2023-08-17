@@ -32,12 +32,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void edit(Product product) {
-		productRepository.save(product);
-
-	}
-
-	@Override
 	public void delete(long id) {
 		productRepository.deleteById(id);
 
@@ -46,5 +40,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductsByBrand(String brand_name) {
 		return productRepository.getProductsByBrand(brand_name);
+	}
+
+	@Override
+	public Product findProductByName(String name) {
+		return productRepository.findBynameProduct(name);
 	}
 }

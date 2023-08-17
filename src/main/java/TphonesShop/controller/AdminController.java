@@ -1,5 +1,6 @@
 package TphonesShop.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import TphonesShop.model.Admin;
 import TphonesShop.model.Brand;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
-import TphonesShop.service.AdminService;
 import TphonesShop.service.BrandService;
+import TphonesShop.service.ContactService;
 import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
 import TphonesShop.service.UserService;
@@ -41,15 +42,7 @@ public class AdminController {
 	@Resource
 	UserService userService;
 	@Resource
-	AdminService adminService;
-
-	@RequestMapping("/adminPage/admins")
-	public String adminPageAdmins(Model model) {
-		model.addAttribute("admins", adminService.getAdminList());
-		model.addAttribute("logError", false);
-		model.addAttribute("saveAdmin", new Admin());
-		return "/admin/adminPage(admins).html";
-	}
+	ContactService contactService;
 
 	@RequestMapping("/adminPage/users")
 	public String adminPageUsers(Model model) {
@@ -76,14 +69,14 @@ public class AdminController {
 		return "admin/adminPage(orders).html";
 	}
 
+	@RequestMapping("/adminPage/contacts")
+	public String contactPageOrders(Model model) {
+		model.addAttribute("contacts", contactService.getContactList());
+		return "admin/adminPage(contacts).html";
+	}
+
 	/* ADD */
 
-	@RequestMapping("/add-admin")
-	public String toSaveAdminPage(Model model, Admin admin) {
-		model.addAttribute("saveAdmin", admin);
-		return "admin/saveAdmin.html";
-	}
-	
 	@RequestMapping("/add-user")
 	public String toSaveUserPage(Model model, User user) {
 		model.addAttribute("saveUser", user);
@@ -105,15 +98,18 @@ public class AdminController {
 
 	/* SAVE */
 
-	@PostMapping("/saveAdmin/{id}")
-	public String saveAdmin(Model model, @ModelAttribute("saveAdmin") Admin admin) {
-		adminService.save(admin);
-		return adminPageAdmins(model);
-	}
-	
 	@PostMapping("/saveUser/{id}")
 	public String saveUser(Model model, @ModelAttribute("saveUser") User user) {
-		userService.save(user);
+		try {
+			if (user.getId() == 0) {
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				user.setPassword(encoder.encode(user.getPassword()));
+			}
+			userService.save(user);
+			model.addAttribute("alert", "success");
+		} catch (Exception e) {
+			model.addAttribute("alert", "error");
+		}
 		return adminPageUsers(model);
 	}
 
@@ -123,52 +119,49 @@ public class AdminController {
 		try {
 			brand = brandService.save(brand);
 
-			String fileName = brand.getId() + ".png";
-			String uploadDir = "brand-upload/";
+			String uploadDir = "brand-upload/" + brand.getId() + "/";
 
-			brand.setImage("/brand-upload/" + fileName);
+			String featuredImg = brand.getId() + ".jpg";
 
-			saveFile(uploadDir, fileName, file);
+			brand.setImage("/" + uploadDir + featuredImg);
+
+			saveFile(uploadDir, featuredImg, file);
 
 			brandService.save(brand);
 
 			System.out.println("Brand added successfully.");
-
+			model.addAttribute("alert", "success");
 		} catch (Exception e) {
-			System.out.println(e);
+			model.addAttribute("alert", "error");
 		}
 		return adminPageBrands(model);
 	}
 
 	@PostMapping("/saveProduct")
-	public String saveProduct(Model model, @RequestParam("productImg") MultipartFile file,
-			@RequestParam(value = "sale", required = false) boolean sale, @ModelAttribute("product") Product product) {
+	public String saveProduct(Model model, @RequestParam("product_img") MultipartFile file,
+			@ModelAttribute("product") Product product) {
 		try {
 			product = productService.save(product);
 
-			String fileName = product.getId() + ".png";
-			String uploadDir = "product-upload/";
+			String uploadDir = "product-upload/" + product.getId() + "/";
 
-			product.setImage("/product-upload/" + fileName);
-			product.setSale(sale);
+			String fileName = product.getId() + ".jpg";
+
+			product.setFeaturedImage("/" + uploadDir + fileName);
+			product.setFinal_price();
 			productService.save(product);
 
 			saveFile(uploadDir, fileName, file);
 
-			System.out.println("Product added successfully.");
-
+			System.out.println("Product saved successfully.");
+			model.addAttribute("alert", "success");
 		} catch (Exception e) {
-			System.out.println(e);
+			model.addAttribute("alert", "error");
 		}
 		return adminPageProducts(model);
 	}
 
 	/* EDIT */
-
-	@RequestMapping("/editAdmin")
-	public String editAdmin(Model model, @Param("id") int id) {
-		return toSaveAdminPage(model, adminService.findAdminById(id));
-	}
 
 	@RequestMapping("/editUser")
 	public String editUser(Model model, @Param("id") int id) {
@@ -187,35 +180,45 @@ public class AdminController {
 
 	/* DELETE */
 
-	@GetMapping("/deleteAdmin/{id}")
-	public String deleteAdmin(@PathVariable("id") Long id, Model model) {
-		adminService.delete(id);
-		return adminPageAdmins(model);
-	}
-
 	@GetMapping("/deleteUser/{id}")
 	public String deleteUser(@PathVariable("id") Long id, Model model) {
-		userService.delete(id);
+		try {
+			userService.delete(id);
+			model.addAttribute("alert", "success");
+		} catch (Exception e) {
+			model.addAttribute("alert", "error");
+		}
 		return adminPageUsers(model);
 	}
 
 	@GetMapping("/deleteProduct/{id}")
 	public String deleteProduct(@PathVariable("id") Long id, Model model) {
-		productService.delete(id);
+		try {
+			productService.delete(id);
+			model.addAttribute("alert", "success");
+		} catch (Exception e) {
+			model.addAttribute("alert", "error");
+		}
 		return adminPageProducts(model);
 	}
 
 	@GetMapping("/deleteBrand/{id}")
 	public String deleteBrand(@PathVariable("id") Long id, Model model) throws IOException {
 
-		Brand brand = brandService.findBrandById(id);
+		try {
+			Brand brand = brandService.findBrandById(id);
 
-		for (Product product : productService.getProductsByBrand(brand.getName())) {
-			deleteProduct(product.getId(), model);
+			for (Product product : productService.getProductsByBrand(brand.getName())) {
+				deleteProduct(product.getId(), model);
+			}
+
+			deleteFile(brand.getImage());
+			brandService.delete(id);
+			model.addAttribute("alert", "success");
+		} catch (Exception e) {
+			model.addAttribute("alert", "error");
+
 		}
-
-		deleteFile(brand.getImage());
-		brandService.delete(id);
 		return adminPageBrands(model);
 	}
 
@@ -242,17 +245,20 @@ public class AdminController {
 
 	/* DELETE IMAGE METHOD */
 
-	private void deleteFile(String img) throws IOException {
-		StringBuilder stringBuilder = new StringBuilder(img);
-		stringBuilder.deleteCharAt(0);
+	private void deleteFile(String imgPath) throws IOException {
+		String[] part = imgPath.split("/");
+		imgPath = part[1] + "/" + part[2] + "/";
+		File file = new File(imgPath);
+		deleteDirectory(file);
+		file.delete();
+	}
 
-		img = stringBuilder.toString();
-
-		Path path = Paths.get(img);
-		if (Files.deleteIfExists(path)) {
-			System.out.println("Delete Image Successfully");
-		} else {
-			System.out.println("Fail To Delete Image");
+	private void deleteDirectory(File file) {
+		for (File subfile : file.listFiles()) {
+			if (subfile.isDirectory()) {
+				deleteDirectory(subfile);
+			}
+			subfile.delete();
 		}
 	}
 

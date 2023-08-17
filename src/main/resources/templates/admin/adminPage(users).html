@@ -18,6 +18,8 @@
 	<link href="/css/sidebar_nav_min.css" rel="stylesheet">
 	<!-- animation CSS -->
 	<link href="/css/animate.css" rel="stylesheet">
+	<!-- toast CSS -->
+	<link rel="stylesheet" href="/css/jquery.toast.css">
 	<!-- Custom CSS -->
 	<link href="/css/style.css" rel="stylesheet">
 	<!-- color CSS -->
@@ -29,7 +31,7 @@
 	<style>
 		form {
 			position: sticky;
-			top: 10px;
+			top: 10%;
 		}
 	</style>
 </head>
@@ -55,7 +57,7 @@
 				</div>
 				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
 					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
-								class="ti-menu icon-arrow-left-circle"></i></a></li>
+								class="ti-menu"></i></a></li>
 					<li>
 						<h4 class="page-title">Data Table</h4>
 					</li>
@@ -75,7 +77,7 @@
 							<img src="/image/avatar.png" alt="user-img" class="img-circle">
 						</div>
 						<a href="#" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button"
-							aria-haspopup="true" aria-expanded="false" th:text="${session.admin.username}">
+							aria-haspopup="true" aria-expanded="false" th:text="${session.user.username}">
 							Steave Gection
 							<span class="caret"></span>
 						</a>
@@ -86,33 +88,33 @@
 				</div>
 				<ul class="wp-side-menu">
 					<li>
-						<a href="/adminPage/admins">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">Admins</span>
-						</a>
-					</li>
-					<li>
 						<a href="/adminPage/users">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">Users</span>
+							<img src="/image/users-icon.png" alt="user icon" loading="lazy">
+							<span class="hide-menu  m-l-5">Users</span>
 						</a>
 					</li>
 					<li>
 						<a href="/adminPage/products">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">Products</span>
+							<img src="/image/products-icon.png" alt="products icon" loading="lazy">
+							<span class="hide-menu  m-l-5">Products</span>
 						</a>
 					</li>
 					<li>
 						<a href="/adminPage/brands">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">brands</span>
+							<img src="/image/brands-icon.png" alt="brands icon" loading="lazy">
+							<span class="hide-menu  m-l-5">Brands</span>
 						</a>
 					</li>
 					<li>
 						<a href="/adminPage/orders">
-							<i class="fa fa-circle-o text-success"></i>
-							<span class="hide-menu">History Order</span>
+							<img src="/image/orders-icon.png" alt="orders icon" loading="lazy">
+							<span class="hide-menu  m-l-5">History Order</span>
+						</a>
+					</li>
+					<li>
+						<a href="/adminPage/contacts">
+							<img src="/image/contacts-icon.png" alt="contacts icon" loading="lazy">
+							<span class="hide-menu  m-l-5">Contacts</span>
 						</a>
 					</li>
 				</ul>
@@ -145,8 +147,12 @@
 										<tr>
 											<th>N.o</th>
 											<th>Username</th>
-											<th>Password</th>
+											<th>Full Name</th>
+											<th>Phone</th>
+											<th>Email</th>
+											<th>Date Of Birth</th>
 											<th>Address</th>
+											<th>Type</th>
 											<th>Function</th>
 										</tr>
 									</thead>
@@ -154,8 +160,12 @@
 										<tr th:each="user,object :${users}">
 											<td th:text="${object.index+1}">1</td>
 											<td th:text="${user.username}">latuan2710</td>
-											<td th:text="${user.password}">tuan124</td>
-											<td th:text="${user.address}">89,D12, Phu Tan, Thu Dau Mot, Binh Duong</td>
+											<td th:text="${user.fullName}">La Anh Tuan</td>
+											<td th:text="${user.phone}">0967843879</td>
+											<td th:text="${user.email}">tuan.la.cit19@eiu.edu.vn</td>
+											<td th:text="${user.dateOfBirth}">27/10/2001</td>
+											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau Mot, Binh Duong</td>
+											<td th:text="${user.type}">user</td>
 											<td>
 												<a th:href="@{/editUser(id=${user.id})}"
 													class="btn btn-outline-warning">Edit</a>
@@ -193,17 +203,18 @@
 		<script src="/js/custom_min.js"></script>
 		<script src="/js/jquery_dataTables_min.js"></script>
 		<script src="/js/scripts.js"></script>
+		<script src="/js/jquery.toast.js"></script>
 	</div>
 
-	<script>
+	<script th:inline="javascript">
 		$('#users').dataTable({
 			"columnDefs": [{
-				"targets": 4,
+				"targets": 8,
 				"orderable": false
 			}]
 		});
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(2)").addClass("selected")
+			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
 		function delete_confirm(data_id) {
 			let text = "This account will be permanently deleted";
@@ -230,6 +241,7 @@
 		function confirm(id) {
 			location.href = "/deleteUser/" + id
 		}
+		alert_action(/*[[${alert}]]*/)
 	</script>
 </body>
 

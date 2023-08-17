@@ -18,27 +18,17 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private int quantity;
-	private double cost;
-	private double totalCost;
-	private String product;
 	private String username;
-	private boolean isbuyed = false;
-	private String image;
+	private boolean status = false;
 	@CurrentTimestamp
-	private LocalDateTime time;
+	private LocalDateTime createdDateTime;
 
-	public Order() {
+	public Order(String username, boolean status) {
+		this.username = username;
+		this.status = status;
 	}
 
-	public Order(String user, String products, int quantity, double cost, String image) {
-		super();
-		this.product = products;
-		this.username = user;
-		this.quantity = quantity;
-		this.cost = cost;
-		this.image = image;
-		setTotalCost(cost);
+	public Order() {
 	}
 
 	public long getId() {
@@ -49,47 +39,6 @@ public class Order {
 		this.id = id;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public double getCost() {
-		return cost;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
-
-	public String getTime() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-		return time.format(format);
-	}
-
-	public void setTime(LocalDateTime time) {
-		this.time = time;
-	}
-
-	public boolean isIsbuyed() {
-		return isbuyed;
-	}
-
-	public void setIsbuyed(boolean isbuyed) {
-		this.isbuyed = isbuyed;
-	}
-
-	public String getProduct() {
-		return product;
-	}
-
-	public void setProduct(String product) {
-		this.product = product;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -98,28 +47,21 @@ public class Order {
 		this.username = username;
 	}
 
-	public double getTotalCost() {
-		return totalCost;
+	public boolean getStatus() {
+		return status;
 	}
 
-	public void setTotalCost(double totalCost) {
-		this.totalCost = cost * quantity;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
-	public void setCost(double cost) {
-		this.cost = cost;
+	public String getCreatedDateTime() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		return createdDateTime.format(format);
 	}
 
-	public String getImage() {
-		return image;
+	public void setCreatedDateTime(LocalDateTime createdDateTime) {
+		this.createdDateTime = createdDateTime;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	@Override
-	public String toString() {
-		return "Order [time=" + time + ", product=" + product + ", user=" + username + "]";
-	}
 }

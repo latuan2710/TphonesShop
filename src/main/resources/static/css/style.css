@@ -1801,7 +1801,7 @@ table.dataTable thead .sorting:after {
 	margin: 0 0 12px;
 	font-weight: 500;
 	text-transform: uppercase;
-	font-size: 14px;
+	font-size: 18px;
 }
 
 .panel {
@@ -4313,6 +4313,7 @@ ul.common li a:hover {
 .table>thead>tr>td,
 .table>thead>tr>th {
 	padding: 15px 8px;
+	vertical-align: middle;
 }
 
 .table-bordered>tbody>tr>td,
@@ -20444,14 +20445,17 @@ a.fc-event:not([href]):not([tabindex]) {
 	}
 }
 
+ul.wp-side-menu img {
+    width: 20px;
+    height: 20px;
+}
+
 #users tr>th:nth-child(1),
 #users tr>td:nth-child(1),
 #products tr>th:nth-child(1),
 #products tr>td:nth-child(1),
 #products tr>th:nth-child(2),
 #products tr>td:nth-child(2),
-#products tr>th:nth-child(4),
-#products tr>td:nth-child(4),
 #products tr>th:nth-child(5),
 #products tr>td:nth-child(5),
 #brands tr>th:nth-child(1),
@@ -20461,14 +20465,6 @@ a.fc-event:not([href]):not([tabindex]) {
 #orders tr>th:nth-child(4),
 #orders tr>td:nth-child(4) {
 	text-align: center;
-}
-
-#admins tr>td:last-child,
-#users tr>td:last-child,
-#brands tr>td:last-child,
-#products tr>td:last-child {
-	display: flex;
-	gap: 5px
 }
 
 #products tr>td:nth-child(2),
@@ -20506,10 +20502,4 @@ a.fc-event:not([href]):not([tabindex]) {
 	display: inline-block;
 	background-color: rgb(221, 107, 85);
 	box-shadow: rgba(221, 107, 85, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
-}
-
-@media only screen and (max-width: 991px) {
-	.form-container {
-		display: none;
-	}
 }

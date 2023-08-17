@@ -1,6 +1,8 @@
 package TphonesShop.model;
 
-import TphonesShop.security.PasswordSecurity;
+import java.sql.Date;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,20 +18,17 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
 	private long id;
-	private String address;
 	private String username;
 	private String password;
+	private String fullName;
+	private String phone;
 	private String email;
+	private String address;
+	private Date dateOfBirth;
+	private boolean status = true;
+	private String type;
 
 	public User() {
-	}
-
-	public User(String address, String username, String password, String email) {
-		super();
-		this.address = address;
-		this.username = username;
-		setPassword(password);
-		this.email = email;
 	}
 
 	public long getId() {
@@ -38,14 +37,6 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getUsername() {
@@ -57,13 +48,27 @@ public class User {
 	}
 
 	public String getPassword() {
-		PasswordSecurity passwordSecurity = new PasswordSecurity();
-		return passwordSecurity.decode(this.password);
+		return password;
 	}
 
 	public void setPassword(String password) {
-		PasswordSecurity passwordSecurity = new PasswordSecurity();
-		this.password = passwordSecurity.encode(password);
+		this.password = password;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getEmail() {
@@ -74,9 +79,36 @@ public class User {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "user:" + id;
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
