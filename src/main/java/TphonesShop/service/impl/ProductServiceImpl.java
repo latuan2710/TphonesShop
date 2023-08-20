@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import TphonesShop.model.Product;
 import TphonesShop.repository.ProductRepository;
@@ -22,7 +23,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product findProductById(long id) {
-		// TODO Auto-generated method stub
 		return productRepository.findById(id);
 	}
 
@@ -38,12 +38,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public List<Product> getProductsByBrand(String brand_name) {
 		return productRepository.getProductsByBrand(brand_name);
 	}
 
 	@Override
+	@Transactional
 	public Product findProductByName(String name) {
-		return productRepository.findBynameProduct(name);
+		return productRepository.findByName(name);
+	}
+
+	@Override
+	public List<Product> searchProducts(String key) {
+		return productRepository.searchProducts(key);
 	}
 }

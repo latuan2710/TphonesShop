@@ -15,7 +15,7 @@ $(window).ready(function () {
 				allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`)
 	updateCart()
 	$("#ProductPhotoImg").height($(".single-product-content").height() + "px")
-	
+
 	$.post("/getBrandList", function (data) {
 		let str = "";
 		data.forEach(brand => {
@@ -66,32 +66,6 @@ function product_carousel(id) {
 		if (!isDown) return;
 		this.scrollLeft -= (e.clientX - startX);
 		startX = e.clientX;
-	})
-}
-
-function alert_send_contact() {
-	function alert() {
-		$("body").append(`
-				          <div class="modal fade ajax-popup show" id="modalAddToCart" tabindex="-1" role="dialog">
-				        <div class="modal-dialog white-modal modal-md">
-				          <div class="modal-content">
-				            <div class="modal-body">
-				              <div class="modal-content-text">
-				                <span class="productmsg"></span>
-				                <span class="success-message">Send message successfully!</span>
-				              </div>	
-				              <div class="modal-close">
-				                <button type="button" class="close"><i
-				                    class="ion-close"></i></button>
-				              </div>
-				            </div>
-				          </div>
-				        </div>
-				      </div>`)
-	}
-	alert();
-	$('.close').click(() => {
-		$("#modalAddToCart").remove();
 	})
 }
 
@@ -168,7 +142,60 @@ function updateCart() {
 function removeCart(id) {
 	$.post('/remove-cart', { id: id }, function (data) {
 		if (data) {
-			updateCart()
+			location.reload()
 		}
 	})
+}
+
+function alert_action(alert_action) {
+	if (alert_action == 'true') {
+		$.toast({
+			heading: 'Successfully!',
+			position: 'top-right',
+			loaderBg: '#ff6849',
+			icon: 'success',
+			hideAfter: 3500,
+			stack: 6
+		});
+	} else if (alert_action == 'false') {
+		$.toast({
+			heading: 'Error',
+			position: 'top-right',
+			loaderBg: '#ff6849',
+			icon: 'error',
+			hideAfter: 3500
+		});
+	}
+	localStorage.removeItem('alert-action')
+}
+
+function search(e) {
+	let key = $(e).val();
+	console.log(key);
+	if (key == "") {
+		$("ul.search-results").addClass("d-none")
+	} else {
+		$.post("/search", { key: key }, function (data) {
+			if (data != "") {
+				$("ul.search-results").removeClass("d-none")
+				let str = ""
+				let i = 0;
+				data.forEach(product => {
+					str += `
+					<li>
+						<a href="/product/${product.name}">
+							<span class="img-container">
+								<img src="/product-upload/${product.id}/${product.id}.jpg"
+									alt="product-img" loading="lazy">
+							</span>
+							<span class="title">${product.name}</span></a>
+					</li>
+					`
+				});
+				$("ul.search-results").html(str)
+			} else {
+				$("ul.search-results").addClass("d-none")
+			}
+		})
+	}
 }

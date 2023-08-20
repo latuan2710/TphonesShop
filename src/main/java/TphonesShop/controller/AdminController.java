@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import TphonesShop.model.Brand;
+import TphonesShop.model.Contact;
+import TphonesShop.model.OrderDetail;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.ContactService;
+import TphonesShop.service.OrderDetailService;
 import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
 import TphonesShop.service.UserService;
@@ -34,13 +38,15 @@ import jakarta.annotation.Resource;
 public class AdminController {
 
 	@Resource
-	BrandService brandService;
+	UserService userService;
 	@Resource
-	OrderService orderService;
+	BrandService brandService;
 	@Resource
 	ProductService productService;
 	@Resource
-	UserService userService;
+	OrderService orderService;
+	@Resource
+	OrderDetailService orderDetailService;
 	@Resource
 	ContactService contactService;
 
@@ -70,7 +76,7 @@ public class AdminController {
 	}
 
 	@RequestMapping("/adminPage/contacts")
-	public String contactPageOrders(Model model) {
+	public String adminPageContacts(Model model) {
 		model.addAttribute("contacts", contactService.getContactList());
 		return "admin/adminPage(contacts).html";
 	}
@@ -180,10 +186,13 @@ public class AdminController {
 
 	/* DELETE */
 
-	@GetMapping("/deleteUser/{id}")
+	@GetMapping("/disable/{id}")
 	public String deleteUser(@PathVariable("id") Long id, Model model) {
 		try {
-			userService.delete(id);
+			User user = userService.findUserById(id);
+			user.setStatus(!user.isStatus());
+			userService.save(user);
+
 			model.addAttribute("alert", "success");
 		} catch (Exception e) {
 			model.addAttribute("alert", "error");
@@ -194,8 +203,15 @@ public class AdminController {
 	@GetMapping("/deleteProduct/{id}")
 	public String deleteProduct(@PathVariable("id") Long id, Model model) {
 		try {
-			productService.delete(id);
-			model.addAttribute("alert", "success");
+			List<OrderDetail> orderDetails = orderDetailService.getOrdersByProuctId(id);
+
+			if (orderDetails.isEmpty()) {
+				productService.delete(id);
+				model.addAttribute("alert", "success");
+			} else {
+				model.addAttribute("alert", "warning");
+			}
+
 		} catch (Exception e) {
 			model.addAttribute("alert", "error");
 		}
@@ -208,18 +224,34 @@ public class AdminController {
 		try {
 			Brand brand = brandService.findBrandById(id);
 
-			for (Product product : productService.getProductsByBrand(brand.getName())) {
-				deleteProduct(product.getId(), model);
-			}
+			List<Product> products = productService.getProductsByBrand(brand.getName());
 
-			deleteFile(brand.getImage());
-			brandService.delete(id);
+			if (products.isEmpty()) {
+				deleteFile(brand.getImage());
+				brandService.delete(id);
+				model.addAttribute("alert", "success");
+			} else {
+				model.addAttribute("alert", "warning");
+			}
+		} catch (Exception e) {
+			model.addAttribute("alert", "error");
+		}
+		return adminPageBrands(model);
+	}
+
+	@GetMapping("/processContact/{id}")
+	public String contactProcess(@PathVariable("id") long id, Model model) {
+
+		try {
+			Contact contact = contactService.findContactById(id);
+			contact.setStatus(!contact.getStatus());
+			contactService.save(contact);
 			model.addAttribute("alert", "success");
 		} catch (Exception e) {
 			model.addAttribute("alert", "error");
-
 		}
-		return adminPageBrands(model);
+
+		return adminPageContacts(model);
 	}
 
 	/* SAVE IMAGE METHOD */

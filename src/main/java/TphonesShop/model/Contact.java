@@ -25,7 +25,7 @@ public class Contact {
 	private String message;
 	@CurrentTimestamp
 	private LocalDateTime createdDateTime;
-	private String status = "new";
+	private boolean status = false;
 
 	public Contact() {
 	}
@@ -87,11 +87,11 @@ public class Contact {
 		this.createdDateTime = createdDateTime;
 	}
 
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 

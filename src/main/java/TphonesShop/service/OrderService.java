@@ -7,7 +7,9 @@ import TphonesShop.model.Order;
 public interface OrderService {
     public List<Order> getOrderList();
 
-    public List<Order> getOrders(boolean status, String username);
+    public List<Order> getHistoryOrders(String username);
+
+    public Order getCart(String username);
 
     public Order findOrderById(long id);
 

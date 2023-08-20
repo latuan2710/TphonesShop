@@ -63,7 +63,10 @@
 								<div class="row">
 									<div class="col-sm-6 ol-md-6 col-xs-12">
 										<div class="white-box">
-											<label for="input-file-now">Upload your product image here</label>
+											<label th:if="${product.id==0}" for="input-file-now">Upload your product
+												image here</label>
+											<label th:if="${product.id!=0}" for="input-file-now">Click image to
+												change</label>
 											<div class="dropify-wrapper">
 												<div class="dropify-message">
 													<span class="file-icon"></span>

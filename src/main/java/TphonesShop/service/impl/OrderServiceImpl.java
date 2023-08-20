@@ -37,8 +37,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrders(boolean status, String username) {
-		return orderRepository.getOrders(status, username);
+	public List<Order> getHistoryOrders(String username) {
+		return orderRepository.getHistoryOrders(username);
+	}
+
+	@Override
+	public Order getCart(String username) {
+		return orderRepository.getCart(username);
 	}
 
 }

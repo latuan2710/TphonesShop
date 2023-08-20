@@ -1,0 +1,217 @@
+﻿.logo a {
+  max-width: 215px;
+}
+
+.logo-sticky a {
+  max-width: 215px;
+}
+
+.header-top-area {
+  background: #ffffff;
+}
+
+.header-top-menu li > span,
+.header-top-left > span,
+.header-top-menu > li > a {
+  color: #333333;
+}
+
+.header-top-menu li:hover > span,
+.header-top-area.header-style-2 .ht-dropdown > li > a:hover,
+.currency-trigger:hover,
+.header-top-menu > li a:hover,
+.switcher-currency-trigger a:hover:not([href]):not([tabindex]),
+.switcher-currency-trigger .currency__item.active a {
+  color: #3ea89f;
+}
+
+.header-top-menu > li {
+  border-left-color: #333333;
+}
+
+.header-middle-area {
+  background: #ffffff;
+}
+
+.main-menu li a,
+.header-phone > p {
+  color: #444444;
+}
+
+.main-menu li.active > a,
+.main-menu li:hover > a {
+  color: #ff6a00;
+}
+
+.header-bottom-area.header-style-2 {
+  background: #613f99;
+}
+
+.header-bottom-area.header-style-2 {
+  border-bottom-color: #442674;
+}
+
+.header-middle-area.header-style-2 .search-categories > form button {
+  background: #3ea89f;
+  border-bottom-color: #2c8e86 !important;
+}
+
+.header-middle-area.header-style-2 .search-categories > form button:hover {
+  background: #613f99;
+  border-bottom-color: #442674 !important;
+}
+
+.header-middle-area.header-style-2 .mini-cart > a .cart-total {
+  background: #613f99;
+}
+
+.header-middle-area.header-style-2 .checkout > a:hover,
+.header-middle-area.header-style-2 .cart-sticker {
+  background: #613f99;
+}
+
+.header-middle-area.header-style-2 .cart-content a:hover {
+  color: #613f99;
+}
+
+.header-bottom-area.header-style-2 .main-menu > li > a {
+  color: #ffffff;
+}
+
+.header-bottom-area.header-style-2 .main-menu > li.active > a,
+.header-bottom-area.header-style-2 .main-menu > li > a:hover {
+  color: #3ea89f;
+}
+
+.header-style-2 .main-menu li a,
+.mega-menu > li > ul > li > a,
+.dropdown > li > a {
+  color: #444444;
+}
+
+.header-style-2 .main-menu li:hover > a,
+.header-bottom-area.header-style-2 .mega-menu > li > ul > li > a:hover {
+  color: #3ea89f;
+}
+
+#main-header {
+  background: #ffffff no-repeat scroll center center / cover;
+}
+
+#main-header .hero-slider-content > h2,
+#main-header .hero-slider-content > h4,
+#main-header .hero-slider-content > h1 {
+  text-transform: uppercase;
+}
+
+#main-header .single-slider {
+  height: 460px;
+}
+
+#block-intro-2 .banner-inner.banner-style-2.mb-30 {
+  margin-bottom: 30px;
+}
+
+#block-intro-3 .banner-inner.banner-style-2.mb-30 {
+  margin-bottom: 30px;
+}
+
+#block-intro-0 .hero-slider-content .slow-animation1 {
+  color: #ffffff;
+}
+
+#block-intro-0 .hero-slider-content .slow-animation2 {
+  color: #ffffff;
+}
+
+#block-intro-0 .hero-slider-content h4 {
+  color: #ffffff;
+}
+
+#block-intro-0 .hero-slider-content h1 {
+  color: #ffffff;
+}
+
+#block-intro-0 .hero-slider-content .slider-btn a {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+#block-intro-0 .hero-slider-content .slider-btn a:hover {
+  color: #ffffff;
+  background: #613f99;
+  border-color: #613f99;
+}
+
+#block-intro-0 .hero-slider-content .slow-animation1 span,
+#block-intro-0
+  .hero-slider-content
+  .slow-animation2
+  span
+  #block-intro-0
+  .hero-slider-content
+  h4
+  span,
+#block-intro-0 .hero-slider-content h1 span {
+  color: #ff6a00;
+}
+
+#block-intro-1 .hero-slider-content .slow-animation1 {
+  color: #ffffff;
+}
+
+#block-intro-1 .hero-slider-content .slow-animation2 {
+  color: #ffffff;
+}
+
+#block-intro-1 .hero-slider-content h4 {
+  color: #ffffff;
+}
+
+#block-intro-1 .hero-slider-content h1 {
+  color: #ffffff;
+}
+
+#block-intro-1 .hero-slider-content .slider-btn a {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+#block-intro-1 .hero-slider-content .slider-btn a:hover {
+  color: #ffffff;
+  background: #613f99;
+  border-color: #613f99;
+}
+
+#block-intro-1 .hero-slider-content .slow-animation1 span,
+#block-intro-1
+  .hero-slider-content
+  .slow-animation2
+  span
+  #block-intro-1
+  .hero-slider-content
+  h4
+  span,
+#block-intro-1 .hero-slider-content h1 span {
+  color: #ff6a00;
+}
+
+#section-footer-info {
+  background: #3ea89f no-repeat scroll center center / cover;
+}
+
+.map iframe {
+  max-height: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #main-header .single-slider {
+    height: 450px;
+  }
+}
+
+@media (max-width: 767px) {
+  #main-header .single-slider {
+    height: 240px;
+  }
+}

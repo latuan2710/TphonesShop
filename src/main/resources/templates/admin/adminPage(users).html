@@ -21,6 +21,7 @@
 	<!-- toast CSS -->
 	<link rel="stylesheet" href="/css/jquery.toast.css">
 	<!-- Custom CSS -->
+	<link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
 	<link href="/css/style.css" rel="stylesheet">
 	<!-- color CSS -->
 	<link href="/css/blue_dark.css" id="theme" rel="stylesheet">
@@ -82,7 +83,16 @@
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu animated flipInY">
-							<li><a href="/logout"><i class="fa fa-power-off"></i>Logout</a></li>
+							<li>
+								<a href="/account"><i class="ti-user m-r-10"></i>My Profile</a>
+							</li>
+							<li>
+								<a href="/cart"><i class="ti-shopping-cart m-r-10"></i>My Cart</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="/logout"><i class="fa fa-power-off m-r-10"></i>Logout</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -164,14 +174,15 @@
 											<td th:text="${user.phone}">0967843879</td>
 											<td th:text="${user.email}">tuan.la.cit19@eiu.edu.vn</td>
 											<td th:text="${user.dateOfBirth}">27/10/2001</td>
-											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau Mot, Binh Duong</td>
+											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau
+												Mot, Binh Duong</td>
 											<td th:text="${user.type}">user</td>
 											<td>
 												<a th:href="@{/editUser(id=${user.id})}"
-													class="btn btn-outline-warning">Edit</a>
-												<a href="javascript:void(0)"
-													th:onclick="'delete_confirm('+${user.id}+');'"
-													class="btn btn-outline-danger">Delete</a>
+													class="btn btn-outline-warning m-r-5">Edit</a>
+												<a th:href="'/disable/'+${user.id}" class="btn"
+													th:classappend="${user.status} ? 'btn-danger' : 'btn-success'"
+													th:text="${user.status} ? 'Disable' : 'Active' "></a>
 											</td>
 										</tr>
 									</tbody>
@@ -216,31 +227,31 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
-		function delete_confirm(data_id) {
-			let text = "This account will be permanently deleted";
-			$("body").append(`
-			<div class="sweet-overlay"></div>
-	<div class="sweet-alert showSweetAlert visible">
-		<div class="sa-icon sa-warning pulseWarning">
-			<span class="sa-body pulseWarningIns"></span>
-			<span class="sa-dot pulseWarningIns"></span>
-		</div>
-		<h2>Are you sure?</h2>
-		<p>${text}</p>
-		<div class="sa-button-container">
-			<div class="sa-confirm-button-container">
-				<button onclick='confirm(${data_id})' class="confirm">
-					Yes,delete it!
-				</button>
-			</div>
-			<button onclick='cancel()' class="cancel">Cancel</button>
-		</div>
-	</div>
-			`)
-		}
-		function confirm(id) {
-			location.href = "/deleteUser/" + id
-		}
+		// 	function delete_confirm(data_id) {
+		// 		let text = "This account will be permanently deleted";
+		// 		$("body").append(`
+		// 		<div class="sweet-overlay"></div>
+		// <div class="sweet-alert showSweetAlert visible">
+		// 	<div class="sa-icon sa-warning pulseWarning">
+		// 		<span class="sa-body pulseWarningIns"></span>
+		// 		<span class="sa-dot pulseWarningIns"></span>
+		// 	</div>
+		// 	<h2>Are you sure?</h2>
+		// 	<p>${text}</p>
+		// 	<div class="sa-button-container">
+		// 		<div class="sa-confirm-button-container">
+		// 			<button onclick='confirm(${data_id})' class="confirm">
+		// 				Yes,delete it!
+		// 			</button>
+		// 		</div>
+		// 		<button onclick='cancel()' class="cancel">Cancel</button>
+		// 	</div>
+		// </div>
+		// 		`)
+		// 	}
+		// 	function confirm(id) {
+		// 		location.href = "/deleteUser/" + id
+		// 	}
 		alert_action(/*[[${alert}]]*/)
 	</script>
 </body>

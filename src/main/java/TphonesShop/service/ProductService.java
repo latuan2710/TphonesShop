@@ -9,6 +9,8 @@ public interface ProductService {
 
 	public List<Product> getProductsByBrand(String brand_name);
 
+	public List<Product> searchProducts(String key);
+
 	public Product findProductById(long id);
 
 	public Product findProductByName(String name);

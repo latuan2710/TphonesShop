@@ -33,5 +33,15 @@ function alert_action(alert) {
 			icon: 'error',
 			hideAfter: 3500
 		});
+	} else if (alert == "warning") {
+		$.toast({
+			heading: 'Warning',
+			text: 'You can not delete this!',
+			position: 'top-right',
+			loaderBg: '#ff6849',
+			icon: 'warning',
+			hideAfter: 3500,
+			stack: 6
+		});
 	}
 }

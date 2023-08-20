@@ -58,19 +58,21 @@
 							<form class="form-horizontal" th:object="${saveUser}"
 								th:action="@{'/saveUser/'+${saveUser.id}}" enctype="multipart/form-data" method="post">
 								<div class="row">
-									<div class="col-12 form-group">
+									<div class="col-md-6 col-12 form-group">
 										<label for="username" class="col-md-12">Username</label>
 										<div class="col-md-12">
-											<input id="username" th:field="*{username}" type="text" class="form-control"
-												name="username">
+											<input id="username" th:readonly="${saveUser.id!=0}" th:field="*{username}"
+												type="text" class="form-control" name="username">
 										</div>
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-md-6 col-12 form-group"
+										th:classappend="${saveUser.id != 0} ? 'd-none'">
 										<label for="password" class="col-md-12">Password</label>
 										<div class="col-md-12">
 											<div class="input-group">
 												<input type="password" class="form-control" id="password"
-													th:value="${saveUser.getPassword()}" name="password">
+													th:value="${saveUser.getPassword()}" name="password"
+													th:readonly="${saveUser.id!=0}">
 												<button type="button" class="input-group-addon" id="basic-addon2"
 													onclick="showPass()">
 													<i class="fa fa-eye-slash"></i>
@@ -78,41 +80,41 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-md-6 col-12 form-group">
 										<label for="fullName" class="col-md-12">Full Name</label>
 										<div class="col-md-12">
 											<input id="fullName" th:field="*{fullName}" type="text"
 												class="form-control">
 										</div>
 									</div>
-									<div class="col-12 form-group">
-										<label for="phone" class="col-md-12">Phone</label>
-										<div class="col-md-12">
-											<input id="phone" th:field="*{phone}" type="text" class="form-control">
-										</div>
-									</div>
-									<div class="col-12 form-group">
-										<label for="email" class="col-md-12">Email</label>
-										<div class="col-md-12">
-											<input id="email" th:field="*{email}" type="email" class="form-control"
-												name="email">
-										</div>
-									</div>
-									<div class="col-12 form-group">
+									<div class="col-md-6 col-12 form-group">
 										<label for="birth" class="col-md-12">Date Of Birth</label>
 										<div class="col-md-12">
 											<input id="birth" th:field="*{dateOfBirth}" type="date"
 												class="form-control">
 										</div>
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-md-6 col-12 form-group">
+										<label for="phone" class="col-md-12">Phone</label>
+										<div class="col-md-12">
+											<input id="phone" th:field="*{phone}" type="text" class="form-control">
+										</div>
+									</div>
+									<div class="col-md-6 col-12 form-group">
+										<label for="email" class="col-md-12">Email</label>
+										<div class="col-md-12">
+											<input id="email" th:field="*{email}" type="email" class="form-control"
+												name="email">
+										</div>
+									</div>
+									<div class="col-md-6 col-12 form-group">
 										<label for="address" class="col-md-12">Address</label>
 										<div class="col-md-12">
 											<input id="address" th:field="*{address}" type="text" class="form-control"
 												name="address">
 										</div>
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-md-6 col-12 form-group">
 										<label for="type" class="col-md-12">Type</label>
 										<div class="col-md-12">
 											<select class="form-control" id="type" th:field="*{type}">
@@ -142,11 +144,6 @@
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
 	<script th:inline="javascript">
-		var user_id = /*[[${saveUser.id}]]*/ 'user_id';
-		if(user_id!=0){
-			$('#username').attr("readonly",'')
-			$('#password').attr("readonly",'')
-		}
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})

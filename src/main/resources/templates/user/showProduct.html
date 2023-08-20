@@ -140,9 +140,11 @@
 											<!-- For Unit Price  -->
 										</div>
 										<div class="product-inventory">
-											<span class="inventory-title">Availability:</span> <span
-												class="variant-inventory">[(${product.quantity})] left in
-												stock</span>
+											<span class="inventory-title">Availability:</span>
+											<span class="variant-inventory">
+												<span id="quantity-product">[(${product.quantity})]</span>
+												left in stock
+											</span>
 										</div>
 										<div class="product-info">
 											<p th:text="${product.summary}">
@@ -157,7 +159,8 @@
 											</div>
 											<div class="add">
 												<button type="submit" class="add-to-cart" id="AddToCart"
-													th:data-name="${product.name}" th:data-id="${product.id}">
+													th:disabled="${product.quantity==0}" th:data-name="${product.name}"
+													th:data-id="${product.id}">
 													Add to cart
 												</button>
 											</div>
@@ -165,9 +168,9 @@
 										<div class="direct-buy-button">
 											<div data-shopify="payment-button" data-has-selling-plan="false"
 												data-has-fixed-selling-plan="false" class="shopify-payment-button">
-												<button type="button" class="shopify-payment-button__button--unbranded"
-													id="buy-now" th:data-name="${product.name}"
-													th:data-id="${product.id}">
+												<button type="button" th:disabled="${product.quantity==0}"
+													class="shopify-payment-button__button--unbranded" id="buy-now"
+													th:data-name="${product.name}" th:data-id="${product.id}">
 													Buy it now
 												</button>
 											</div>
@@ -215,6 +218,39 @@
 		</footer>
 		<!--Footer Area End-->
 		<script th:inline="javascript">
+
+			$("#AddToCart").click(function () {
+				$.post('/add-to-cart',
+					{
+						product_id: $(this).attr('data-id'),
+						quantity: $('input[name="quantity"]').val()
+					},
+					function (data) {
+						if (data) {
+							localStorage.setItem("alert-action", data);
+							location.reload()
+						} else {
+							location.href='/login'
+						}
+					})
+			});
+
+			$("#buy-now").click(function () {
+				$.post('/buy-now',
+					{
+						product_id: $(this).attr('data-id'),
+						quantity: $('input[name="quantity"]').val()
+					},
+					function (data) {
+						if (data) {
+							localStorage.setItem("alert-action", data);
+							location.reload()
+						} else {
+							location.href='/login'
+						}
+					})
+			});
+			alert_action(localStorage.getItem("alert-action"));
 
 		</script>
 </body>

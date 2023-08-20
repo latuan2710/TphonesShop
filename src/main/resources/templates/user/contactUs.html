@@ -162,11 +162,7 @@
 				event.preventDefault();
 				return false;
 			}
-
-			let alert_send =/*[[${alert}]]*/ 'alert';
-			if (alert_send) {
-				alert_send_contact()
-			}
+			alert_action(/*[[${alert}]]*/);
 		</script>
 </body>
 

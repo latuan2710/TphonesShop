@@ -62,19 +62,32 @@
 								<thead>
 									<tr>
 										<th>Time</th>
-										<th>Name</th>
+										<th>Full Name</th>
 										<th>Email</th>
 										<th>Phone</th>
+										<th>Title</th>
 										<th>Message</th>
+										<th>Status</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="contact:${contacts}">
-										<td th:text="${contact.getTime()}">10/10/2020 12:45</td>
-										<td th:text="${contact.name}">latuan2710</td>
-										<td th:text="${contact.email}">Iphone 13 pro max</td>
-										<td th:text="${contact.phone}">092115</td>
+										<td th:text="${contact.getCreatedDateTime()}"></td>
+										<td th:text="${contact.fullName}"></td>
+										<td th:text="${contact.email}"></td>
+										<td th:text="${contact.phone}"></td>
+										<td th:text="${contact.title}"></td>
 										<td th:text="${contact.message}"></td>
+										<td>
+											<span th:text="${contact.status} ? 'processed' : 'new' " class="m-r-5">
+											</span>
+											<span th:if="${!contact.status}">
+												<a th:href=" '/processContact/' + ${contact.id}"
+													class="btn btn-success">
+													Done
+												</a>
+											</span>
+										</td>
 									</tr>
 								</tbody>
 							</table>

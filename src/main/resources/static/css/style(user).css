@@ -3299,6 +3299,10 @@ li.right-menu .cat-mega-menu > li {
   transition: all 0.3s ease-in-out;
 }
 
+.product-img>a>img:hover {
+  transform: scale(0.9);
+}
+
 .product-action {
   position: absolute;
   top: 10px;
@@ -7333,4 +7337,12 @@ h2.entry-title > a:hover {
 
 #modalAddToCart {
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+span.img-container {
+  height: 70px;
+}
+
+span.img-container img {
+  max-height: 100%;
 }

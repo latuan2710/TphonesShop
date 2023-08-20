@@ -11,6 +11,12 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
 
 	OrderDetail findById(long id);
 
-	@Query(value = "SELECT * FROM cse310.order_detail where order_id=?1", nativeQuery = true)
-	public List<OrderDetail> getOrdersByOrderId(long order_id);
+	void deleteByOrderId(long order_id);
+
+	List<OrderDetail> getOrdersByProductId(long product_id);
+
+	List<OrderDetail> getOrdersByOrderId(long order_id);
+
+	@Query(value = "SELECT * FROM cse310.order_detail where order_id=?1 and product_id=?2", nativeQuery = true)
+	OrderDetail getOrdersByProductId(long order_id, long product_id);
 }
