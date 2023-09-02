@@ -55,24 +55,25 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="white-box">
-							<form class="form-horizontal" th:object="${saveUser}"
-								th:action="@{'/saveUser/'+${saveUser.id}}" enctype="multipart/form-data" method="post">
+
+							<form class="form-horizontal" th:object="${saveUser}" onsubmit="return checkForm();"
+								th:action="@{'/saveUser/'+${saveUser.id}}" method="post">
 								<div class="row">
 									<div class="col-md-6 col-12 form-group">
-										<label for="username" class="col-md-12">Username</label>
+										<label for="username" class="col-md-12 required">Username</label>
 										<div class="col-md-12">
 											<input id="username" th:readonly="${saveUser.id!=0}" th:field="*{username}"
-												type="text" class="form-control" name="username">
+												type="text" class="form-control" name="username" required>
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group"
 										th:classappend="${saveUser.id != 0} ? 'd-none'">
-										<label for="password" class="col-md-12">Password</label>
+										<label for="password" class="col-md-12 required">Password</label>
 										<div class="col-md-12">
 											<div class="input-group">
 												<input type="password" class="form-control" id="password"
 													th:value="${saveUser.getPassword()}" name="password"
-													th:readonly="${saveUser.id!=0}">
+													th:readonly="${saveUser.id!=0}" required>
 												<button type="button" class="input-group-addon" id="basic-addon2"
 													onclick="showPass()">
 													<i class="fa fa-eye-slash"></i>
@@ -81,12 +82,13 @@
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group">
-										<label for="fullName" class="col-md-12">Full Name</label>
+										<label for="fullName" class="col-md-12 required">Full Name</label>
 										<div class="col-md-12">
-											<input id="fullName" th:field="*{fullName}" type="text"
-												class="form-control">
+											<input id="fullName" th:field="*{fullName}" type="text" class="form-control"
+												required>
 										</div>
 									</div>
+
 									<div class="col-md-6 col-12 form-group">
 										<label for="birth" class="col-md-12">Date Of Birth</label>
 										<div class="col-md-12">
@@ -95,31 +97,33 @@
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group">
-										<label for="phone" class="col-md-12">Phone</label>
+										<label for="phone" class="col-md-12 required">Phone</label>
 										<div class="col-md-12">
-											<input id="phone" th:field="*{phone}" type="text" class="form-control">
+											<input id="phone" th:field="*{phone}" type="text" class="form-control"
+												required>
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group">
-										<label for="email" class="col-md-12">Email</label>
+										<label for="email" class="col-md-12 required">Email</label>
 										<div class="col-md-12">
 											<input id="email" th:field="*{email}" type="email" class="form-control"
-												name="email">
+												name="email" required>
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group">
-										<label for="address" class="col-md-12">Address</label>
+										<label for="address" class="col-md-12 required">Address</label>
 										<div class="col-md-12">
 											<input id="address" th:field="*{address}" type="text" class="form-control"
-												name="address">
+												name="address" required>
 										</div>
 									</div>
+
 									<div class="col-md-6 col-12 form-group">
 										<label for="type" class="col-md-12">Type</label>
 										<div class="col-md-12">
 											<select class="form-control" id="type" th:field="*{type}">
-												<option value="admin">Admin</option>
 												<option value="user">User</option>
+												<option value="admin">Admin</option>
 											</select>
 										</div>
 									</div>
@@ -131,6 +135,7 @@
 									</div>
 								</div>
 							</form>
+							
 						</div>
 					</div>
 				</div>
@@ -147,6 +152,89 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
+
+		let origin_username = $("#username").val();
+		let origin_email = $("#email").val();
+		let origin_phone = $("#phone").val();
+
+		function checkUsername() {
+			let val = $("#username").val();
+			if (origin_username != val) {
+				$.post("/check/username", { username: val }, function (data) {
+					if (data) {
+						$("#username").addClass("form-control-danger");
+						$("#username").parents(".form-group").addClass("has-danger")
+					} else {
+						$("#username").removeClass("form-control-danger");
+						$("#username").parents(".form-group").removeClass("has-danger")
+					}
+				})
+			} else {
+				$("#phone").removeClass("form-control-danger");
+				$("#phone").parents(".form-group").removeClass("has-danger")
+			}
+		}
+		function checkEmail() {
+			let val = $("#email").val();
+			if (origin_email != val) {
+				$.post("/check/email", { email: val }, function (data) {
+					if (data) {
+						$("#email").addClass("form-control-danger");
+						$("#email").parents(".form-group").addClass("has-danger")
+					} else {
+						$("#email").removeClass("form-control-danger");
+						$("#email").parents(".form-group").removeClass("has-danger")
+					}
+				})
+			} else {
+				$("#phone").removeClass("form-control-danger");
+				$("#phone").parents(".form-group").removeClass("has-danger")
+			}
+		}
+		function checkPhone() {
+			let val = $("#phone").val();
+			if (origin_phone != val) {
+				$.post("/check/phone", { phone: val }, function (data) {
+					if (data) {
+						$("#phone").addClass("form-control-danger");
+						$("#phone").parents(".form-group").addClass("has-danger")
+					} else {
+						$("#phone").removeClass("form-control-danger");
+						$("#phone").parents(".form-group").removeClass("has-danger")
+					}
+				})
+			} else {
+				$("#phone").removeClass("form-control-danger");
+				$("#phone").parents(".form-group").removeClass("has-danger")
+			}
+		}
+
+		$("#username").on("change", checkUsername);
+		$("#email").on("change", checkEmail);
+		$("#phone").on("change", checkPhone);
+
+		function checkForm() {
+			let username = $("#username").hasClass("form-control-danger");
+			let email = $("#email").hasClass("form-control-danger");
+			let phone = $("#phone").hasClass("form-control-danger");
+
+			if (username || email || phone) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		if ($("#birth").val() == '') {
+			var date = new Date();
+			var day = date.getDate();
+			var month = date.getMonth() + 1;
+			var year = date.getFullYear();
+			if (month < 10) month = "0" + month;
+			if (day < 10) day = "0" + day;
+			var today = year + "-" + month + "-" + day;
+			document.getElementById('birth').value = today;
+		}
 	</script>
 </body>
 

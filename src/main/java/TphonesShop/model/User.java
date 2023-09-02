@@ -2,7 +2,6 @@ package TphonesShop.model;
 
 import java.sql.Date;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,14 +17,23 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
 	private long id;
+	@Column(name = "Username", unique = true)
 	private String username;
+	@Column(name = "Password")
 	private String password;
+	@Column(name = "full_name")
 	private String fullName;
+	@Column(name = "phone", unique = true)
 	private String phone;
+	@Column(name = "email", unique = true)
 	private String email;
+	@Column(name = "address")
 	private String address;
+	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
+	@Column(name = "status")
 	private boolean status = true;
+	@Column(name = "type")
 	private String type;
 
 	public User() {
@@ -35,7 +43,7 @@ public class User {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(final long id) {
 		this.id = id;
 	}
 
@@ -43,7 +51,7 @@ public class User {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
@@ -51,7 +59,7 @@ public class User {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
@@ -59,7 +67,7 @@ public class User {
 		return fullName;
 	}
 
-	public void setFullName(String fullName) {
+	public void setFullName(final String fullName) {
 		this.fullName = fullName;
 	}
 
@@ -67,7 +75,7 @@ public class User {
 		return phone;
 	}
 
-	public void setPhone(String phone) {
+	public void setPhone(final String phone) {
 		this.phone = phone;
 	}
 
@@ -75,7 +83,7 @@ public class User {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -83,7 +91,7 @@ public class User {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
@@ -91,7 +99,7 @@ public class User {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setDateOfBirth(final Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -99,7 +107,7 @@ public class User {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(final boolean status) {
 		this.status = status;
 	}
 
@@ -107,7 +115,7 @@ public class User {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 

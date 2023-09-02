@@ -3299,7 +3299,7 @@ li.right-menu .cat-mega-menu > li {
   transition: all 0.3s ease-in-out;
 }
 
-.product-img>a>img:hover {
+.product-img > a > img:hover {
   transform: scale(0.9);
 }
 
@@ -7345,4 +7345,9 @@ span.img-container {
 
 span.img-container img {
   max-height: 100%;
+}
+
+label.required::after {
+  content: "*";
+  color: red;
 }

@@ -7,7 +7,11 @@ import TphonesShop.model.Product;
 public interface ProductService {
 	public List<Product> getProductList();
 
-	public List<Product> getProductsByBrand(String brand_name);
+	public List<Product> getSaleProducts();
+
+	public List<Product> getNewestProducts();
+
+	public List<Product> getProductsByBrand(List<String> brands);
 
 	public List<Product> searchProducts(String key);
 

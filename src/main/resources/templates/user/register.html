@@ -51,37 +51,30 @@
 									</div>
 									<div class="register-form">
 										<form method="post" th:object="${saveUser}" action="/register"
-											id="create_customer" accept-charset="UTF-8"
-											data-login-with-shop-sign-up="true">
-											<label for="username">Username</label>
+											id="create_customer" onsubmit="return checkForm();">
+											<div class="errors">
+												<ul>
+												</ul>
+											</div>
+											<label class="required" for="username">Username</label>
 											<input type="text" id="username" class="input-full" th:field="*{username}"
 												required>
-
-											<label for="password">Password</label>
+											<label class="required" for="password">Password</label>
 											<input type="password" id="password" class="input-full"
 												th:field="*{password}" required>
-
-											<label for="confirm-password">Confirm Password</label>
-											<input type="confirm-password" id="confirm-password" class="input-full"
-												required>
-
 											<label for="fullName">Full Name</label>
 											<input type="text" id="fullName" class="input-full" th:field="*{fullName}">
-
 											<label for="dateOfBirth">Date Of Birth</label>
-											<input type="date" id="dateOfBirth" class="input-full" th:field="*{dateOfBirth}">
-
-											<label for="phone">Phone</label>
+											<input type="date" id="dateOfBirth" class="input-full"
+												th:field="*{dateOfBirth}">
+											<label class="required" for="phone">Phone</label>
 											<input type="text" id="phone" class="input-full" th:field="*{phone}">
-
-											<label for="email">Email</label>
+											<label class="required" for="email">Email</label>
 											<input type="email" name="email" id="email" class="input-full"
 												th:field="*{email}" required>
-
 											<label for="address">Address</label>
 											<input type="text" name="address" id="address" class="input-full"
 												th:field="*{address}" required>
-
 											<div class="form-action-button">
 												<button type="submit" class="default-btn">Submit</button>
 											</div>
@@ -114,17 +107,57 @@
 					$('.header-sticky').removeClass("is-sticky");
 				}
 			});
-			$("#username").change(function () {
-				$.post('/checkUser', { username: $(this).val() }, function (data) {
-					console.log(data)
+			function checkUsername() {
+				let val = $("#username").val();
+				$.post("/check/username", { username: val }, function (data) {
 					if (data) {
-						$(".errors").remove()
-						$("#create_customer").prepend(`<div class="errors"><ul><li>This account existed.</li></ul></div>`)
+						$(".errors ul").append(`<li class="error-username">Username existed</li>`)
 					} else {
-						$(".errors").remove()
+						$(".error-username").remove();
 					}
 				})
-			})
+			}
+			function checkEmail() {
+				let val = $("#email").val();
+				$.post("/check/email", { email: val }, function (data) {
+					if (data) {
+						$(".errors ul").append(`<li class="error-email">Email existed</li>`)
+					} else {
+						$(".error-email").remove();
+					}
+				})
+			}
+			function checkPhone() {
+				let val = $("#phone").val();
+				$.post("/check/phone", { phone: val }, function (data) {
+					if (data) {
+						$(".errors ul").append(`<li class="error-phone">Phone number existed</li>`)
+					} else {
+						$(".error-phone").remove();
+					}
+				})
+			}
+
+			$("#username").on("change", checkUsername);
+			$("#email").on("change", checkEmail);
+			$("#phone").on("change", checkPhone);
+
+			function checkForm() {
+				if ($(".errors li").length) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+			var date = new Date();
+			var day = date.getDate();
+			var month = date.getMonth() + 1;
+			var year = date.getFullYear();
+			if (month < 10) month = "0" + month;
+			if (day < 10) day = "0" + day;
+			var today = year + "-" + month + "-" + day;
+			document.getElementById('dateOfBirth').value = today;
 		</script>
 </body>
 

@@ -61,20 +61,18 @@
 							<table id="orders" class="table table-striped">
 								<thead>
 									<tr>
-										<th>Time</th>
-										<th>Customer Username</th>
+										<th>N.o</th>
 										<th>Product Name</th>
 										<th>Quantity</th>
-										<th>Total Cost</th>
+										<th>Total Cost($)</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="order:${orders}">
-										<td th:text="${order.getTime()}">10/10/2020 12:45</td>
-										<td th:text="${order.username}">latuan2710</td>
-										<td th:text="${order.product}">Iphone 13 pro max</td>
+									<tr th:each="order,object :${orders}">
+										<td th:text="${object.index+1}">1</td>
+										<td th:text="${order.productName}">Iphone 13 pro max</td>
 										<td th:text="${order.quantity}">2</td>
-										<td th:text="'$'+${order.cost}">$200</td>
+										<td th:text="${order.finalPrice}">$200</td>
 									</tr>
 								</tbody>
 							</table>

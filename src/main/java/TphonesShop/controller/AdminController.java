@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.repository.query.Param;
@@ -71,7 +72,7 @@ public class AdminController {
 
 	@RequestMapping("/adminPage/orders")
 	public String adminPageOrders(Model model) {
-		model.addAttribute("orders", orderService.getOrderList());
+		model.addAttribute("orders", orderDetailService.getOrderList());
 		return "admin/adminPage(orders).html";
 	}
 
@@ -120,7 +121,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/saveBrand")
-	public String saveBrand(Model model, @RequestParam("brandImg") MultipartFile file,
+	public String saveBrand(Model model,
+			@RequestParam("brandImg") MultipartFile file,
 			@ModelAttribute("brand") Brand brand) {
 		try {
 			brand = brandService.save(brand);
@@ -144,7 +146,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/saveProduct")
-	public String saveProduct(Model model, @RequestParam("product_img") MultipartFile file,
+	public String saveProduct(Model model,
+			@RequestParam("product_img") MultipartFile file,
 			@ModelAttribute("product") Product product) {
 		try {
 			product = productService.save(product);
@@ -152,12 +155,11 @@ public class AdminController {
 			String uploadDir = "product-upload/" + product.getId() + "/";
 
 			String fileName = product.getId() + ".jpg";
-
 			product.setFeaturedImage("/" + uploadDir + fileName);
+			saveFile(uploadDir, fileName, file);
+
 			product.setFinal_price();
 			productService.save(product);
-
-			saveFile(uploadDir, fileName, file);
 
 			System.out.println("Product saved successfully.");
 			model.addAttribute("alert", "success");
@@ -187,7 +189,7 @@ public class AdminController {
 	/* DELETE */
 
 	@GetMapping("/disable/{id}")
-	public String deleteUser(@PathVariable("id") Long id, Model model) {
+	public String disableUser(@PathVariable("id") Long id, Model model) {
 		try {
 			User user = userService.findUserById(id);
 			user.setStatus(!user.isStatus());
@@ -207,6 +209,7 @@ public class AdminController {
 
 			if (orderDetails.isEmpty()) {
 				productService.delete(id);
+				deleteFile("product-upload/" + id + "/");
 				model.addAttribute("alert", "success");
 			} else {
 				model.addAttribute("alert", "warning");
@@ -224,10 +227,14 @@ public class AdminController {
 		try {
 			Brand brand = brandService.findBrandById(id);
 
-			List<Product> products = productService.getProductsByBrand(brand.getName());
+			List<String> brands = new ArrayList<>();
+			brands.add(brand.getName());
+
+			List<Product> products = productService.getProductsByBrand(brands);
 
 			if (products.isEmpty()) {
-				deleteFile(brand.getImage());
+				// deleteFile(brand.getImage());
+				deleteFile("brand-upload/" + id + "/");
 				brandService.delete(id);
 				model.addAttribute("alert", "success");
 			} else {
@@ -256,7 +263,9 @@ public class AdminController {
 
 	/* SAVE IMAGE METHOD */
 
-	private void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
+	private void saveFile(String uploadDir,
+			String fileName,
+			MultipartFile multipartFile) throws IOException {
 
 		String orgName = multipartFile.getOriginalFilename();
 		if (orgName != "") {
@@ -278,8 +287,8 @@ public class AdminController {
 	/* DELETE IMAGE METHOD */
 
 	private void deleteFile(String imgPath) throws IOException {
-		String[] part = imgPath.split("/");
-		imgPath = part[1] + "/" + part[2] + "/";
+		// String[] part = imgPath.split("/");
+		// imgPath = part[1] + "/" + part[2] + "/";
 		File file = new File(imgPath);
 		deleteDirectory(file);
 		file.delete();

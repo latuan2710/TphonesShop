@@ -39,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public List<Product> getProductsByBrand(String brand_name) {
-		return productRepository.getProductsByBrand(brand_name);
+	public List<Product> getProductsByBrand(List<String> brands) {
+		return productRepository.getProductsByBrand(brands);
 	}
 
 	@Override
@@ -52,5 +52,15 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> searchProducts(String key) {
 		return productRepository.searchProducts(key);
+	}
+
+	@Override
+	public List<Product> getSaleProducts() {
+		return productRepository.getSaleProducts();
+	}
+
+	@Override
+	public List<Product> getNewestProducts() {
+		return productRepository.newestProducts();
 	}
 }

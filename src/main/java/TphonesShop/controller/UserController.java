@@ -43,6 +43,8 @@ public class UserController {
 	@RequestMapping("/")
 	public String toHomePage(Model model) {
 		model.addAttribute("logError", false);
+		model.addAttribute("saleProduct", productService.getSaleProducts());
+		model.addAttribute("newest", productService.getNewestProducts());
 		return "user/index.html";
 	}
 
@@ -101,7 +103,7 @@ public class UserController {
 		if (user.isStatus() && encoder.matches(password, user.getPassword())) {
 			httpSession.setAttribute("user", user);
 			if (user.getType().equals("admin")) {
-				return adminController.adminPageUsers(model);
+				return "redirect:/adminPage/users";
 			} else {
 				return toHomePage(model);
 			}
@@ -115,7 +117,7 @@ public class UserController {
 	@RequestMapping("/product/{name}")
 	public String toShowProductPage(Model model, @PathVariable("name") String name) {
 		model.addAttribute("product", productService.findProductByName(name));
-		return "user/showProduct.html";
+		return "user/productDetail.html";
 	}
 
 	@RequestMapping("/register")

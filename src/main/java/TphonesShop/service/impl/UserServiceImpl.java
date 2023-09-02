@@ -45,4 +45,14 @@ public class UserServiceImpl implements UserService {
 	public List<String> getListName() {
 		return userRepository.getListName();
 	}
+
+	@Override
+	public List<String> getListEmail() {
+		return userRepository.getListEmail();
+	}
+
+	@Override
+	public List<String> getListPhone() {
+		return userRepository.getListPhone();
+	}
 }

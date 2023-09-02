@@ -14,4 +14,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	@Query(value = "SELECT username FROM cse310.users", nativeQuery = true)
 	List<String> getListName();
+
+	@Query(value = "SELECT email FROM cse310.users", nativeQuery = true)
+	List<String> getListEmail();
+
+	@Query(value = "SELECT phone FROM cse310.users", nativeQuery = true)
+	List<String> getListPhone();
 }

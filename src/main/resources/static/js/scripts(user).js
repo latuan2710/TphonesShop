@@ -69,9 +69,9 @@ function product_carousel(id) {
 	})
 }
 
-function addToCart() {
+// function addToCart() {
 
-}
+// }
 
 function updateCart() {
 	$.post("/get-cart", function (data) {
@@ -105,7 +105,7 @@ function updateCart() {
 					  </span>
 				</div>
 				<div class="cart-item-remove">
-				  <a onclick="removeCart(${order.id})" href="javascript:void(0);">
+				  <a onclick="quickRemoveCart(${order.id})" href="javascript:void(0);">
 					<i class="fa fa-trash"></i>
 				  </a>
 				</div>
@@ -135,6 +135,14 @@ function updateCart() {
 			<li class="cart-empty-title d-block">
 			  <h5>Your cart is currently empty.</h5>
 			</li></ul></div>`);
+		}
+	})
+}
+
+function quickRemoveCart(id) {
+	$.post('/remove-cart', { id: id }, function (data) {
+		if (data) {
+			updateCart()
 		}
 	})
 }
@@ -199,3 +207,18 @@ function search(e) {
 		})
 	}
 }
+
+function quickAdd(id) {
+	$.post('/add-to-cart',
+		{
+			product_id: id,
+		},
+		function (data) {
+			if (data) {
+				localStorage.setItem("alert-action", data);
+				location.reload()
+			} else {
+				location.href = '/login'
+			}
+		})
+};

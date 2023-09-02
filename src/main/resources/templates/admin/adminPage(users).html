@@ -163,6 +163,7 @@
 											<th>Date Of Birth</th>
 											<th>Address</th>
 											<th>Type</th>
+											<th>Status</th>
 											<th>Function</th>
 										</tr>
 									</thead>
@@ -178,11 +179,13 @@
 												Mot, Binh Duong</td>
 											<td th:text="${user.type}">user</td>
 											<td>
+												<a th:href="'/disable/'+${user.id}" class="btn"
+													th:classappend="${user.status} ? 'btn-success' : 'btn-danger'"
+													th:text="${user.status} ? 'Active' : 'Disabled' "></a>
+											</td>
+											<td>
 												<a th:href="@{/editUser(id=${user.id})}"
 													class="btn btn-outline-warning m-r-5">Edit</a>
-												<a th:href="'/disable/'+${user.id}" class="btn"
-													th:classappend="${user.status} ? 'btn-danger' : 'btn-success'"
-													th:text="${user.status} ? 'Disable' : 'Active' "></a>
 											</td>
 										</tr>
 									</tbody>
@@ -220,7 +223,7 @@
 	<script th:inline="javascript">
 		$('#users').dataTable({
 			"columnDefs": [{
-				"targets": 8,
+				"targets": [8,9],
 				"orderable": false
 			}]
 		});

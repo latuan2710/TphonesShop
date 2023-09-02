@@ -123,7 +123,7 @@
 												</span>
 												<span class="price" id="ProductPrice">
 													<span class="money"
-														th:text="'$'+${product.final_price}">$39.00</span>
+														th:text="'$'+${product.showFinal_price()}">$39.00</span>
 												</span>
 												<span class="discount" th:if="${product.discount}!=0"
 													th:text="'-'+${product.discount}+'%'">-35%</span>
@@ -200,7 +200,9 @@
 									<!--Review And Description Tab Menu End-->
 									<div class="tab-content product-review-content-tab mt-30">
 										<div class="tab-pane active" id="pro-dec" role="tabpanel">
-											<div class="single-product-description">[(${product.description})]</div>
+											<div class="single-product-description" style="padding: 0 10%;">
+												[(${product.description})]
+											</div>
 										</div>
 									</div>
 								</div>
@@ -230,7 +232,7 @@
 							localStorage.setItem("alert-action", data);
 							location.reload()
 						} else {
-							location.href='/login'
+							location.href = '/login'
 						}
 					})
 			});
@@ -246,7 +248,7 @@
 							localStorage.setItem("alert-action", data);
 							location.reload()
 						} else {
-							location.href='/login'
+							location.href = '/login'
 						}
 					})
 			});

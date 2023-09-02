@@ -1,7 +1,6 @@
 package TphonesShop.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DecimalFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,14 +22,13 @@ public class Product {
 	private double price;
 	private double final_price;
 	private double discount = 0;
+	@Column(columnDefinition = "LONGTEXT")
 	private String summary;
-	@Column(length = 10000)
+	@Column(columnDefinition = "LONGTEXT")
 	private String description;
 	private String featuredImage;
-	private List<String> imageList;
 
 	public Product() {
-		this.imageList = new ArrayList<>();
 	}
 
 	public long getId() {
@@ -77,6 +75,11 @@ public class Product {
 		return final_price;
 	}
 
+	public String showFinal_price() {
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(final_price);
+	}
+
 	public void setFinal_price() {
 		if (discount == 0) {
 			final_price = price;
@@ -115,14 +118,6 @@ public class Product {
 
 	public void setFeaturedImage(String image) {
 		this.featuredImage = image;
-	}
-
-	public List<String> getImageList() {
-		return imageList;
-	}
-
-	public void setImageList(List<String> imageList) {
-		this.imageList = imageList;
 	}
 
 }

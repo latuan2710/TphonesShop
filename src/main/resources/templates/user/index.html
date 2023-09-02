@@ -27,6 +27,7 @@
 
 	<!-- JS --><!-- Your update file include here -->
 	<script src="/js/jquery_min.js"></script>
+	<script src="/js/tether_min.js"></script>
 	<script src="/js/popper.min.js"></script>
 	<script src="/js/bootstrap_min.js"></script>
 	<script src="/js/owl.carousel.min.js"></script>
@@ -124,7 +125,7 @@
 											</div>
 											<ul class="search-results home-two d-none"
 												style="position: absolute; top: 48.8px;">
-												
+
 												<li>
 													<span class="title">
 														<a href="/search?type=product&amp;q=text">
@@ -231,7 +232,7 @@
 												30% off
 											</h1>
 											<div class="slider-btn mt-50">
-												<a href="/collections/all">Shop Now</a>
+												<a href="/brand/Apple">Shop Now</a>
 											</div>
 										</div>
 									</div>
@@ -251,7 +252,7 @@
 												30% off
 											</h1>
 											<div class="slider-btn mt-50">
-												<a href="/collections/all">Shop Now</a>
+												<a href="/brand/Samsung">Shop Now</a>
 											</div>
 										</div>
 									</div>
@@ -289,22 +290,22 @@
 					<div class="product-block-content product-list">
 						<div>
 							<div class="row">
-								<div class="col-md-3 col-6">
+								<div class="col-md-3 col-6" th:each="product : ${saleProduct}">
 									<!--Single Product Start-->
 									<div class="single-product">
 										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
+											<a th:href="'/product/'+${product.name}">
+												<img th:src="${product.featuredImage}" alt="image product"
 													loading="lazy">
 											</a>
 											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
+												<span class="percent-count sticker"
+													th:text="'-'+${product.discount}+'%'">-27%</span>
 											</div>
 											<div class="product-action">
 												<ul>
 													<li>
-														<button>
+														<button th:onclick="'quickAdd('+${product.id}+')'">
 															<span class="cart-title">
 																<i class="fa fa-cart-plus"></i>
 															</span>
@@ -314,180 +315,14 @@
 											</div>
 										</div>
 										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
+											<h4>
+												<a th:href="'/product/'+${product.name}" th:text="${product.name}"></a>
+											</h4>
 											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
+												<span class="price"><span class="money"
+														th:text="${product.showFinal_price()}+'$'">55.00$</span></span>
+												<span class="sale-price"><span class="money"
+														th:text="${product.price}+'$'">75.00$</span></span>
 											</div>
 										</div>
 									</div>
@@ -503,7 +338,7 @@
 					<div class="row">
 						<div class="col-12 ">
 							<div class="section-title  position-relative">
-								<h2>Sale Product</h2>
+								<h2>Newest Product</h2>
 								<div class="button-action">
 									<button class="to-left"><i class="fa fa-angle-left"></i></button>
 									<button class="to-right"><i class="fa fa-angle-right"></i></button>
@@ -514,22 +349,22 @@
 					<div class="product-block-content product-list">
 						<div>
 							<div class="row">
-								<div class="col-md-3 col-6">
+								<div class="col-md-3 col-6" th:each="product : ${newest}">
 									<!--Single Product Start-->
 									<div class="single-product">
 										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
+											<a th:href="'/product/'+${product.name}">
+												<img th:src="${product.featuredImage}" alt="image product"
 													loading="lazy">
 											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
+											<div class="badge-wrapper" th:if="${product.discount != 0}">
+												<span class="percent-count sticker"
+													th:text="'-'+${product.discount}+'%'">-27%</span>
 											</div>
 											<div class="product-action">
 												<ul>
 													<li>
-														<button>
+														<button th:onclick="'quickAdd('+${product.id}+')'">
 															<span class="cart-title">
 																<i class="fa fa-cart-plus"></i>
 															</span>
@@ -539,180 +374,17 @@
 											</div>
 										</div>
 										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
+											<h4>
+												<a th:href="'/product/'+${product.name}" th:text="${product.name}"></a>
+											</h4>
 											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
-											</div>
-										</div>
-									</div>
-									<!--Single Product End-->
-								</div>
-								<div class="col-md-3 col-6">
-									<!--Single Product Start-->
-									<div class="single-product">
-										<div class="product-img">
-											<a href="/products/test">
-												<img src="/image(user)/products/iphone 11.jpg" alt="image product"
-													loading="lazy">
-											</a>
-											<div class="badge-wrapper">
-
-												<span class="percent-count sticker">-27%</span>
-											</div>
-											<div class="product-action">
-												<ul>
-													<li>
-														<button>
-															<span class="cart-title">
-																<i class="fa fa-cart-plus"></i>
-															</span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										<div class="product-content">
-											<h4><a href="/products/dummy-text-for-title-2">Dummy text for title</a></h4>
-											<div class="product-price">
-												<span class="price"><span class="money">55.00$</span></span>
-												<span class="sale-price"><span class="money">75.00$</span></span>
+												<span class="price">
+													<span class="money"
+														th:text="${product.showFinal_price()}+'$'">100.00$</span>
+												</span>
+												<span class="sale-price" th:if="${product.discount!=0}">
+													<span class="money" th:text="${product.price}+'$'">75.00$</span>
+												</span>
 											</div>
 										</div>
 									</div>
@@ -952,12 +624,7 @@
 			product_carousel('#iphones')
 			product_carousel('#samsungs')
 
-			//cart action start
-			let alert =/*[[${alert}]]*/ 'alert';
-			if (alert) {
-				alert_cart()
-			}
-			//cart action end
+			alert_action(localStorage.getItem("alert-action"));
 		</script>
 </body>
 

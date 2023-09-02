@@ -35,10 +35,28 @@ public class RestController {
 	@Resource
 	OrderDetailService orderDetailService;
 
-	@PostMapping("/checkUser")
-	public boolean checkUser(@RequestParam("username") String name) {
-		User user = userService.findUserByUsername(name);
-		if (user != null) {
+	@PostMapping("/check/username")
+	public boolean checkUsername(@RequestParam("username") String username) {
+		List<String> list = userService.getListName();
+		if (list.contains(username)) {
+			return true;
+		}
+		return false;
+	}
+
+	@PostMapping("/check/email")
+	public boolean checkEmail(@RequestParam("email") String email) {
+		List<String> list = userService.getListEmail();
+		if (list.contains(email)) {
+			return true;
+		}
+		return false;
+	}
+
+	@PostMapping("/check/phone")
+	public boolean checkPhone(@RequestParam("phone") String phone) {
+		List<String> list = userService.getListPhone();
+		if (list.contains(phone)) {
 			return true;
 		}
 		return false;
@@ -74,6 +92,8 @@ public class RestController {
 			product.setQuantity(product.getQuantity() - quantity);
 			productService.save(product);
 
+			orderService.save(order);
+
 			return true;
 		}
 
@@ -87,7 +107,7 @@ public class RestController {
 
 		if (user != null) {
 			Order order = orderService.getCart(user.getUsername());
-
+	
 			// Update quantity of product
 			List<OrderDetail> orderDetails = orderDetailService.getOrdersByOrderId(order.getId());
 			for (OrderDetail orderDetail : orderDetails) {

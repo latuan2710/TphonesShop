@@ -48,7 +48,7 @@
 				<div class="col-12">
 					<ol class="breadcrumb">
 						<li><a href="#">Dashboard</a></li>
-						<li class="active">Orders Table</li>
+						<li class="active">Contacts Table</li>
 					</ol>
 				</div>
 			</div>
@@ -56,7 +56,7 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="white-box">
-						<h3 class="box-title m-b-30">Orders Table</h3>
+						<h3 class="box-title m-b-30">Contacts Table</h3>
 						<div class="table-responsive">
 							<table id="contacts" class="table table-striped">
 								<thead>
@@ -79,14 +79,10 @@
 										<td th:text="${contact.title}"></td>
 										<td th:text="${contact.message}"></td>
 										<td>
-											<span th:text="${contact.status} ? 'processed' : 'new' " class="m-r-5">
-											</span>
-											<span th:if="${!contact.status}">
-												<a th:href=" '/processContact/' + ${contact.id}"
-													class="btn btn-success">
-													Done
-												</a>
-											</span>
+											<a th:href=" '/processContact/' + ${contact.id}" class="btn"
+												th:classappend="${contact.status} ? 'btn-success' : 'btn-warning'"
+												th:text="${contact.status} ? 'Processed' : 'New' ">
+											</a>
 										</td>
 									</tr>
 								</tbody>
@@ -106,7 +102,12 @@
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}">
 	</div>
 	<script>
-		$("#contacts").dataTable();
+		$('#contacts').dataTable({
+			"columnDefs": [{
+				"targets": 6,
+				"orderable": false
+			}]
+		});
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(5)").addClass("selected")
 		})

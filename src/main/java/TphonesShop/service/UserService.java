@@ -16,4 +16,8 @@ public interface UserService {
 	public void delete(long id);
 
 	public List<String> getListName();
+
+	public List<String> getListEmail();
+
+	public List<String> getListPhone();
 }

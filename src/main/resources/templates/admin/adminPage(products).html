@@ -65,10 +65,10 @@
 										<tr>
 											<th>N.o</th>
 											<th>Image Product</th>
-											<th>NameProduct</th>
+											<th>Name Product</th>
 											<th>Brand</th>
 											<th>Quantity</th>
-											<th>Price</th>
+											<th>Price ($)</th>
 											<th>Function</th>
 										</tr>
 									</thead>
@@ -83,7 +83,7 @@
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand}">Apple</td>
 											<td th:text="${product.quantity}">12</td>
-											<td th:text="'$'+${product.final_price}">$1000</td>
+											<td th:text="${product.showFinal_price()}">1000</td>
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
 													class="btn btn-outline-warning m-r-5">Edit</a>
