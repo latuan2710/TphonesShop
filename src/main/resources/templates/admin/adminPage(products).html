@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head th:replace="~{admin/adminPage(users) :: head}">
@@ -81,7 +81,7 @@
 												</a>
 											</td>
 											<td th:text="${product.name}">Iphone 11</td>
-											<td th:text="${product.brand}">Apple</td>
+											<td th:text="${product.brand.name}">Apple</td>
 											<td th:text="${product.quantity}">12</td>
 											<td th:text="${product.showFinal_price()}">1000</td>
 											<td>

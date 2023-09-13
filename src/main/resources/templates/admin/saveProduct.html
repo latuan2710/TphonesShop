@@ -118,7 +118,7 @@
 												<div class="col-sm-12">
 													<select id="productBrand" th:field="*{brand}" name="productBrand"
 														class="custom-select col-12">
-														<option th:each="brand:${brands}" th:value="${brand.name}"
+														<option th:each="brand:${brands}" th:value="${brand.id}"
 															th:text="${brand.name}">
 															SamSung</option>
 													</select>

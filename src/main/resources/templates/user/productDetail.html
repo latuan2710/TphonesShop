@@ -113,8 +113,8 @@
 									<div class="product-details">
 										<h1 class="single-product-name" th:text="${product.name}">Product title here
 										</h1>
-										<div class="product-sku">Brand <span class="variant-sku"
-												th:text="${product.brand}"></span></div>
+										<div class="product-sku">Brand: <span class="variant-sku"
+												th:text="${product.brand.name}"></span></div>
 										<div class="single-product-price">
 											<div class="product-discount">
 												<span class="sale-price" id="ComparePrice">
@@ -128,16 +128,6 @@
 												<span class="discount" th:if="${product.discount}!=0"
 													th:text="'-'+${product.discount}+'%'">-35%</span>
 											</div>
-											<!-- For Unit Price  -->
-											<small class="unit_price_box caption  hidden">
-												<dd>
-													<span id="product__unit_price"></span>
-													<span aria-hidden="true">/</span>
-													<span id="product__unit_price_value">
-													</span>
-												</dd>
-											</small>
-											<!-- For Unit Price  -->
 										</div>
 										<div class="product-inventory">
 											<span class="inventory-title">Availability:</span>
@@ -155,7 +145,7 @@
 											<span class="control-label">Quantity</span>
 											<div class="cart-plus-minus">
 												<input class="cart-plus-minus-box" type="text" name="quantity"
-													value="1">
+													value="1"/>
 											</div>
 											<div class="add">
 												<button type="submit" class="add-to-cart" id="AddToCart"
