@@ -2,13 +2,21 @@ package TphonesShop.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CurrentTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,17 +26,26 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private String username;
 	private boolean status = false;
+
 	@CurrentTimestamp
 	private LocalDateTime createdDateTime;
 
-	public Order(String username, boolean status) {
-		this.username = username;
-		this.status = status;
-	}
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	@JsonIgnore
+	private User user;
+
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	List<OrderDetail> orderDetails;
 
 	public Order() {
+		this.orderDetails = new ArrayList<>();
+	}
+
+	public Order(User user, boolean status) {
+		this.user = user;
+		this.status = status;
 	}
 
 	public long getId() {
@@ -39,20 +56,20 @@ public class Order {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public boolean getStatus() {
+	public boolean isStatus() {
 		return status;
 	}
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getCreatedDateTime() {
@@ -62,6 +79,14 @@ public class Order {
 
 	public void setCreatedDateTime(LocalDateTime createdDateTime) {
 		this.createdDateTime = createdDateTime;
+	}
+
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 }

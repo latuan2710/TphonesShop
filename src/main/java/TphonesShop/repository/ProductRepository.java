@@ -15,9 +15,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value = "SELECT * FROM cse310.products WHERE discount>0 limit 10", nativeQuery = true)
 	List<Product> getSaleProducts();
 
-	@Query(value = "SELECT * FROM cse310.products WHERE brand in ?1", nativeQuery = true)
-	List<Product> getProductsByBrand(List<String> brands);
-
 	@Query(value = "SELECT * FROM cse310.products WHERE name LIKE %?1%", nativeQuery = true)
 	List<Product> searchProducts(String key);
 

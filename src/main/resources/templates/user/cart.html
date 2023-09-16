@@ -123,13 +123,13 @@
                                 </button>
                             </td>
                             <td class="picaboo-product-thumbnail">
-                                <a href="/product/${order.productName}">
-                                    <img src="/product-upload/${order.productId}/${order.productId}.jpg"
+                                <a href="/product/${order.product.name}">
+                                    <img src="${order.product.featuredImage}"
                                         alt="Product title here - red" /></a>
                             </td>
                             <td class="picaboo-product-name">
-                                <a href="/product/${order.productName}">
-                                    ${order.productName}
+                                <a href="/product/${order.product.name}">
+                                    ${order.product.name}
                                 </a>
                             </td>
                             <td class="picaboo-product-price">
@@ -140,7 +140,7 @@
                             <td class="picaboo-product-quantity">
                                 <div class="cart-plus-minus">
                                     <input class="cart-plus-minus-box quantity" 
-                                    data-id="${order.productId}" type="text"
+                                    data-id="${order.product.id}" type="text"
                                         value="${order.quantity}">
                                     <div class="dec qtybutton">
                                         <i class="ion-ios-arrow-down"></i>
@@ -175,9 +175,9 @@
                 var i = $(this)
                     , s = i.parent().find("input").val();
                 if (i.hasClass("inc"))
-                    var t = parseFloat(s) + 1;
+                    var t = parseInt(s) + 1;
                 else if (s > 0)
-                    t = parseFloat(s) - 1;
+                    t = parseInt(s) - 1;
                 else
                     t = 0;
                 i.parent().find("input").val(t)

@@ -1,9 +1,13 @@
 package TphonesShop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,23 +17,29 @@ public class OrderDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private long orderId;
-	private long productId;
-	private String productName;
+
+	@ManyToOne
+	@JoinColumn(name = "order_id")
+	@JsonIgnore
+	private Order order;
+
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
+
 	private int quantity;
 	private double price;
 	private double finalPrice;
 
-	public OrderDetail(long orderId, long productId, String productName, int quantity, double price) {
-		this.orderId = orderId;
-		this.productId = productId;
-		this.productName = productName;
+	public OrderDetail() {
+	}
+
+	public OrderDetail(Order order, Product product, int quantity, double price) {
+		this.order = order;
+		this.product = product;
 		this.quantity = quantity;
 		this.price = price;
 		setFinalPrice();
-	}
-
-	public OrderDetail() {
 	}
 
 	public long getId() {
@@ -40,28 +50,20 @@ public class OrderDetail {
 		this.id = id;
 	}
 
-	public long getOrderId() {
-		return orderId;
+	public Order getOrder() {
+		return order;
 	}
 
-	public void setOrderId(long orderId) {
-		this.orderId = orderId;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
-	public long getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(long productId) {
-		this.productId = productId;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public int getQuantity() {

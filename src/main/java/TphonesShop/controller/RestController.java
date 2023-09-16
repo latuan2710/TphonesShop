@@ -83,11 +83,9 @@ public class RestController {
 
 			Product product = productService.findProductById(product_id);
 
-			Order order = orderService.save(new Order(user.getUsername(), true));
+			Order order = orderService.save(new Order(user, true));
 
-			orderDetailService
-					.save(new OrderDetail(order.getId(), product_id, product.getName(), quantity,
-							product.getFinal_price()));
+			orderDetailService.save(new OrderDetail(order, product, quantity, product.getFinal_price()));
 
 			product.setQuantity(product.getQuantity() - quantity);
 			productService.save(product);
@@ -106,14 +104,13 @@ public class RestController {
 		User user = (User) httpSession.getAttribute("user");
 
 		if (user != null) {
-			Order order = orderService.getCart(user.getUsername());
-	
+			Order order = orderService.getCart(user.getId());
+
 			// Update quantity of product
-			List<OrderDetail> orderDetails = orderDetailService.getOrdersByOrderId(order.getId());
+			List<OrderDetail> orderDetails = order.getOrderDetails();
 			for (OrderDetail orderDetail : orderDetails) {
-				Product product = productService.findProductById(orderDetail.getProductId());
+				Product product = orderDetail.getProduct();
 				product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
-				productService.save(product);
 			}
 
 			order.setStatus(true);
@@ -133,12 +130,12 @@ public class RestController {
 		try {
 			User user = (User) httpSession.getAttribute("user");
 
-			Order order = orderService.getCart(user.getUsername());
+			Order order = orderService.getCart(user.getId());
 
-			for (HashMap<String, Integer> orderHashMap : data) {
+			for (HashMap<String, Integer> oH : data) {
 				OrderDetail orderDetail = orderDetailService.getOrdersByProductId(
-						order.getId(), orderHashMap.get("productId"));
-				orderDetail.setQuantity(orderHashMap.get("quantity"));
+						order.getId(), oH.get("productId"));
+				orderDetail.setQuantity(oH.get("quantity"));
 				orderDetail.setFinalPrice();
 				orderDetailService.save(orderDetail);
 			}
@@ -158,21 +155,17 @@ public class RestController {
 
 		if (user != null) {
 
-			Order order = orderService.getCart(user.getUsername());
+			Order order = orderService.getCart(user.getId());
 			Product product = productService.findProductById(product_id);
+			OrderDetail orderDetail;
 
 			if (order == null) {
-				order = orderService.save(new Order(user.getUsername(), false));
-			}
-
-			OrderDetail orderDetail = orderDetailService.getOrdersByProductId(order.getId(), product_id);
-
-			if (orderDetail != null) {
+				order = orderService.save(new Order(user, false));
+				orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
+			} else {
+				orderDetail = orderDetailService.getOrdersByProductId(order.getId(), product_id);
 				orderDetail.setQuantity(orderDetail.getQuantity() + quantity);
 				orderDetail.setFinalPrice();
-			} else {
-				orderDetail = new OrderDetail(order.getId(), product_id, product.getName(), quantity,
-						product.getFinal_price());
 			}
 
 			orderDetailService.save(orderDetail);
@@ -187,7 +180,7 @@ public class RestController {
 	public List<OrderDetail> getCart(HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
-			Order order = orderService.getCart(user.getUsername());
+			Order order = orderService.getCart(user.getId());
 			if (order != null) {
 				return orderDetailService.getOrdersByOrderId(order.getId());
 			}
@@ -209,7 +202,7 @@ public class RestController {
 	public boolean clearCart(HttpSession httpSession) {
 		try {
 			User user = (User) httpSession.getAttribute("user");
-			Order order = orderService.getCart(user.getUsername());
+			Order order = orderService.getCart(user.getId());
 
 			orderDetailService.deleteByOrderId(order.getId());
 			orderService.delete(order.getId());

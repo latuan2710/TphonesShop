@@ -37,13 +37,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getHistoryOrders(String username) {
-		return orderRepository.getHistoryOrders(username);
+	public List<Order> getHistoryOrders(long user_id) {
+		return orderRepository.getHistoryOrders(user_id);
 	}
 
 	@Override
-	public Order getCart(String username) {
-		return orderRepository.getCart(username);
+	public Order getCart(long user_id) {
+		return orderRepository.findByUserIdAndStatus(user_id, false);
 	}
 
 }

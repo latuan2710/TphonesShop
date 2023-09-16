@@ -39,12 +39,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public List<Product> getProductsByBrand(List<String> brands) {
-		return productRepository.getProductsByBrand(brands);
-	}
-
-	@Override
-	@Transactional
 	public Product findProductByName(String name) {
 		return productRepository.findByName(name);
 	}

@@ -11,8 +11,6 @@ public interface ProductService {
 
 	public List<Product> getNewestProducts();
 
-	public List<Product> getProductsByBrand(List<String> brands);
-
 	public List<Product> searchProducts(String key);
 
 	public Product findProductById(long id);

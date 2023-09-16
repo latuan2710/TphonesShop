@@ -22,15 +22,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
-	@Transactional
 	public List<OrderDetail> getOrdersByOrderId(long order_id) {
-		return orderRepository.getOrdersByOrderId(order_id);
-	}
-
-	@Override
-	@Transactional
-	public List<OrderDetail> getOrdersByProuctId(long product_id) {
-		return orderRepository.getOrdersByProductId(product_id);
+		return orderRepository.findByOrderId(order_id);
 	}
 
 	@Override
@@ -51,6 +44,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
 	@Override
 	public OrderDetail getOrdersByProductId(long order_id, long product_id) {
-		return orderRepository.getOrdersByProductId(order_id, product_id);
+		return orderRepository.findByOrderIdAndProductId(order_id, product_id);
 	}
 }

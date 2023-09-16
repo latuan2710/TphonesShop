@@ -1,9 +1,12 @@
 package TphonesShop.model;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,10 +25,16 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String name;
+
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	@JsonIgnore
 	private Brand brand;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<OrderDetail> orderDetails;
+
 	private int quantity;
 	private double price;
 	private double final_price;
@@ -36,6 +46,7 @@ public class Product {
 	private String featuredImage;
 
 	public Product() {
+		this.orderDetails = new ArrayList<>();
 	}
 
 	public long getId() {
@@ -125,6 +136,14 @@ public class Product {
 
 	public void setFeaturedImage(String image) {
 		this.featuredImage = image;
+	}
+
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 }

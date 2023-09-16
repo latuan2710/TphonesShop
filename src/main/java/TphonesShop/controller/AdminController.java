@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
-import TphonesShop.model.OrderDetail;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
@@ -205,9 +202,9 @@ public class AdminController {
 	@GetMapping("/deleteProduct/{id}")
 	public String deleteProduct(@PathVariable("id") Long id, Model model) {
 		try {
-			List<OrderDetail> orderDetails = orderDetailService.getOrdersByProuctId(id);
+			Product product = productService.findProductById(id);
 
-			if (orderDetails.isEmpty()) {
+			if (product.getOrderDetails().isEmpty()) {
 				productService.delete(id);
 				deleteFile("product-upload/" + id + "/");
 				model.addAttribute("alert", "success");
@@ -227,13 +224,7 @@ public class AdminController {
 		try {
 			Brand brand = brandService.findBrandById(id);
 
-			List<String> brands = new ArrayList<>();
-			brands.add(brand.getName());
-
-			List<Product> products = productService.getProductsByBrand(brands);
-
-			if (products.isEmpty()) {
-				// deleteFile(brand.getImage());
+			if (brand.getProducts().isEmpty()) {
 				deleteFile("brand-upload/" + id + "/");
 				brandService.delete(id);
 				model.addAttribute("alert", "success");
@@ -287,8 +278,6 @@ public class AdminController {
 	/* DELETE IMAGE METHOD */
 
 	private void deleteFile(String imgPath) throws IOException {
-		// String[] part = imgPath.split("/");
-		// imgPath = part[1] + "/" + part[2] + "/";
 		File file = new File(imgPath);
 		deleteDirectory(file);
 		file.delete();

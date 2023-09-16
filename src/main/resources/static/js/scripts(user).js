@@ -91,15 +91,15 @@ function updateCart() {
 				total += order.finalPrice;
 				str += `<div class="cart-single-item">
 				<div class="cart-img">
-				  <a href="/product/${order.productName}" class="d-flex justify-content-center w-100">
-					<img src="/product-upload/${order.productId}/${order.productId}.jpg" alt="Product title here - red" style="
+				  <a href="/product/${order.product.name}" class="d-flex justify-content-center w-100">
+					<img src="${order.product.featuredImage}" alt="Product title here - red" style="
 					max-height: 100px;">
 				  </a>
 				  <span class="cart-sticker">${order.quantity}x</span>
 				</div>
 				<div class="cart-content">
 				  <h5 class="product-name"><a
-					  href="/product/${order.productName}">${order.productName}</a></h5>
+					  href="/product/${order.product.name}">${order.product.name}</a></h5>
 				  <span class="product-price"><span class="money"
 					  data-currency-usd="39.00$">$${order.price}</span>
 					  </span>
