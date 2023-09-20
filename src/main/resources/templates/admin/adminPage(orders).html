@@ -58,21 +58,37 @@
 					<div class="white-box">
 						<h3 class="box-title m-b-30">Orders Table</h3>
 						<div class="table-responsive">
+							<style>
+								td.details-control {
+								  background: url("	https://datatables.net/examples/resources/details_open.png")
+									no-repeat center center;
+								  cursor: pointer;
+								}
+						  
+								tr.shown td.details-control {
+								  background: url("	https://datatables.net/examples/resources/details_close.png")
+									no-repeat center center;
+								}
+						  
+								tr.loading td {
+								  text-align: center;
+								}
+							  </style>
 							<table id="orders" class="table table-striped">
 								<thead>
 									<tr>
-										<th>N.o</th>
-										<th>Product Name</th>
-										<th>Quantity</th>
-										<th>Total Cost($)</th>
+										<th></th>
+										<th>Created DateTime</th>
+										<th>Username</th>
+										<th>Function</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="order,object :${orders}">
-										<td th:text="${object.index+1}">1</td>
-										<td th:text="${order.productName}">Iphone 13 pro max</td>
-										<td th:text="${order.quantity}">2</td>
-										<td th:text="${order.finalPrice}">$200</td>
+									<tr th:each="order :${orders}" th:order-id="${order.id}">
+										<td class="details-control"></td>
+										<td th:text="${order.getCreatedDateTime()}">1</td>
+										<td th:text="${order.user.username}">Iphone 13 pro max</td>
+										<td><button>Disable</button></td>
 									</tr>
 								</tbody>
 							</table>
@@ -95,6 +111,52 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(4)").addClass("selected")
 		})
+
+		$("#orders").on("click", "td.details-control", function () {
+        var tr = $(this).closest("tr");
+        var row = $("#orders").DataTable().row(tr);
+		var order_id=tr.attr("order-id");
+
+        if (row.child.isShown()) {
+          tr.toggleClass("shown");
+          destroyChild(row);
+        } else {
+          tr.toggleClass("shown");
+          createChild(row,order_id);
+        }
+      });
+
+      function createChild(row,order_id) {
+        // This is the table we'll convert into a DataTable
+        var table = $(
+          '<table class="child-table display table table-stripped table-dark" width="100%"/>'
+        );
+
+        // Display it the child row
+        row.child(table).show();
+
+        // Initialise as a DataTable
+        $.get(`/orderDetails/orderId/${order_id}`, function (data) {
+          table.DataTable({
+            searching: false,
+            data: data,
+            columns: [
+              { title: "Product", data: "product.name" },
+              { title: "Quantity", data: "quantity" },
+              { title: "Price", data: "finalPrice" }
+            ],
+          });
+        });
+      }
+
+      function destroyChild(row) {
+        var table = $("table", row.child());
+        table.detach();
+        table.DataTable().destroy();
+
+        // And then hide the row
+        row.child.hide();
+      }
 	</script>
 </body>
 

@@ -3,6 +3,7 @@ package TphonesShop.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -217,5 +218,10 @@ public class RestController {
 	@PostMapping("/search")
 	public List<Product> searchProducts(@RequestParam("key") String key) {
 		return productService.searchProducts(key);
+	}
+
+	@GetMapping("/orderDetails/orderId/{order_id}")
+	public List<OrderDetail> getOrderDetailsByOrderId(@PathVariable("order_id") long id) {
+		return orderDetailService.getOrdersByOrderId(id);
 	}
 }

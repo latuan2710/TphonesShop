@@ -46,4 +46,9 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.findByUserIdAndStatus(user_id, false);
 	}
 
+	@Override
+	public List<Order> getOrderByStatus() {
+		return orderRepository.findByStatus(true);
+	}
+
 }

@@ -69,7 +69,7 @@ public class AdminController {
 
 	@RequestMapping("/adminPage/orders")
 	public String adminPageOrders(Model model) {
-		model.addAttribute("orders", orderDetailService.getOrderList());
+		model.addAttribute("orders", orderService.getOrderByStatus());
 		return "admin/adminPage(orders).html";
 	}
 
