@@ -117,7 +117,9 @@
 											<td>
 												<button th:data-id="${brand.id}" onclick="editBrand(this)"
 													class="btn btn-outline-warning m-r-5">Edit</button>
-												<button th:onclick="'delete_confirm('+${brand.id}+');'"
+												<button 
+												th:onclick="'delete_confirm('+${brand.id}+');'"
+												th:attr="disabled=${brand.products.size() != 0 ? 'disabled':null}"
 													class="btn btn-outline-danger">Delete</button>
 											</td>
 										</tr>
