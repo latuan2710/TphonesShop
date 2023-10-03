@@ -1,5 +1,6 @@
 package TphonesShop.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,19 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order getCart(long user_id) {
-		return orderRepository.findByUserIdAndStatus(user_id, false);
+		return orderRepository.findByUserIdAndStatus(user_id, 0);
 	}
 
 	@Override
 	public List<Order> getOrderByStatus() {
-		return orderRepository.findByStatus(true);
+		List<Order> buyed_orders = orderRepository.findByStatus(1);
+		List<Order> shipped_orders = orderRepository.findByStatus(2);
+		List<Order> total_orders = new ArrayList<>();
+
+		total_orders.addAll(buyed_orders);
+		total_orders.addAll(shipped_orders);
+
+		return total_orders;
 	}
 
 }

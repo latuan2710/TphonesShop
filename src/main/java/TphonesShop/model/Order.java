@@ -26,7 +26,7 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private boolean status = false;
+	private int status = 0;
 
 	@CurrentTimestamp
 	private LocalDateTime createdDateTime;
@@ -43,7 +43,7 @@ public class Order {
 		this.orderDetails = new ArrayList<>();
 	}
 
-	public Order(User user, boolean status) {
+	public Order(User user, int status) {
 		this.user = user;
 		this.status = status;
 	}
@@ -56,11 +56,11 @@ public class Order {
 		this.id = id;
 	}
 
-	public boolean isStatus() {
+	public int isStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 

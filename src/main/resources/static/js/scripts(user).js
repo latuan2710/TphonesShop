@@ -16,7 +16,7 @@ $(window).ready(function () {
 	updateCart()
 	$("#ProductPhotoImg").height($(".single-product-content").height() + "px")
 
-	$.post("/getBrandList", function (data) {
+	$.get("/getBrandList", function (data) {
 		let str = "";
 		data.forEach(brand => {
 			str += `<li class="sub-menu-li"><a href="/brand/${brand.name}">${brand.name}</a></li>`;

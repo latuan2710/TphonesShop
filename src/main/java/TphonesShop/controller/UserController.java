@@ -1,6 +1,5 @@
 package TphonesShop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,8 +36,6 @@ public class UserController {
 	UserService userService;
 	@Resource
 	ContactService contactService;
-	@Autowired
-	AdminController adminController;
 
 	@RequestMapping("/")
 	public String toHomePage(Model model) {

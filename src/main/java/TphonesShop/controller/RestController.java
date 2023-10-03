@@ -63,7 +63,7 @@ public class RestController {
 		return false;
 	}
 
-	@PostMapping("/getBrandList")
+	@GetMapping("/getBrandList")
 	public List<Brand> geList() {
 		return brandService.getBrandList();
 	}
@@ -84,7 +84,7 @@ public class RestController {
 
 			Product product = productService.findProductById(product_id);
 
-			Order order = orderService.save(new Order(user, true));
+			Order order = orderService.save(new Order(user, 1));
 
 			orderDetailService.save(new OrderDetail(order, product, quantity, product.getFinal_price()));
 
@@ -114,7 +114,7 @@ public class RestController {
 				product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
 			}
 
-			order.setStatus(true);
+			order.setStatus(1);
 			orderService.save(order);
 
 			return true;
@@ -161,12 +161,17 @@ public class RestController {
 			OrderDetail orderDetail;
 
 			if (order == null) {
-				order = orderService.save(new Order(user, false));
+				order = orderService.save(new Order(user, 0));
 				orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
 			} else {
 				orderDetail = orderDetailService.getOrdersByProductId(order.getId(), product_id);
-				orderDetail.setQuantity(orderDetail.getQuantity() + quantity);
-				orderDetail.setFinalPrice();
+
+				if (orderDetail == null) {
+					orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
+				} else {
+					orderDetail.setQuantity(orderDetail.getQuantity() + quantity);
+					orderDetail.setFinalPrice();
+				}
 			}
 
 			orderDetailService.save(orderDetail);
