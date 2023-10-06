@@ -129,6 +129,7 @@
 							<div class="col-lg-3">
 								<form class="filter-form storefront-filter" name="testform" id="myform">
 									<input type="hidden" name="pageNo">
+									<input type="hidden" name="key">
 									<aside class="shop-sidebar mb-30">
 										<h3 class="wedget-title">Brand Categories</h3>
 										<div class="shop-checkbox">
@@ -153,7 +154,10 @@
 
 									let queryString = window.location.search;
 									let urlParams = new URLSearchParams(queryString);
-									let brands = urlParams.getAll('brand')
+									let brands = urlParams.getAll('brand');
+									let key = urlParams.get('key');
+
+									if (key != null) $('input[name="key"]').val(key);
 
 									document.querySelectorAll("#brand-checkbox input").forEach(ele => {
 										if (brands.includes(ele.value)) {

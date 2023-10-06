@@ -46,8 +46,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> searchProducts(String key) {
-		return productRepository.searchProducts(key);
+	public Page<Product> searchProducts(String key, Pageable pageable) {
+		return productRepository.findByNameContains(key, pageable);
 	}
 
 	@Override
@@ -68,5 +68,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Page<Product> findByBrandName(String[] brand, Pageable pageable) {
 		return productRepository.findByBrandName(brand, pageable);
+	}
+
+	@Override
+	public Page<Product> searchProductsInBrand(String[] brand, Pageable pageable, String key) {
+		return productRepository.searchProducts(brand, pageable, key);
 	}
 }

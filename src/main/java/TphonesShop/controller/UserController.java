@@ -1,11 +1,8 @@
 package TphonesShop.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -171,6 +168,7 @@ public class UserController {
 	@GetMapping("/all-product")
 	public String allProducts(
 			Model model,
+			@RequestParam(value = "key", required = false) String key,
 			@RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
 
@@ -180,9 +178,17 @@ public class UserController {
 		Page<Product> productsPage = null;
 
 		if (brands == null) {
-			productsPage = productService.getProductListbyPage(paging);
+			if (key == null) {
+				productsPage = productService.getProductListbyPage(paging);
+			} else {
+				productsPage = productService.searchProducts(key, paging);
+			}
 		} else {
-			productsPage=productService.findByBrandName(brands, paging);
+			if (key == null) {
+				productsPage = productService.findByBrandName(brands, paging);
+			} else {
+				productsPage = productService.searchProductsInBrand(brands, paging, key);
+			}
 		}
 
 		int total = productsPage.getTotalPages();

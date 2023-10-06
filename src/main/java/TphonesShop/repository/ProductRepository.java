@@ -18,12 +18,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query(value = "SELECT * FROM cse310.products WHERE discount>0 limit 10", nativeQuery = true)
 	List<Product> getSaleProducts();
 
-	@Query(value = "SELECT * FROM cse310.products WHERE name LIKE %?1%", nativeQuery = true)
-	List<Product> searchProducts(String key);
+	Page<Product> findByNameContains(String name,Pageable pageable);
 
 	@Query(value = "SELECT * FROM cse310.products order by id desc limit 10", nativeQuery = true)
 	List<Product> newestProducts();
 
 	@Query("Select p From Product p where p.brand.name in :brands")
 	Page<Product> findByBrandName(@Param("brands") String[] brand, Pageable pageable);
+
+	@Query("Select p From Product p where p.brand.name in :brands and p.name like %:key% ")
+	Page<Product> searchProducts(@Param("brands") String[] brand, Pageable pageable, @Param("key") String key);
 }

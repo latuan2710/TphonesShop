@@ -14,11 +14,13 @@ public interface ProductService {
 
 	public Page<Product> findByBrandName(String[] brand, Pageable pageable);
 
+	public Page<Product> searchProductsInBrand(String[] brand, Pageable pageable, String key);
+
 	public List<Product> getSaleProducts();
 
 	public List<Product> getNewestProducts();
 
-	public List<Product> searchProducts(String key);
+	public Page<Product> searchProducts(String key, Pageable pageable);
 
 	public Product findProductById(long id);
 
