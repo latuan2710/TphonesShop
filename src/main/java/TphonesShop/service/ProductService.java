@@ -2,10 +2,17 @@ package TphonesShop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import TphonesShop.model.Product;
 
 public interface ProductService {
 	public List<Product> getProductList();
+
+	public Page<Product> getProductListbyPage(Pageable pageable);
+
+	public Page<Product> findByBrandName(String[] brand, Pageable pageable);
 
 	public List<Product> getSaleProducts();
 

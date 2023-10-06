@@ -1,5 +1,6 @@
 package TphonesShop.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -115,6 +116,7 @@ public class RestController {
 			}
 
 			order.setStatus(1);
+			order.setCreatedDateTime(LocalDateTime.now());
 			orderService.save(order);
 
 			return true;

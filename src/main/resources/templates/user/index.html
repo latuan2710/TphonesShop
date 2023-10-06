@@ -170,14 +170,14 @@
 												<a href="/">Home </a>
 											</li>
 											<li>
-												<a href="#">Products </a>
+												<a href="/all-product">Products </a>
 											</li>
 											<li>
 												<a href="#" onclick="return false;">Brands <i
 														class="ion-ios-arrow-down"></i></a>
 												<ul class="dropdown">
 													<li th:each="brand :${brands}" class="sub-menu-li">
-														<a th:href="@{${'/brand/'+brand.name}}"
+														<a th:href="'/all-product?brand='+${brand.name}"
 															th:text="${brand.name}">SamSung</a>
 													</li>
 												</ul>
@@ -476,25 +476,7 @@
 										<div class="footer-title">
 											<h3>Brand</h3>
 										</div>
-										<ul class="link-widget">
-											<li>
-												<a href="/brand/apple">Apple</a>
-											</li>
-											<li>
-												<a href="/brand/samsung">SamSung</a>
-											</li>
-											<li>
-												<a href="/brand/oppo">Oppo</a>
-											</li>
-											<li>
-												<a href="/brand/xiaomi">Xiaomi</a>
-											</li>
-											<li>
-												<a href="/brand/vivo">Vivo</a>
-											</li>
-											<li>
-												<a href="/brand/realme">Realme</a>
-											</li>
+										<ul class="link-widget" id="brand-widget">
 										</ul>
 									</div>
 									<!--Single Footer Wiedget End-->
@@ -581,14 +563,14 @@
 							<div class="list-categories">
 								<div class="desc-listcategoreis">
 									<div class="name-categoreis">
-										<a href="/brand/${brands[i].name}">${brands[i].name}</a>
+										<a href="/all-product?brand=${brands[i].name}">${brands[i].name}</a>
 									</div>
 									<div class="view-more">
-										<a href="/brand/${brands[i].name}">Buy Now</a>
+										<a href="/all-product?brand=${brands[i].name}">Buy Now</a>
 									</div>
 								</div>
 								<div class="thumb-category">
-									<a href="/brand/${brands[i].name}">
+									<a href="/all-product?brand=${brands[i].name}">
 										<img src="${brands[i].image}" alt>
 									</a>
 								</div>

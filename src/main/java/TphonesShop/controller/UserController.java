@@ -1,5 +1,14 @@
 package TphonesShop.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,8 +19,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import TphonesShop.model.Contact;
+import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.ContactService;
@@ -147,6 +158,38 @@ public class UserController {
 			model.addAttribute("alert", "false");
 		}
 		return toContactPage(model);
+	}
+
+	public String toProductsPage(Model model, int page, int[] totalPage, Page<Product> products) {
+		model.addAttribute("brands", brandService.getBrandList());
+		model.addAttribute("products", products);
+		model.addAttribute("page", page);
+		model.addAttribute("totalPage", totalPage);
+		return "user/products.html";
+	}
+
+	@GetMapping("/all-product")
+	public String allProducts(
+			Model model,
+			@RequestParam(value = "brand", required = false) String[] brands,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+
+		pageNo--;
+
+		Pageable paging = PageRequest.of(pageNo, 12, Sort.by("id").descending());
+		Page<Product> productsPage = null;
+
+		if (brands == null) {
+			productsPage = productService.getProductListbyPage(paging);
+		} else {
+			productsPage=productService.findByBrandName(brands, paging);
+		}
+
+		int total = productsPage.getTotalPages();
+
+		pageNo++;
+
+		return toProductsPage(model, pageNo, IntStream.rangeClosed(1, total).toArray(), productsPage);
 	}
 
 }

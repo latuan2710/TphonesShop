@@ -17,11 +17,14 @@ $(window).ready(function () {
 	$("#ProductPhotoImg").height($(".single-product-content").height() + "px")
 
 	$.get("/getBrandList", function (data) {
-		let str = "";
+		let menu = "";
+		let widget = "";
 		data.forEach(brand => {
-			str += `<li class="sub-menu-li"><a href="/brand/${brand.name}">${brand.name}</a></li>`;
+			menu += `<li class="sub-menu-li"><a href="/all-product?brand=${brand.name}">${brand.name}</a></li>`;
+			widget+=`<li><a href="/all-product?brand=${brand.name}">${brand.name}</a></li>`;
 		});
-		$('ul.dropdown').html(str);
+		$('ul.dropdown').html(menu);
+		$('#brand-widget').html(widget);
 	})
 })
 
