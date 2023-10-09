@@ -27,6 +27,7 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private int status = 0;
+	private double totalPrice = 0;
 
 	@CurrentTimestamp
 	private LocalDateTime createdDateTime;
@@ -87,6 +88,14 @@ public class Order {
 
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 }

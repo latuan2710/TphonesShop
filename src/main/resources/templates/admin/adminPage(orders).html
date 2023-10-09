@@ -80,6 +80,7 @@
 										<th></th>
 										<th>Created DateTime</th>
 										<th>Username</th>
+										<th>Total Price</th>
 										<th>Function</th>
 									</tr>
 								</thead>
@@ -88,6 +89,7 @@
 										<td class="details-control"></td>
 										<td th:text="${order.getCreatedDateTime()}">1</td>
 										<td th:text="${order.user.username}">Iphone 13 pro max</td>
+										<td th:text="${order.totalPrice}">Iphone 13 pro max</td>
 										<td><button>Disable</button></td>
 									</tr>
 								</tbody>

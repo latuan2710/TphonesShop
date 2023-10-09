@@ -90,11 +90,13 @@ public class RestController {
 
 			Order order = orderService.save(new Order(user, 1));
 
-			orderDetailService.save(new OrderDetail(order, product, quantity, product.getFinal_price()));
+			OrderDetail orderDetail = orderDetailService
+					.save(new OrderDetail(order, product, quantity, product.getFinal_price()));
 
 			product.setQuantity(product.getQuantity() - quantity);
 			productService.save(product);
 
+			order.setTotalPrice(orderDetail.getFinalPrice());
 			orderService.save(order);
 
 			return true;
@@ -113,13 +115,16 @@ public class RestController {
 
 			// Update quantity of product
 			List<OrderDetail> orderDetails = order.getOrderDetails();
+			double total = 0;
 			for (OrderDetail orderDetail : orderDetails) {
 				Product product = orderDetail.getProduct();
 				product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
+				total += orderDetail.getFinalPrice();
 			}
 
 			order.setStatus(1);
 			order.setCreatedDateTime(LocalDateTime.now());
+			order.setTotalPrice(total);
 			orderService.save(order);
 
 			return true;
@@ -228,7 +233,7 @@ public class RestController {
 	@PostMapping("/search")
 	public List<Product> searchProducts(@RequestParam("key") String key) {
 		Pageable paging = PageRequest.of(0, 10, Sort.by("id").descending());
-		return productService.searchProducts(key,paging).getContent();
+		return productService.searchProducts(key, paging).getContent();
 	}
 
 	@GetMapping("/orderDetails/orderId/{order_id}")

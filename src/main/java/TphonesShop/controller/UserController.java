@@ -172,9 +172,7 @@ public class UserController {
 			@RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
 
-		pageNo--;
-
-		Pageable paging = PageRequest.of(pageNo, 12, Sort.by("id").descending());
+		Pageable paging = PageRequest.of(pageNo-1, 12, Sort.by("id").descending());
 		Page<Product> productsPage = null;
 
 		if (brands == null) {
@@ -192,8 +190,6 @@ public class UserController {
 		}
 
 		int total = productsPage.getTotalPages();
-
-		pageNo++;
 
 		return toProductsPage(model, pageNo, IntStream.rangeClosed(1, total).toArray(), productsPage);
 	}
