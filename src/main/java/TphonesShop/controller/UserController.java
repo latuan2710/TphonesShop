@@ -1,5 +1,7 @@
 package TphonesShop.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.springframework.data.domain.Page;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
+import TphonesShop.model.Order;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
@@ -98,6 +102,18 @@ public class UserController {
 		return "user/login.html";
 	}
 
+	@GetMapping("/account")
+	public String toProfilePage(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+
+		if (user == null)
+			return "redirect:/login";
+
+		model.addAttribute("orders", orderService.getHistoryOrders(user.getId()));
+
+		return "user/profile.html";
+	}
+
 	@PostMapping("/login")
 	public String login(Model model, @Param("username") String username, @Param("password") String password,
 			HttpSession httpSession) {
@@ -172,7 +188,7 @@ public class UserController {
 			@RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
 
-		Pageable paging = PageRequest.of(pageNo-1, 12, Sort.by("id").descending());
+		Pageable paging = PageRequest.of(pageNo - 1, 12, Sort.by("id").descending());
 		Page<Product> productsPage = null;
 
 		if (brands == null) {

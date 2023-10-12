@@ -49,14 +49,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> getOrderByStatus() {
-		List<Order> buyed_orders = orderRepository.findByStatus(1);
-		List<Order> shipped_orders = orderRepository.findByStatus(2);
-		List<Order> total_orders = new ArrayList<>();
-
-		total_orders.addAll(buyed_orders);
-		total_orders.addAll(shipped_orders);
-
-		return total_orders;
+		return orderRepository.getOrdersBuyed();
 	}
 
 }

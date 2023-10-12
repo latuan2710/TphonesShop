@@ -57,7 +57,7 @@ public class Order {
 		this.id = id;
 	}
 
-	public int isStatus() {
+	public int getStatus() {
 		return status;
 	}
 

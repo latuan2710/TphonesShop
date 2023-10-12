@@ -109,7 +109,12 @@
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}">
 	</div>
 	<script>
-		$("#orders").dataTable();
+		$("#orders").dataTable({
+			"columnDefs": [{
+				"targets": [0,4],
+				"orderable": false
+			}]
+		});
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(4)").addClass("selected")
 		})
@@ -141,6 +146,7 @@
         $.get(`/orderDetails/orderId/${order_id}`, function (data) {
           table.DataTable({
             searching: false,
+			dom: 'rtip',
             data: data,
             columns: [
               { title: "Product", data: "product.name" },
