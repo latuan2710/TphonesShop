@@ -265,6 +265,7 @@
 										<h2>Our Categories</h2>
 									</div>
 									<div class="categori-block-content owl-carousel">
+										[(${brandSlideHtml})]
 									</div>
 								</div>
 								<!--Sidebar Product Categories Start-->
@@ -550,39 +551,7 @@
 			$(window).ready(() => { 
 				$('ul.main-menu li:nth-child(1)').addClass("active") ;
 			})
-			//categoty slide start
-			$.get("/getBrandList", function (data) {
-				let brands = data;
-				let str = "";
-
-				for (let i = 0; i < brands.length; i++) {
-					if (i % 3 == 0) {
-						str += `<div class="item-listcategories">`;
-					}
-					str += `
-							<div class="list-categories">
-								<div class="desc-listcategoreis">
-									<div class="name-categoreis">
-										<a href="/all-product?brand=${brands[i].name}">${brands[i].name}</a>
-									</div>
-									<div class="view-more">
-										<a href="/all-product?brand=${brands[i].name}">Buy Now</a>
-									</div>
-								</div>
-								<div class="thumb-category">
-									<a href="/all-product?brand=${brands[i].name}">
-										<img src="${brands[i].image}" alt>
-									</a>
-								</div>
-							</div>`
-					if ((i + 1) % 3 == 0) {
-						str += `</div>`
-					}
-				}
-				$('.categori-block-content').html(str);
-			})
-			//categoty slide end
-
+			
 			product_carousel('#iphones')
 			product_carousel('#samsungs')
 

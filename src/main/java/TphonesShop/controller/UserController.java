@@ -1,6 +1,5 @@
 package TphonesShop.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
-import TphonesShop.model.Order;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
@@ -54,7 +52,39 @@ public class UserController {
 		model.addAttribute("logError", false);
 		model.addAttribute("saleProduct", productService.getSaleProducts());
 		model.addAttribute("newest", productService.getNewestProducts());
+		model.addAttribute("brandSlideHtml", makeBrandSlideHtml());
+
 		return "user/index.html";
+	}
+
+	private String makeBrandSlideHtml() {
+		List<Brand> brands = brandService.getBrandList();
+		String brand_slide_html = "";
+
+		for (int i = 0; i < brands.size(); i++) {
+			if (i % 3 == 0) {
+				brand_slide_html += "<div class='item-listcategories'>";
+			}
+			brand_slide_html += "<div class='list-categories'>" +
+					"<div class='desc-listcategoreis'>" +
+					"<div class='name-categoreis'>" +
+					"<a href='/all-product?brand=" + brands.get(i).getName() + "'>" + brands.get(i).getName() + "</a>" +
+					"</div>" +
+					"<div class='view-more'>" +
+					"<a href='/all-product?brand=" + brands.get(i).getName() + "'>Buy Now</a>" +
+					"</div>" +
+					"</div>" +
+					"<div class='thumb-category'>" +
+					"<a href='/all-product?brand=" + brands.get(i).getName() + "'>" +
+					"<img src='" + brands.get(i).getImage() + "' alt>" +
+					"</a>" +
+					"</div>" +
+					"</div>";
+			if ((i + 1) % 3 == 0) {
+				brand_slide_html += "</div>";
+			}
+		}
+		return brand_slide_html;
 	}
 
 	@GetMapping("/error")
