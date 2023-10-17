@@ -6,6 +6,17 @@
 </head>
 
 <body id="create-account" class="template-register">
+	<style>
+		.filter-side {
+			position: relative;
+		}
+
+		.filter-side>form {
+			position: sticky;
+			top: 100px;
+			margin-bottom: 100px;
+		}
+	</style>
 	<div class="wrapper">
 		<!-- Header control start -->
 		<div id="shopify-section-header-two" class="shopify-section">
@@ -47,7 +58,7 @@
 							<div class="col-lg-9 col-12">
 								<div class="shop-layout">
 									<div class="shop-product">
-										<div class="product-grid-view">
+										<div class="product-grid-view border-0">
 											<div class="row">
 												<div class="col-lg-4 col-md-4 col-sm-6 col-12"
 													th:each="product : ${products}">
@@ -126,7 +137,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-3">
+							<div class="col-lg-3 filter-side">
 								<form class="filter-form storefront-filter" name="testform" id="myform">
 									<input type="hidden" name="pageNo">
 									<input type="hidden" name="key">
@@ -143,6 +154,29 @@
 											</ul>
 										</div>
 									</aside>
+									<aside class="shop-sidebar mb-30">
+										<h3 class="wedget-title">Price</h3>
+										<div class="shop-checkbox">
+											<div class="sidebar-list-style">
+												<div class="checkbox-container categories-list sidebar-price-filter">
+													<div class="filter-range-from">
+														<label for="Filter-Price-2">From</label>
+														<span>$</span>
+														<input name="minPrice" id="Filter-Price-2" type="number" min="0"
+															max="110.00" placeholder="0">
+													</div>
+													<div class="filter-price-range-to">
+														<label for="Filter-Price-2">To</label>
+														<span>$</span>
+														<input name="maxPrice" id="Filter-Price-2" type="number"
+															min="110.00" placeholder="110">
+													</div>
+
+												</div>
+												<input class="theme-default-button" type="submit" value="Filter">
+											</div>
+										</div>
+									</aside>
 								</form>
 								<script>
 									$(window).ready(() => { $('ul.main-menu li:nth-child(2)').addClass("active") })
@@ -156,7 +190,11 @@
 									let urlParams = new URLSearchParams(queryString);
 									let brands = urlParams.getAll('brand');
 									let key = urlParams.get('key');
+									let minPrice = urlParams.get('minPrice');
+									let maxPrice = urlParams.get('maxPrice');
 
+									if (minPrice != null) $('input[name="minPrice"]').val(minPrice);
+									if (maxPrice != null) $('input[name="maxPrice"]').val(maxPrice);
 									if (key != null) $('input[name="key"]').val(key);
 
 									document.querySelectorAll("#brand-checkbox input").forEach(ele => {
@@ -164,6 +202,7 @@
 											ele.setAttribute("checked", "true");
 										}
 									});
+									alert_action(localStorage.getItem("alert-action"));
 								</script>
 							</div>
 						</div>

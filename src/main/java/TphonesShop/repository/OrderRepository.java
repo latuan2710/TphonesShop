@@ -15,9 +15,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Order findByUserIdAndStatus(long user_id, int status);
 
-	@Query(value = "SELECT * FROM cse310.orders where status>=1", nativeQuery = true)
+	@Query(value = "SELECT * FROM cse310.orders where status!=0", nativeQuery = true)
 	List<Order> getOrdersBuyed();
 
-	@Query(value = "SELECT * FROM cse310.orders where status>=1 and user_id=?1 ", nativeQuery = true)
+	@Query(value = "SELECT * FROM cse310.orders where status!=0 and user_id=?1 ", nativeQuery = true)
 	List<Order> getHistoryOrders(long user_id);
 }

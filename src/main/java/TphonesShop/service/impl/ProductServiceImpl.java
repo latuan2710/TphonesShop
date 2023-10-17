@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Product> searchProducts(String key, Pageable pageable) {
+	public Page<Product> findByKey(String key, Pageable pageable) {
 		return productRepository.findByNameContains(key, pageable);
 	}
 
@@ -61,17 +61,38 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<Product> getProductListbyPage(Pageable pageable) {
+	public Page<Product> findAllInPage(Pageable pageable) {
 		return productRepository.findAll(pageable);
 	}
 
 	@Override
-	public Page<Product> findByBrandName(String[] brand, Pageable pageable) {
+	public Page<Product> findByBrand(String[] brand, Pageable pageable) {
 		return productRepository.findByBrandName(brand, pageable);
 	}
 
 	@Override
-	public Page<Product> searchProductsInBrand(String[] brand, Pageable pageable, String key) {
-		return productRepository.searchProducts(brand, pageable, key);
+	public Page<Product> findByBrandAndKey(String[] brand, Pageable pageable, String key) {
+		return productRepository.findByBrandAndKey(brand, pageable, key);
+	}
+
+	@Override
+	public Page<Product> findByPrice(Pageable pageable, int minPrice, int maxPrice) {
+		return productRepository.findByPriceBetween(pageable, minPrice, maxPrice);
+	}
+
+	@Override
+	public Page<Product> findByPriceAndBrand(Pageable pageable, int minPrice, int maxPrice, String[] brand) {
+		return productRepository.findByPriceAndBrand(pageable, minPrice, maxPrice, brand);
+	}
+
+	@Override
+	public Page<Product> findByPriceAndKey(Pageable pageable, int minPrice, int maxPrice, String key) {
+		return productRepository.findByPriceAndKey(pageable, minPrice, maxPrice, key);
+	}
+
+	@Override
+	public Page<Product> findByPriceAndKeyAndBrand(Pageable pageable, int minPrice, int maxPrice, String key,
+			String[] brand) {
+		return productRepository.findByPriceAndKeyAndBrand(pageable, minPrice, maxPrice, key, brand);
 	}
 }

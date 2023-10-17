@@ -137,15 +137,21 @@ public class RestController {
 	public boolean updateCart(HttpSession httpSession,
 			@RequestBody HashMap<String, Integer>[] data) {
 
-		System.out.println(data[0].get("productId"));
 		try {
 			User user = (User) httpSession.getAttribute("user");
 
 			Order order = orderService.getCart(user.getId());
 
 			for (HashMap<String, Integer> oH : data) {
+
 				OrderDetail orderDetail = orderDetailService.getOrdersByProductId(
 						order.getId(), oH.get("productId"));
+
+				if (oH.get("quantity") == 0) {
+					orderDetailService.delete(orderDetail.getId());
+					continue;
+				}
+
 				orderDetail.setQuantity(oH.get("quantity"));
 				orderDetail.setFinalPrice();
 				orderDetailService.save(orderDetail);
@@ -233,7 +239,7 @@ public class RestController {
 	@PostMapping("/search")
 	public List<Product> searchProducts(@RequestParam("key") String key) {
 		Pageable paging = PageRequest.of(0, 10, Sort.by("id").descending());
-		return productService.searchProducts(key, paging).getContent();
+		return productService.findByKey(key, paging).getContent();
 	}
 
 	@GetMapping("/orderDetails/orderId/{order_id}")

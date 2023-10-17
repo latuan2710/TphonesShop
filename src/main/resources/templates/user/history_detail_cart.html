@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="breadcrumb-content text-center">
-                                <h1 class="breadmome-name breadcrumbs-title">Your Shopping Cart</h1>
+                                <h1 class="breadmome-name breadcrumbs-title">History Cart</h1>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,6 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="picaboo-product-remove">Remove</th>
                                                 <th class="picaboo-product-thumbnail">Image</th>
                                                 <th class="cart-product-name">Product</th>
                                                 <th class="picaboo-product-price">Price</th>
@@ -54,23 +53,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                            <tr th:each="order : ${orderDetails}">
+                                                <td class="picaboo-product-thumbnail">
+                                                    <a th:href="'/product/'+${order.product.name}">
+                                                        <img th:src="${order.product.featuredImage}"
+                                                            alt="Product title here - red" /></a>
+                                                </td>
+                                                <td class="picaboo-product-name">
+                                                    <a th:href="'/product/'+${order.product.name}">
+                                                        [(${order.product.name})]
+                                                    </a>
+                                                </td>
+                                                <td class="picaboo-product-price">
+                                                    <span class="amount">
+                                                        <span class=money>$[(${order.price})]</span>
+                                                    </span>
+                                                </td>
+                                                <td class="picaboo-product-quantity">
+                                                    <input class="cart-plus-minus-box quantity" type="text" readonly
+                                                        th:value="${order.quantity}">
+                                                </td>
+                                                <td class="product-subtotal">
+                                                    <span class=money>$[(${order.finalPrice})]</span>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="cart-buttons">
-                                    <a class="default-btn" href="/">Continue Shopping</a>
-                                    <button class="default-btn" id="clear-cart">Clear Cart</button>
-                                    <input class="default-btn" type="submit" value="Update Cart" id="update-cart" />
-                                </div>
-                            </div>
                             <div class="col-lg-12 col-12">
-                                <div class="row flex-row-reverse">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="cart-page-total">
-                                            <h2 class="text-right">Cart Totals</h2>
+                                            <h2>Cart Totals</h2>
                                             <table>
                                                 <tbody>
                                                     <tr class="order-total">
@@ -79,7 +94,7 @@
                                                             <strong>
                                                                 <span class="amount">
                                                                     <span id="bk-cart-subtotal-price">
-                                                                        <span class=money>39.00$</span>
+                                                                        <span class=money>$[(${total})]</span>
                                                                     </span>
                                                                 </span>
                                                             </strong>
@@ -87,9 +102,6 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <button class="default-btn float-right" name="checkout" id="checkout">
-                                                Buy now
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +119,7 @@
         <footer th:replace="~{user/index.html :: footer}">
         </footer>
         <!--Footer Area End-->
-        <script>
+        <!-- <script>
             $.post('/get-cart', function (data) {
                 if (data != "") {
                     let total = 0;
@@ -237,7 +249,7 @@
                 })
             })
             alert_action(localStorage.getItem("alert-action"));
-        </script>
+        </script> -->
 </body>
 
 </html>

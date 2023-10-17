@@ -4,23 +4,34 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import TphonesShop.model.Product;
 
 public interface ProductService {
 	public List<Product> getProductList();
 
-	public Page<Product> getProductListbyPage(Pageable pageable);
+	public Page<Product> findAllInPage(Pageable pageable);
 
-	public Page<Product> findByBrandName(String[] brand, Pageable pageable);
+	public Page<Product> findByBrand(String[] brand, Pageable pageable);
 
-	public Page<Product> searchProductsInBrand(String[] brand, Pageable pageable, String key);
+	public Page<Product> findByKey(String key, Pageable pageable);
+
+	public Page<Product> findByPrice(Pageable pageable, int minPrice, int maxPrice);
+
+	public Page<Product> findByBrandAndKey(String[] brand, Pageable pageable, String key);
+
+	public Page<Product> findByPriceAndBrand(Pageable pageable, int minPrice, int maxPrice, String[] brand);
+
+	public Page<Product> findByPriceAndKey(Pageable pageable, int minPrice, int maxPrice, @Param("key") String key);
+
+	public Page<Product> findByPriceAndKeyAndBrand(Pageable pageable, int minPrice, int maxPrice, String key,
+			String[] brand);
 
 	public List<Product> getSaleProducts();
 
 	public List<Product> getNewestProducts();
-
-	public Page<Product> searchProducts(String key, Pageable pageable);
 
 	public Product findProductById(long id);
 

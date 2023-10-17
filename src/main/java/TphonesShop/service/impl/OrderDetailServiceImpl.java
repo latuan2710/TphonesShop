@@ -14,36 +14,31 @@ import TphonesShop.service.OrderDetailService;
 public class OrderDetailServiceImpl implements OrderDetailService {
 
 	@Autowired
-	private OrderDetailRepository orderRepository;
-
-	@Override
-	public List<OrderDetail> getOrderList() {
-		return orderRepository.findAll();
-	}
+	private OrderDetailRepository orderDetailRepository;
 
 	@Override
 	public List<OrderDetail> getOrdersByOrderId(long order_id) {
-		return orderRepository.findByOrderId(order_id);
+		return orderDetailRepository.findByOrderId(order_id);
 	}
 
 	@Override
 	public OrderDetail save(OrderDetail orderDetail) {
-		return orderRepository.save(orderDetail);
+		return orderDetailRepository.save(orderDetail);
 	}
 
 	@Override
 	public void delete(long id) {
-		orderRepository.deleteById(id);
+		orderDetailRepository.deleteById(id);
 	}
 
 	@Override
 	@Transactional
 	public void deleteByOrderId(long order_id) {
-		orderRepository.deleteByOrderId(order_id);
+		orderDetailRepository.deleteByOrderId(order_id);
 	}
 
 	@Override
 	public OrderDetail getOrdersByProductId(long order_id, long product_id) {
-		return orderRepository.findByOrderIdAndProductId(order_id, product_id);
+		return orderDetailRepository.findByOrderIdAndProductId(order_id, product_id);
 	}
 }

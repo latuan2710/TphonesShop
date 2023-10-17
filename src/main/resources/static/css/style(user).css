@@ -3389,15 +3389,11 @@ li.right-menu .cat-mega-menu > li {
 }
 
 .product-content {
-  padding: 20px 0 0;
+  padding: 10px 0 0;
   background: transparent;
   text-align: center;
   overflow: hidden;
   position: relative;
-}
-
-.product-content > h4 {
-  margin: 0 0 11px;
 }
 
 .product-content > h4 > a {

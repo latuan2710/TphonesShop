@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
+import TphonesShop.model.Order;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.ContactService;
+import TphonesShop.service.OrderDetailService;
 import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
 import TphonesShop.service.UserService;
@@ -37,13 +39,15 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 
 	@Resource
+	UserService userService;
+	@Resource
+	ProductService productService;
+	@Resource
 	BrandService brandService;
 	@Resource
 	OrderService orderService;
 	@Resource
-	ProductService productService;
-	@Resource
-	UserService userService;
+	OrderDetailService orderDetailService;
 	@Resource
 	ContactService contactService;
 
@@ -144,6 +148,23 @@ public class UserController {
 		return "user/profile.html";
 	}
 
+	@GetMapping("/order/detail/{id}")
+	public String toHistoryCartPage(Model model, @PathVariable("id") long id) {
+		model.addAttribute("total", orderService.findOrderById(id).getTotalPrice());
+		model.addAttribute("orderDetails", orderDetailService.getOrdersByOrderId(id));
+		return "user/history_detail_cart.html";
+	}
+
+	@GetMapping("order/delete/{id}")
+	public String cancelOrder(@PathVariable("id") long id) {
+
+		Order order = orderService.findOrderById(id);
+		order.setStatus(-1);
+		orderService.save(order);
+
+		return "redirect:/account";
+	}
+
 	@PostMapping("/login")
 	public String login(Model model, @Param("username") String username, @Param("password") String password,
 			HttpSession httpSession) {
@@ -214,6 +235,8 @@ public class UserController {
 	@GetMapping("/all-product")
 	public String allProducts(
 			Model model,
+			@RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
+			@RequestParam(value = "maxPrice", defaultValue = "-1") int maxPrice,
 			@RequestParam(value = "key", required = false) String key,
 			@RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
@@ -222,16 +245,28 @@ public class UserController {
 		Page<Product> productsPage = null;
 
 		if (brands == null) {
-			if (key == null) {
-				productsPage = productService.getProductListbyPage(paging);
+			if (minPrice != 0 || maxPrice != -1) {
+				if (key == null) {
+					productsPage = productService.findByPrice(paging, minPrice, maxPrice);
+				} else {
+					productsPage = productService.findByPriceAndKey(paging, minPrice, maxPrice, key);
+				}
+			} else if (key == null) {
+				productsPage = productService.findAllInPage(paging);
 			} else {
-				productsPage = productService.searchProducts(key, paging);
+				productsPage = productService.findByKey(key, paging);
 			}
 		} else {
-			if (key == null) {
-				productsPage = productService.findByBrandName(brands, paging);
+			if (minPrice != 0 || maxPrice != -1) {
+				if (key == null) {
+					productsPage = productService.findByPriceAndBrand(paging, minPrice, maxPrice, brands);
+				} else {
+					productsPage = productService.findByPriceAndKeyAndBrand(paging, minPrice, maxPrice, key, brands);
+				}
+			} else if (key == null) {
+				productsPage = productService.findByBrand(brands, paging);
 			} else {
-				productsPage = productService.searchProductsInBrand(brands, paging, key);
+				productsPage = productService.findByBrandAndKey(brands, paging, key);
 			}
 		}
 

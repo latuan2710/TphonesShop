@@ -5,6 +5,21 @@
 </head>
 
 <body>
+	<style>
+		td.details-control>i::before {
+			content: "\f105";
+			cursor: pointer;
+		}
+
+		tr.shown td.details-control>i::before {
+			content: "\f107";
+			cursor: pointer;
+		}
+
+		tr.loading td {
+			text-align: center;
+		}
+	</style>
 	<div id="wrapper">
 		<!-- Top Navigation -->
 		<nav class="navbar navbar-default navbar-static-top m-b-0">
@@ -58,22 +73,6 @@
 					<div class="white-box">
 						<h3 class="box-title m-b-30">Orders Table</h3>
 						<div class="table-responsive">
-							<style>
-								td.details-control {
-								  background: url("	https://datatables.net/examples/resources/details_open.png")
-									no-repeat center center;
-								  cursor: pointer;
-								}
-						  
-								tr.shown td.details-control {
-								  background: url("	https://datatables.net/examples/resources/details_close.png")
-									no-repeat center center;
-								}
-						  
-								tr.loading td {
-								  text-align: center;
-								}
-							  </style>
 							<table id="orders" class="table table-striped">
 								<thead>
 									<tr>
@@ -86,7 +85,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="order :${orders}" th:order-id="${order.id}">
-										<td class="details-control"></td>
+										<td class="details-control"><i class="fa"></i></td>
 										<td th:text="${order.getCreatedDateTime()}">1</td>
 										<td th:text="${order.user.username}">Iphone 13 pro max</td>
 										<td th:text="${order.totalPrice}">Iphone 13 pro max</td>
@@ -111,7 +110,7 @@
 	<script>
 		$("#orders").dataTable({
 			"columnDefs": [{
-				"targets": [0,4],
+				"targets": [0, 4],
 				"orderable": false
 			}]
 		});
@@ -120,51 +119,51 @@
 		})
 
 		$("#orders").on("click", "td.details-control", function () {
-        var tr = $(this).closest("tr");
-        var row = $("#orders").DataTable().row(tr);
-		var order_id=tr.attr("order-id");
+			var tr = $(this).closest("tr");
+			var row = $("#orders").DataTable().row(tr);
+			var order_id = tr.attr("order-id");
 
-        if (row.child.isShown()) {
-          tr.toggleClass("shown");
-          destroyChild(row);
-        } else {
-          tr.toggleClass("shown");
-          createChild(row,order_id);
-        }
-      });
+			if (row.child.isShown()) {
+				tr.toggleClass("shown");
+				destroyChild(row);
+			} else {
+				tr.toggleClass("shown");
+				createChild(row, order_id);
+			}
+		});
 
-      function createChild(row,order_id) {
-        // This is the table we'll convert into a DataTable
-        var table = $(
-          '<table class="child-table display table table-stripped table-dark" width="100%"/>'
-        );
+		function createChild(row, order_id) {
+			// This is the table we'll convert into a DataTable
+			var table = $(
+				'<table class="child-table display table table-stripped table-dark" width="100%"/>'
+			);
 
-        // Display it the child row
-        row.child(table).show();
+			// Display it the child row
+			row.child(table).show();
 
-        // Initialise as a DataTable
-        $.get(`/orderDetails/orderId/${order_id}`, function (data) {
-          table.DataTable({
-            searching: false,
-			dom: 'rtip',
-            data: data,
-            columns: [
-              { title: "Product", data: "product.name" },
-              { title: "Quantity", data: "quantity" },
-              { title: "Price", data: "finalPrice" }
-            ],
-          });
-        });
-      }
+			// Initialise as a DataTable
+			$.get(`/orderDetails/orderId/${order_id}`, function (data) {
+				table.DataTable({
+					searching: false,
+					dom: 'rtip',
+					data: data,
+					columns: [
+						{ title: "Product", data: "product.name" },
+						{ title: "Quantity", data: "quantity" },
+						{ title: "Price", data: "finalPrice" }
+					],
+				});
+			});
+		}
 
-      function destroyChild(row) {
-        var table = $("table", row.child());
-        table.detach();
-        table.DataTable().destroy();
+		function destroyChild(row) {
+			var table = $("table", row.child());
+			table.detach();
+			table.DataTable().destroy();
 
-        // And then hide the row
-        row.child.hide();
-      }
+			// And then hide the row
+			row.child.hide();
+		}
 	</script>
 </body>
 
