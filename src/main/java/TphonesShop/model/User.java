@@ -21,24 +21,20 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
 	private long id;
-	@Column(name = "Username", unique = true)
+	@Column(unique = true)
 	private String username;
-	@Column(name = "Password")
 	private String password;
-	@Column(name = "full_name")
 	private String fullName;
-	@Column(name = "phone", unique = true)
+	@Column(unique = true)
 	private String phone;
-	@Column(name = "email", unique = true)
+	@Column(unique = true)
 	private String email;
-	@Column(name = "address")
 	private String address;
-	@Column(name = "date_of_birth")
 	private Date dateOfBirth;
-	@Column(name = "status")
 	private boolean status = true;
-	@Column(name = "type")
 	private String type;
+	private String token;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
@@ -132,6 +128,14 @@ public class User {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

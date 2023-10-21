@@ -1,9 +1,8 @@
 package TphonesShop.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import TphonesShop.model.User;
 
@@ -12,12 +11,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByUsername(String username);
 
-	@Query(value = "SELECT username FROM cse310.users", nativeQuery = true)
-	List<String> getListName();
+	User findByEmail(String email);
 
-	@Query(value = "SELECT email FROM cse310.users", nativeQuery = true)
-	List<String> getListEmail();
+	User findByToken(String token);
 
-	@Query(value = "SELECT phone FROM cse310.users", nativeQuery = true)
-	List<String> getListPhone();
+	@Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE " +
+			"(u.username = :key) or " +
+			"(u.email = :key) or " +
+			"(u.phone = :key)")
+	boolean checkExist(@Param("key") String key);
 }

@@ -56,7 +56,7 @@ public class AdminController {
 
 	@RequestMapping("/adminPage/products")
 	public String adminPageProducts(Model model) {
-		model.addAttribute("products", productService.getProductList());
+		model.addAttribute("products", productService.getAll());
 		return "admin/adminPage(products).html";
 	}
 

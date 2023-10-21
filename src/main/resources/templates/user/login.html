@@ -47,15 +47,14 @@
 							<div class="login">
 								<div id="CustomerLoginForm">
 									<form method="post" action="/login" id="customer_login" accept-charset="UTF-8"
-										data-login-with-shop-sign-in="true">
-										<input type="hidden" name="form_type" value="customer_login"><input
-											type="hidden" name="utf8" value="✓">
+										data-login-with-shop-sign-in="true" onsubmit="return false;">
 										<div class="login-form-container">
 											<div class="login-form">
 												<div id="CustomerLoginForm">
 													<label for="username">Username</label>
-													<input type="text" name="username" id="username" class="input-full"
-														autocorrect="off" autocapitalize="off" autofocus>
+													<input type="text" name="username" id="username"
+														class="input-full key" autocorrect="off" autocapitalize="off"
+														autofocus>
 													<label for="password" "">Password</label>
 													<input type="password" value name="password" id="password"
 														class="input-full">
@@ -74,9 +73,8 @@
 									</form>
 								</div>
 								<div id="RecoverPasswordForm" class="d-none">
-									<form method="post" action="/account/recover" accept-charset="UTF-8">
-										<input type="hidden" name="form_type" value="recover_customer_password"><input
-											type="hidden" name="utf8" value="✓">
+									<form method="post" action="/forgot-password" accept-charset="UTF-8"
+										onsubmit="return false;" id='RecoverPassword-form'>
 										<div class="login-form-container">
 											<div class="login-text">
 												<h2>Reset your password</h2>
@@ -84,8 +82,8 @@
 											</div>
 											<div class="login-form">
 												<label for="RecoverEmail">Email</label>
-												<input type="email" value name="email" id="RecoverEmail"
-													class="input-full" autocorrect="off" autocapitalize="off">
+												<input type="email" name="email" id="RecoverEmail"
+													class="input-full key" autocorrect="off" autocapitalize="off">
 												<div class="login-toggle-btn">
 													<div class="form-action-button">
 														<button type="submit" class="default-btn">Submit</button>
@@ -135,6 +133,21 @@
 			if (log_error) {
 				$("#customer_login").prepend(`<div class="errors"><ul><li>Incorrect username or password.</li></ul></div>`)
 			}
+
+			$('main').on('click', 'button[type="submit"]', (e) => {
+				let form = $(e.target).parents("form");
+				let form_id = form.attr('id');
+				let input = $("#" + form_id + " input.key");
+				let key = input.val();
+
+				fetch("/check?key=" + key)
+					.then((res) => res.json())
+					.then((data) => {
+						if (data) {
+							document.getElementById(form_id).submit();
+						}
+					})
+			})
 
 		</script>
 </body>

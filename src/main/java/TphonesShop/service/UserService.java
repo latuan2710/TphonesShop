@@ -11,13 +11,13 @@ public interface UserService {
 
 	public User findUserByUsername(String username);
 
+	public User findUserByEmail(String email);
+
+	public User findUserByToken(String token);
+
 	public void save(User user);
 
 	public void delete(long id);
 
-	public List<String> getListName();
-
-	public List<String> getListEmail();
-
-	public List<String> getListPhone();
+	public boolean checkExist(String key);
 }

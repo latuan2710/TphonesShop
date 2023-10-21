@@ -42,17 +42,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<String> getListName() {
-		return userRepository.getListName();
+	public boolean checkExist(String key) {
+		return userRepository.checkExist(key);
 	}
 
 	@Override
-	public List<String> getListEmail() {
-		return userRepository.getListEmail();
+	public User findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 	@Override
-	public List<String> getListPhone() {
-		return userRepository.getListPhone();
+	public User findUserByToken(String token) {
+		return userRepository.findByToken(token);
 	}
 }

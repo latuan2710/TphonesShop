@@ -40,31 +40,9 @@ public class RestController {
 	@Resource
 	OrderDetailService orderDetailService;
 
-	@PostMapping("/check/username")
-	public boolean checkUsername(@RequestParam("username") String username) {
-		List<String> list = userService.getListName();
-		if (list.contains(username)) {
-			return true;
-		}
-		return false;
-	}
-
-	@PostMapping("/check/email")
-	public boolean checkEmail(@RequestParam("email") String email) {
-		List<String> list = userService.getListEmail();
-		if (list.contains(email)) {
-			return true;
-		}
-		return false;
-	}
-
-	@PostMapping("/check/phone")
-	public boolean checkPhone(@RequestParam("phone") String phone) {
-		List<String> list = userService.getListPhone();
-		if (list.contains(phone)) {
-			return true;
-		}
-		return false;
+	@GetMapping("/check")
+	public boolean check(@RequestParam("key") String key) {
+		return userService.checkExist(key);
 	}
 
 	@GetMapping("/getBrandList")

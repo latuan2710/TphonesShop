@@ -1,14 +1,19 @@
 package TphonesShop.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +36,8 @@ import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
 import TphonesShop.service.UserService;
 import jakarta.annotation.Resource;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -50,10 +57,24 @@ public class UserController {
 	OrderDetailService orderDetailService;
 	@Resource
 	ContactService contactService;
+	@Autowired
+	JavaMailSender mailSender;
 
 	@RequestMapping("/")
 	public String toHomePage(Model model) {
-		model.addAttribute("logError", false);
+
+		if (!userService.checkExist("admin")) {
+			User user = new User();
+			user.setUsername("admin");
+			user.setPassword("admin");
+			user.setType("admin");
+
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			user.setPassword(encoder.encode(user.getPassword()));
+
+			userService.save(user);
+		}
+
 		model.addAttribute("saleProduct", productService.getSaleProducts());
 		model.addAttribute("newest", productService.getNewestProducts());
 		model.addAttribute("brandSlideHtml", makeBrandSlideHtml());
@@ -102,13 +123,10 @@ public class UserController {
 
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
 				errorPage = "error/404";
-
 			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 				errorPage = "error/403";
-
 			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				errorPage = "error/500";
-
 			}
 		}
 
@@ -211,6 +229,77 @@ public class UserController {
 	public String logout(Model model, HttpSession httpSession) throws Exception {
 		httpSession.removeAttribute("user");
 		return "redirect:/";
+	}
+
+	@PostMapping("/forgot-password")
+	public String forgotPass(@RequestParam("email") String email, HttpServletRequest request) {
+
+		String token = RandomStringUtils.randomAlphanumeric(60);
+
+		User user = userService.findUserByEmail(email);
+		user.setToken(token);
+		userService.save(user);
+
+		String siteURL = request.getRequestURL().toString();
+		siteURL = siteURL.replace(request.getServletPath(), "");
+
+		String resetPasswordLink = siteURL + "/reset-password?token=" + token;
+		sendEmail(email, resetPasswordLink);
+
+		return "redirect:/login";
+	}
+
+	@GetMapping("/reset-password")
+	public String toResetPasswordPage(@RequestParam("token") String token, Model model) {
+		model.addAttribute("token", token);
+		return "user/recover_password.html";
+	}
+
+	@PostMapping("/reset-password")
+	public String resetPassword(Model model, @RequestParam("token") String token,
+			@RequestParam("password") String password) {
+
+		User user = userService.findUserByToken(token);
+
+		if (user == null) {
+			model.addAttribute("message", "Invalid Token");
+		} else {
+			model.addAttribute("message", "You have successfully changed your password.");
+
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			user.setPassword(encoder.encode(password));
+			user.setToken("");
+			userService.save(user);
+		}
+
+		return toLoginPage(model);
+	}
+
+	public void sendEmail(String recipientEmail, String link) {
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		try {
+			helper.setTo(recipientEmail);
+			helper.setFrom("contact@shopme.com", "Tphones Shop Support");
+
+			String subject = "Here's the link to reset your password";
+			String content = "<p>Hello,</p>"
+					+ "<p>You have requested to reset your password.</p>"
+					+ "<p>Click the link below to reset your password:</p>"
+					+ "<p><a href=\"" + link + "\">" + link + "</a></p>"
+					+ "<br>"
+					+ "<p>Ignore this email if you do remember your password, "
+					+ "or you have not made the request.</p>";
+
+			helper.setSubject(subject);
+			helper.setText(content, true);
+			mailSender.send(message);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@PostMapping("/submit_contact_form")

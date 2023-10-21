@@ -61,6 +61,7 @@
 							<table id="contacts" class="table table-striped">
 								<thead>
 									<tr>
+										<th>No.</th>
 										<th>Time</th>
 										<th>Full Name</th>
 										<th>Email</th>
@@ -71,7 +72,8 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="contact:${contacts}">
+									<tr th:each="contact,index:${contacts}">
+										<td th:text="${index.index+1}"></td>
 										<td th:text="${contact.getCreatedDateTime()}"></td>
 										<td th:text="${contact.fullName}"></td>
 										<td th:text="${contact.email}"></td>

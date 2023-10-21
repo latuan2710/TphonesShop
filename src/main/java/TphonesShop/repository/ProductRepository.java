@@ -37,7 +37,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query("SELECT p FROM Product p WHERE (p.price BETWEEN :minPrice AND :maxPrice) and (p.name like %:key%)")
 	Page<Product> findByPriceAndKey(Pageable pageable, int minPrice, int maxPrice, @Param("key") String key);
 
-	@Query("SELECT p FROM Product p WHERE (p.price BETWEEN :minPrice AND :maxPrice) and (p.name like %:key%) and (p.brand.name in :brands)")
+	@Query("SELECT p FROM Product p WHERE " +
+			"(p.price BETWEEN :minPrice AND :maxPrice) and" +
+			" (p.name like %:key%) and" +
+			" (p.brand.name in :brands)")
 	Page<Product> findByPriceAndKeyAndBrand(Pageable pageable, int minPrice, int maxPrice, @Param("key") String key,
 			@Param("brands") String[] brand);
 
