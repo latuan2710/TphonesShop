@@ -92,7 +92,7 @@
 									<div class="col-md-6 col-12 form-group">
 										<label for="birth" class="col-md-12">Date Of Birth</label>
 										<div class="col-md-12">
-											<input id="birth" th:field="*{dateOfBirth}" type="date"
+											<input id="birth" th:value="${saveUser.getDate()}" name="dateOfBirth" type="date"
 												class="form-control">
 										</div>
 									</div>

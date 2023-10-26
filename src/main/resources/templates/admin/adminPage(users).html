@@ -174,7 +174,7 @@
 											<td th:text="${user.fullName}">La Anh Tuan</td>
 											<td th:text="${user.phone}">0967843879</td>
 											<td th:text="${user.email}">tuan.la.cit19@eiu.edu.vn</td>
-											<td th:text="${user.dateOfBirth}">27/10/2001</td>
+											<td th:text="${user.getDate()}">27/10/2001</td>
 											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau
 												Mot, Binh Duong</td>
 											<td th:text="${user.type}">user</td>
@@ -230,31 +230,7 @@
 		$(window).ready(function () {
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
-		// 	function delete_confirm(data_id) {
-		// 		let text = "This account will be permanently deleted";
-		// 		$("body").append(`
-		// 		<div class="sweet-overlay"></div>
-		// <div class="sweet-alert showSweetAlert visible">
-		// 	<div class="sa-icon sa-warning pulseWarning">
-		// 		<span class="sa-body pulseWarningIns"></span>
-		// 		<span class="sa-dot pulseWarningIns"></span>
-		// 	</div>
-		// 	<h2>Are you sure?</h2>
-		// 	<p>${text}</p>
-		// 	<div class="sa-button-container">
-		// 		<div class="sa-confirm-button-container">
-		// 			<button onclick='confirm(${data_id})' class="confirm">
-		// 				Yes,delete it!
-		// 			</button>
-		// 		</div>
-		// 		<button onclick='cancel()' class="cancel">Cancel</button>
-		// 	</div>
-		// </div>
-		// 		`)
-		// 	}
-		// 	function confirm(id) {
-		// 		location.href = "/deleteUser/" + id
-		// 	}
+
 		alert_action(/*[[${alert}]]*/)
 	</script>
 </body>

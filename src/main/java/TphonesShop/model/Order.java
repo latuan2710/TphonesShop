@@ -38,6 +38,7 @@ public class Order {
 	private User user;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	@JsonIgnore
 	List<OrderDetail> orderDetails;
 
 	public Order() {
@@ -74,7 +75,7 @@ public class Order {
 	}
 
 	public String getCreatedDateTime() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return createdDateTime.format(format);
 	}
 

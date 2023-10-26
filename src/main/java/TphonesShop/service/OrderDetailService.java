@@ -6,6 +6,8 @@ import TphonesShop.model.OrderDetail;
 
 public interface OrderDetailService {
 
+    public OrderDetail findById(long id);
+
     public List<OrderDetail> getOrdersByOrderId(long order_id);
 
     public OrderDetail getOrdersByProductId(long order_id, long product_id);

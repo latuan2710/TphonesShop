@@ -39,6 +39,15 @@
 			color: #fff;
 			background-color: #17a2b8;
 		}
+
+		i.fa.fa-pencil-square-o {
+			margin-left: 5px;
+			cursor: pointer;
+		}
+
+		i.fa.fa-pencil-square-o:hover {
+			color: #442674;
+		}
 	</style>
 	<div class="wrapper">
 		<!-- Header control start -->
@@ -77,48 +86,57 @@
 			<div class="customer-page theme-default-margin my-account-page">
 				<div class="container">
 					<div class="grid">
-						<div class="grid__item one-half medium-down--one-whole mt-xs-30">
+						<div class="grid__item five-twelfths medium-down--one-whole mt-xs-30">
 							<h2 class="h4" th:text="${session.user.fullName}"></h2>
 							<p>
 								<i class="fa mr-1">@</i>
 								<span th:text="${session.user.username}"></span>
 							</p>
-							<p>
+							<p input-type="date" name="dateOfBirth" th:user="${session.user.id}">
 								<i class="fa fa-calendar mr-1" aria-hidden="true"></i>
-								<span th:text="${session.user.dateOfBirth}"></span>
+								<span th:text="${session.user.getDate()}"></span>
+								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</p>
-							<p>
+							<p input-type="email" name="email" th:user="${session.user.id}">
 								<i class="fa fa-envelope mr-1" aria-hidden="true"></i>
 								<span th:text="${session.user.email}"></span>
+								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</p>
-							<p>
+							<p input-type="text" name="phone" th:user="${session.user.id}">
 								<i class="fa fa-phone mr-1" aria-hidden="true"></i>
 								<span th:text="${session.user.phone}"></span>
+								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</p>
-							<p>
+							<p input-type="text" name="address" th:user="${session.user.id}">
 								<i class="fa fa-map-marker" aria-hidden="true"></i>
 								<span th:text="${session.user.address}"></span>
+								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</p>
 						</div>
-						<div class="grid__item one-half medium-down--one-whole">
+						<div class="grid__item seven-twelfths medium-down--one-whole">
 							<h2 class="h4">Order History</h2>
 							<p th:if="${orders.size==0}">You haven't placed any orders yet.</p>
 							<div th:if="${orders.size!=0}">
 								<table>
 									<thead>
 										<tr>
+											<th>No.</th>
 											<th>Order Id</th>
+											<th>Total Products</th>
 											<th>Total Money</th>
 											<th>Status</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="order : ${orders}">
+										<tr th:each="order,index : ${orders}">
+											<td th:text="${index.index+1}"></td>
 											<td th:text="${order.id}"></td>
+											<td th:text="${order.orderDetails.size}"></td>
 											<td th:text="${order.totalPrice}"></td>
 											<td>
 												<span th:if="${order.status==-1}">Cancelled</span>
+												<span th:if="${order.status==-2}">Cancelled by Shop</span>
 												<span th:if="${order.status==1}">Preparing</span>
 												<span th:if="${order.status==2}">Shipping</span>
 												<span th:if="${order.status==3}">Shipped</span>
@@ -127,7 +145,7 @@
 												style="gap: 5px;">
 												<a class="btn btn-info border-0"
 													th:href="${'/order/detail/'+order.id}">Detail</a>
-												<a class="btn btn-danger border-0"
+												<a th:if="${order.status != 3}" class="btn btn-danger border-0"
 													th:href="${'/order/delete/'+order.id}">Cancel</a>
 											</td>
 										</tr>
@@ -145,8 +163,58 @@
 		<footer th:replace="~{user/index.html :: footer}">
 		</footer>
 		<!--Footer Area End-->
-		<script th:inline="javascript">
+		<script>
+			$("div.five-twelfths").on('click', 'i.fa.fa-pencil-square-o', (e) => {
+				let edit_button = $(e.target);
+				let span = edit_button.closest('p').find('span');
+				let input = $(`<input type="${edit_button.closest('p').attr('input-type')}">`).val(span.text());
+				input.attr("default", span.text());
 
+				input.css({
+					"width": "auto",
+					"color": "black"
+				});
+				span.replaceWith(input);
+				edit_button.replaceWith(`
+				<button type="button" class="btn btn-primary" onclick="updateDetail(this)">Done</button>
+				<button type="button" class="btn btn-danger" onclick="cancelEdit(this)">Cancel</button>`)
+				input.focus();
+			})
+
+			let cancelEdit = (e) => {
+				let parent = $(e).closest('p');
+				let input = parent.find('input');
+
+				input.replaceWith(`<span>${input.attr("default")}</span>`);
+
+				parent.find('button').remove();
+				parent.append(`<i class="fa fa-pencil-square-o" aria-hidden="true"></i>`)
+			}
+
+			let updateDetail = (e) => {
+				let parent = $(e).closest('p');
+				let user_id = parent.attr("user");
+				let name = parent.attr("name");
+				let value = parent.find('input').val();
+
+				if (name == "email" && !value.includes('@')) {
+					alert("Please enter a valid email.");
+					return false;
+				} else if (name == "phone" && /[a-zA-Z]/.test(value)) {
+					alert("Please enter a valid phone number.");
+					return false;
+				}
+
+				$.post(`/user/${user_id}/update`, { name: name, value: value }, function (data) {
+					if (data) {
+						localStorage.setItem("alert-action", data);
+					} else {
+						localStorage.setItem("alert-action", data);
+					}
+					location.reload();
+				})
+			}
+			alert_action(localStorage.getItem("alert-action"));
 		</script>
 </body>
 

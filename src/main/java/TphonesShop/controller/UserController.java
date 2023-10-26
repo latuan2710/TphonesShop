@@ -145,7 +145,13 @@ public class UserController {
 	}
 
 	@RequestMapping("/cart")
-	public String toCartPage(Model model) {
+	public String toCartPage(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if (user == null)
+			return "redirect:/login";
+		Order order = orderService.getCart(user.getId());
+
+		model.addAttribute("order", order);
 		return "user/cart.html";
 	}
 
@@ -362,6 +368,12 @@ public class UserController {
 		int total = productsPage.getTotalPages();
 
 		return toProductsPage(model, pageNo, IntStream.rangeClosed(1, total).toArray(), productsPage);
+	}
+
+	@GetMapping("/shipping/{order_id}")
+	public String toShippingPage(Model model, @PathVariable("order_id") long id) {
+		model.addAttribute("order", orderService.findOrderById(id));
+		return "user/shipping.html";
 	}
 
 }

@@ -79,7 +79,7 @@ public class Contact {
 	}
 
 	public String getCreatedDateTime() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return createdDateTime.format(format);
 	}
 

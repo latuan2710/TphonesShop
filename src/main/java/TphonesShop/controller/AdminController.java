@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
+import TphonesShop.model.Order;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
@@ -235,6 +236,18 @@ public class AdminController {
 			model.addAttribute("alert", "error");
 		}
 		return adminPageBrands(model);
+	}
+
+	@GetMapping("/order/{order_id}/status/{order_status}")
+	public String updateOrderStatus(
+			@PathVariable("order_id") int order_id,
+			@PathVariable("order_status") int order_status) {
+
+		Order order = orderService.findOrderById(order_id);
+		order.setStatus(order_status);
+		orderService.save(order);
+
+		return "redirect:/adminPage/orders";
 	}
 
 	@GetMapping("/processContact/{id}")

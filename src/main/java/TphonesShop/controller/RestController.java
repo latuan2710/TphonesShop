@@ -1,6 +1,5 @@
 package TphonesShop.controller;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,62 +54,6 @@ public class RestController {
 		return brandService.findBrandById(id);
 	}
 
-	@PostMapping("/buy-now")
-	public boolean BuyNow(HttpSession httpSession,
-			@RequestParam("product_id") long product_id,
-			@RequestParam(value = "quantity", defaultValue = "1") int quantity) {
-
-		User user = (User) httpSession.getAttribute("user");
-
-		if (user != null) {
-
-			Product product = productService.findProductById(product_id);
-
-			Order order = orderService.save(new Order(user, 1));
-
-			OrderDetail orderDetail = orderDetailService
-					.save(new OrderDetail(order, product, quantity, product.getFinal_price()));
-
-			product.setQuantity(product.getQuantity() - quantity);
-			productService.save(product);
-
-			order.setTotalPrice(orderDetail.getFinalPrice());
-			orderService.save(order);
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@PostMapping("/buy-all")
-	public boolean BuyAll(HttpSession httpSession) {
-
-		User user = (User) httpSession.getAttribute("user");
-
-		if (user != null) {
-			Order order = orderService.getCart(user.getId());
-
-			// Update quantity of product
-			List<OrderDetail> orderDetails = order.getOrderDetails();
-			double total = 0;
-			for (OrderDetail orderDetail : orderDetails) {
-				Product product = orderDetail.getProduct();
-				product.setQuantity(product.getQuantity() - orderDetail.getQuantity());
-				total += orderDetail.getFinalPrice();
-			}
-
-			order.setStatus(1);
-			order.setCreatedDateTime(LocalDateTime.now());
-			order.setTotalPrice(total);
-			orderService.save(order);
-
-			return true;
-		}
-
-		return false;
-	}
-
 	@PostMapping("/update-cart")
 	public boolean updateCart(HttpSession httpSession,
 			@RequestBody HashMap<String, Integer>[] data) {
@@ -120,11 +63,13 @@ public class RestController {
 
 			Order order = orderService.getCart(user.getId());
 
+			double total = order.getTotalPrice();
 			for (HashMap<String, Integer> oH : data) {
 
 				OrderDetail orderDetail = orderDetailService.getOrdersByProductId(
 						order.getId(), oH.get("productId"));
 
+				total -= orderDetail.getFinalPrice();
 				if (oH.get("quantity") == 0) {
 					orderDetailService.delete(orderDetail.getId());
 					continue;
@@ -133,7 +78,17 @@ public class RestController {
 				orderDetail.setQuantity(oH.get("quantity"));
 				orderDetail.setFinalPrice();
 				orderDetailService.save(orderDetail);
+
+				total += orderDetail.getFinalPrice();
 			}
+
+			if (order.getOrderDetails().size() == 0) {
+				orderService.delete(order.getId());
+				return true;
+			}
+
+			order.setTotalPrice(total);
+			orderService.save(order);
 
 			return true;
 		} catch (Exception e) {
@@ -154,19 +109,26 @@ public class RestController {
 			Product product = productService.findProductById(product_id);
 			OrderDetail orderDetail;
 
+			double total = 0;
+
 			if (order == null) {
 				order = orderService.save(new Order(user, 0));
 				orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
 			} else {
+				total = order.getTotalPrice();
+
 				orderDetail = orderDetailService.getOrdersByProductId(order.getId(), product_id);
 
 				if (orderDetail == null) {
 					orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
 				} else {
+					total -= orderDetail.getFinalPrice();
 					orderDetail.setQuantity(orderDetail.getQuantity() + quantity);
 					orderDetail.setFinalPrice();
 				}
 			}
+			total += orderDetail.getFinalPrice();
+			order.setTotalPrice(total);
 
 			orderDetailService.save(orderDetail);
 
@@ -191,7 +153,17 @@ public class RestController {
 	@PostMapping("/remove-cart")
 	public boolean removeCartItem(@RequestParam("id") long id) {
 		try {
+			OrderDetail orderDetail = orderDetailService.findById(id);
+			Order order = orderDetail.getOrder();
+
+			double total = order.getTotalPrice() - orderDetail.getFinalPrice();
+			order.setTotalPrice(total);
+
 			orderDetailService.delete(id);
+
+			if (order.getOrderDetails().size() == 0)
+				orderService.delete(order.getId());
+
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -223,5 +195,40 @@ public class RestController {
 	@GetMapping("/orderDetails/orderId/{order_id}")
 	public List<OrderDetail> getOrderDetailsByOrderId(@PathVariable("order_id") long id) {
 		return orderDetailService.getOrdersByOrderId(id);
+	}
+
+	@PostMapping("/user/{user_id}/update")
+	public boolean updateUserDetail(
+			HttpSession session,
+			@PathVariable("user_id") long id,
+			@RequestParam("name") String name,
+			@RequestParam("value") String value) {
+		User user = userService.findUserById(id);
+
+		try {
+			switch (name) {
+				case "dateOfBirth":
+					user.setDateOfBirth(value);
+					break;
+				case "email":
+					user.setEmail(value);
+					break;
+				case "phone":
+					user.setPhone(value);
+					break;
+				case "address":
+					user.setAddress(value);
+					break;
+
+				default:
+					return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+
+		session.setAttribute("user", user);
+		userService.save(user);
+		return true;
 	}
 }

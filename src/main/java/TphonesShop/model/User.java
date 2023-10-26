@@ -1,6 +1,9 @@
 package TphonesShop.model;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,8 +105,18 @@ public class User {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(final Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
+	public String getDate() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(dateOfBirth);
+	}
+
+	public void setDateOfBirth(final String dateOfBirth) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			this.dateOfBirth = dateFormat.parse(dateOfBirth);
+		} catch (ParseException e) {
+			System.out.println("Fail to set Birth for user!!!");
+		}
 	}
 
 	public boolean isStatus() {

@@ -122,7 +122,7 @@ function updateCart() {
                     </div>
                     <div class="checkout">
                       <a class="minicart-edit-cart" href="/cart">View Cart</a>
-                      <a href="/checkout">Checkout</a>
+                      <a href="/shipping/${data[0].order.id}">Checkout</a>
                     </div>
             </div>
 			`

@@ -41,4 +41,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public OrderDetail getOrdersByProductId(long order_id, long product_id) {
 		return orderDetailRepository.findByOrderIdAndProductId(order_id, product_id);
 	}
+
+	@Override
+	public OrderDetail findById(long id) {
+		return orderDetailRepository.findById(id);
+	}
 }
