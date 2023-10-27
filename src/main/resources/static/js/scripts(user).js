@@ -21,7 +21,7 @@ $(window).ready(function () {
 		let widget = "";
 		data.forEach(brand => {
 			menu += `<li class="sub-menu-li"><a href="/all-product?brand=${brand.name}">${brand.name}</a></li>`;
-			widget+=`<li><a href="/all-product?brand=${brand.name}">${brand.name}</a></li>`;
+			widget += `<li><a href="/all-product?brand=${brand.name}">${brand.name}</a></li>`;
 		});
 		$('ul.dropdown').html(menu);
 		$('#brand-widget').html(widget);
@@ -71,10 +71,6 @@ function product_carousel(id) {
 		startX = e.clientX;
 	})
 }
-
-// function addToCart() {
-
-// }
 
 function updateCart() {
 	$.post("/get-cart", function (data) {

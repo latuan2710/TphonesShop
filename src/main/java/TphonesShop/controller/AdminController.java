@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,32 +48,32 @@ public class AdminController {
 	@Resource
 	ContactService contactService;
 
-	@RequestMapping("/adminPage/users")
+	@GetMapping("/adminPage/users")
 	public String adminPageUsers(Model model) {
 		model.addAttribute("users", userService.getUserList());
 		return "/admin/adminPage(users).html";
 	}
 
-	@RequestMapping("/adminPage/products")
+	@GetMapping("/adminPage/products")
 	public String adminPageProducts(Model model) {
 		model.addAttribute("products", productService.getAll());
 		return "admin/adminPage(products).html";
 	}
 
-	@RequestMapping("/adminPage/brands")
+	@GetMapping("/adminPage/brands")
 	public String adminPageBrands(Model model) {
 		model.addAttribute("brand", new Brand());
 		model.addAttribute("brands", brandService.getBrandList());
 		return "admin/adminPage(brands).html";
 	}
 
-	@RequestMapping("/adminPage/orders")
+	@GetMapping("/adminPage/orders")
 	public String adminPageOrders(Model model) {
 		model.addAttribute("orders", orderService.getOrderByStatus());
 		return "admin/adminPage(orders).html";
 	}
 
-	@RequestMapping("/adminPage/contacts")
+	@GetMapping("/adminPage/contacts")
 	public String adminPageContacts(Model model) {
 		model.addAttribute("contacts", contactService.getContactList());
 		return "admin/adminPage(contacts).html";
@@ -82,20 +81,20 @@ public class AdminController {
 
 	/* ADD */
 
-	@RequestMapping("/add-user")
+	@GetMapping("/add-user")
 	public String toSaveUserPage(Model model, User user) {
 		model.addAttribute("saveUser", user);
 		return "admin/saveUser.html";
 	}
 
-	@RequestMapping("/add-product")
+	@GetMapping("/add-product")
 	public String toAddProductPage(Model model, Product product) {
 		model.addAttribute("brands", brandService.getBrandList());
 		model.addAttribute("product", product);
 		return "admin/saveProduct.html";
 	}
 
-	@RequestMapping("/add-brand")
+	@GetMapping("/add-brand")
 	public String toSaveBrandPage(Model model, Brand brand) {
 		model.addAttribute("brand", brand);
 		return "admin/saveBrand.html";
@@ -169,17 +168,17 @@ public class AdminController {
 
 	/* EDIT */
 
-	@RequestMapping("/editUser")
+	@GetMapping("/editUser")
 	public String editUser(Model model, @Param("id") int id) {
 		return toSaveUserPage(model, userService.findUserById(id));
 	}
 
-	@RequestMapping("/editProduct")
+	@GetMapping("/editProduct")
 	public String editProduct(Model model, Product product, @Param("id") int id) {
 		return toAddProductPage(model, productService.findProductById(id));
 	}
 
-	@RequestMapping("/editBrand")
+	@GetMapping("/editBrand")
 	public String editBrand(Model model, Brand brand, @Param("id") int id) {
 		return toSaveBrandPage(model, brandService.findBrandById(id));
 	}

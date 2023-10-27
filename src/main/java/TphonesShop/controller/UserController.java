@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
 import TphonesShop.model.Order;
+import TphonesShop.model.OrderDetail;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
@@ -60,7 +60,7 @@ public class UserController {
 	@Autowired
 	JavaMailSender mailSender;
 
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String toHomePage(Model model) {
 
 		if (!userService.checkExist("admin")) {
@@ -133,18 +133,18 @@ public class UserController {
 		return errorPage;
 	}
 
-	@RequestMapping("/contact")
+	@GetMapping("/contact")
 	public String toContactPage(Model model) {
 		model.addAttribute("saveContact", new Contact());
 		return "user/contactUs.html";
 	}
 
-	@RequestMapping("/about")
+	@GetMapping("/about")
 	public String toAboutPage(Model model) {
 		return "user/about.html";
 	}
 
-	@RequestMapping("/cart")
+	@GetMapping("/cart")
 	public String toCartPage(Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		if (user == null)
@@ -155,7 +155,7 @@ public class UserController {
 		return "user/cart.html";
 	}
 
-	@RequestMapping("/login")
+	@GetMapping("/login")
 	public String toLoginPage(Model model) {
 		return "user/login.html";
 	}
@@ -210,13 +210,13 @@ public class UserController {
 		return toLoginPage(model);
 	}
 
-	@RequestMapping("/product/{name}")
+	@GetMapping("/product/{name}")
 	public String toShowProductPage(Model model, @PathVariable("name") String name) {
 		model.addAttribute("product", productService.findProductByName(name));
 		return "user/productDetail.html";
 	}
 
-	@RequestMapping("/register")
+	@GetMapping("/register")
 	public String toRegisterPage(Model model, User user) {
 		model.addAttribute("saveUser", user);
 		return "user/register.html";
@@ -374,6 +374,29 @@ public class UserController {
 	public String toShippingPage(Model model, @PathVariable("order_id") long id) {
 		model.addAttribute("order", orderService.findOrderById(id));
 		return "user/shipping.html";
+	}
+
+	@PostMapping("/buy-now")
+	public String buyNow(
+			Model model,
+			HttpSession session,
+			@RequestParam("product_id") long id,
+			@RequestParam(value = "order_quantity", defaultValue = "1") int quantity) {
+
+		User user = (User) session.getAttribute("user");
+		if (user == null)
+			return "redirect:/login";
+
+		Product product = productService.findProductById(id);
+		Order order = orderService.save(new Order(user, 0));
+		OrderDetail orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
+
+		order.setTotalPrice(orderDetail.getFinalPrice());
+		order.addOrderDetails(orderDetail);
+
+		orderDetailService.save(orderDetail);
+
+		return toShippingPage(model, order.getId());
 	}
 
 }

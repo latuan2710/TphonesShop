@@ -106,6 +106,10 @@ public class User {
 	}
 
 	public String getDate() {
+		if (this.dateOfBirth == null) {
+			dateOfBirth = new Date();
+		}
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormat.format(dateOfBirth);
 	}

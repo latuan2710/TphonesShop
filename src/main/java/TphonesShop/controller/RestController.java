@@ -186,6 +186,25 @@ public class RestController {
 		}
 	}
 
+	@PostMapping("/checkout")
+	public boolean buyOrder(
+			@RequestParam("order_id") int id,
+			@RequestParam("products_name[]") String[] products_name,
+			@RequestParam("products_quantity[]") int[] products_quantity) {
+
+		for (int i = 0; i < products_quantity.length; i++) {
+			Product product = productService.findProductByName(products_name[i]);
+			product.setQuantity(product.getQuantity() - products_quantity[i]);
+			productService.save(product);
+		}
+
+		Order order = orderService.findOrderById(id);
+		order.setStatus(1);
+		orderService.save(order);
+
+		return true;
+	}
+
 	@PostMapping("/search")
 	public List<Product> searchProducts(@RequestParam("key") String key) {
 		Pageable paging = PageRequest.of(0, 10, Sort.by("id").descending());

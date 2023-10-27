@@ -145,7 +145,7 @@
 											<span class="control-label">Quantity</span>
 											<div class="cart-plus-minus">
 												<input class="cart-plus-minus-box" type="text" name="quantity"
-													value="1"/>
+													id="product-quatity" value="1" />
 											</div>
 											<div class="add">
 												<button type="submit" class="add-to-cart" id="AddToCart"
@@ -160,7 +160,7 @@
 												data-has-fixed-selling-plan="false" class="shopify-payment-button">
 												<button type="button" th:disabled="${product.quantity==0}"
 													class="shopify-payment-button__button--unbranded" id="buy-now"
-													th:data-name="${product.name}" th:data-id="${product.id}">
+													th:data-name="${product.name}" onclick="buyNow()">
 													Buy it now
 												</button>
 											</div>
@@ -201,7 +201,10 @@
 					</div>
 				</div>
 			</div>
-			<div>
+			<form action="/buy-now" method="post" class="d-none" id="buy-form">
+				<input type="number" name="order_quantity" value="1">
+				<input type="number" name="product_id" th:value="${product.id}">
+			</form>
 		</main>
 		<!--Footer Area Start-->
 		<div th:replace="~{user/index.html :: footer-top}">
@@ -228,19 +231,9 @@
 			});
 
 			$("#buy-now").click(function () {
-				$.post('/buy-now',
-					{
-						product_id: $(this).attr('data-id'),
-						quantity: $('input[name="quantity"]').val()
-					},
-					function (data) {
-						if (data) {
-							localStorage.setItem("alert-action", data);
-							location.reload()
-						} else {
-							location.href = '/login'
-						}
-					})
+				let quantity = $('input[name="quantity"]').val();
+				$('input[name="order_quantity"]').val(quantity);
+				$('#buy-form').submit();
 			});
 			alert_action(localStorage.getItem("alert-action"));
 

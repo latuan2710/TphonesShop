@@ -48,6 +48,7 @@ public class Order {
 	public Order(User user, int status) {
 		this.user = user;
 		this.status = status;
+		this.orderDetails = new ArrayList<>();
 	}
 
 	public long getId() {
@@ -89,6 +90,10 @@ public class Order {
 
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+
+	public void addOrderDetails(OrderDetail orderDetails) {
+		this.orderDetails.add(orderDetails);
 	}
 
 	public double getTotalPrice() {
