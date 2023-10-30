@@ -50,9 +50,4 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
-
-	@Override
-	public User findUserByToken(String token) {
-		return userRepository.findByToken(token);
-	}
 }

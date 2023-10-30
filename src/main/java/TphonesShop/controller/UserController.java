@@ -1,6 +1,7 @@
 package TphonesShop.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -28,12 +29,14 @@ import TphonesShop.model.Contact;
 import TphonesShop.model.Order;
 import TphonesShop.model.OrderDetail;
 import TphonesShop.model.Product;
+import TphonesShop.model.Token;
 import TphonesShop.model.User;
 import TphonesShop.service.BrandService;
 import TphonesShop.service.ContactService;
 import TphonesShop.service.OrderDetailService;
 import TphonesShop.service.OrderService;
 import TphonesShop.service.ProductService;
+import TphonesShop.service.TokenService;
 import TphonesShop.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
@@ -57,23 +60,13 @@ public class UserController {
 	OrderDetailService orderDetailService;
 	@Resource
 	ContactService contactService;
+	@Resource
+	TokenService tokenService;
 	@Autowired
 	JavaMailSender mailSender;
 
 	@GetMapping("/")
 	public String toHomePage(Model model) {
-
-		if (!userService.checkExist("admin")) {
-			User user = new User();
-			user.setUsername("admin");
-			user.setPassword("admin");
-			user.setType("admin");
-
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getPassword()));
-
-			userService.save(user);
-		}
 
 		model.addAttribute("saleProduct", productService.getSaleProducts());
 		model.addAttribute("newest", productService.getNewestProducts());
@@ -126,7 +119,7 @@ public class UserController {
 			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
 				errorPage = "error/403";
 			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				errorPage = "error/500";
+				errorPage = "/login";
 			}
 		}
 
@@ -240,43 +233,52 @@ public class UserController {
 	@PostMapping("/forgot-password")
 	public String forgotPass(@RequestParam("email") String email, HttpServletRequest request) {
 
-		String token = RandomStringUtils.randomAlphanumeric(60);
+		String tokenString = RandomStringUtils.randomAlphanumeric(60);
 
 		User user = userService.findUserByEmail(email);
-		user.setToken(token);
-		userService.save(user);
+
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime expirationTime = now.plusMinutes(30);
+
+		tokenService.save(new Token(tokenString, user.getId(), expirationTime));
 
 		String siteURL = request.getRequestURL().toString();
 		siteURL = siteURL.replace(request.getServletPath(), "");
 
-		String resetPasswordLink = siteURL + "/reset-password?token=" + token;
+		String resetPasswordLink = siteURL + "/reset-password?token=" + tokenString;
 		sendEmail(email, resetPasswordLink);
 
 		return "redirect:/login";
 	}
 
 	@GetMapping("/reset-password")
-	public String toResetPasswordPage(@RequestParam("token") String token, Model model) {
-		model.addAttribute("token", token);
+	public String toResetPasswordPage(@RequestParam("token") String tokenString, Model model) {
+		Token token = tokenService.findByToken(tokenString);
+		if (token == null)
+			model.addAttribute("tokenExprired", true);
+
+		model.addAttribute("token", tokenString);
 		return "user/recover_password.html";
 	}
 
 	@PostMapping("/reset-password")
-	public String resetPassword(Model model, @RequestParam("token") String token,
+	public String resetPassword(Model model, @RequestParam("token") String tokenString,
 			@RequestParam("password") String password) {
 
-		User user = userService.findUserByToken(token);
-
-		if (user == null) {
-			model.addAttribute("message", "Invalid Token");
-		} else {
-			model.addAttribute("message", "You have successfully changed your password.");
-
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(password));
-			user.setToken("");
-			userService.save(user);
+		Token token = tokenService.findByToken(tokenString);
+		if (token == null) {
+			model.addAttribute("resetToken", false);
+			return toLoginPage(model);
 		}
+		User user = userService.findUserById(token.getUserId());
+
+		model.addAttribute("resetToken", true);
+		model.addAttribute("message", "You have successfully changed your password.");
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(password));
+
+		tokenService.delete(token);
+		userService.save(user);
 
 		return toLoginPage(model);
 	}

@@ -129,9 +129,24 @@
 				}
 			});
 
-			let log_error =/*[[${logError}]]*/ 'logError';
-			if (log_error) {
-				$("#customer_login").prepend(`<div class="errors"><ul><li>Incorrect username or password.</li></ul></div>`)
+
+			if ("[[${ resetToken }]]"=="true") {
+				Swal.fire({
+					icon: 'success',
+					title: 'You have successfully changed your password.'
+				})
+			}else if("[[${ resetToken }]]"=="false"){
+				Swal.fire({
+					icon: 'error',
+					title: 'Your token is invalid!'
+				})
+			}
+
+			if("[[${logError}]]"=="true"){
+				Swal.fire({
+					icon: 'error',
+					title: 'Incorrect password!!'
+				})
 			}
 
 			$('main').on('click', 'button[type="submit"]', (e) => {
@@ -145,6 +160,11 @@
 					.then((data) => {
 						if (data) {
 							document.getElementById(form_id).submit();
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: 'Incorrect username!!'
+							})
 						}
 					})
 			})

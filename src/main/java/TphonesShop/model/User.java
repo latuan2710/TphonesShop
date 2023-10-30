@@ -36,7 +36,6 @@ public class User {
 	private Date dateOfBirth;
 	private boolean status = true;
 	private String type;
-	private String token;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
@@ -145,14 +144,6 @@ public class User {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 }

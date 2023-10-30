@@ -246,13 +246,13 @@
 							title: 'Your order has been placed successfully!!!',
 							text: `Orders will be delivered to ${address} in the next few days.`,
 							showDenyButton: true,
-							confirmButtonText: 'View Order',
-							denyButtonText: 'Home'
+							confirmButtonText: 'Continue Shopping',
+							denyButtonText: 'View Order'
 						}).then((result) => {
 							if (result.isConfirmed) {
-								location.href = `/order/detail/${order_id}`;
-							} else if (result.isDenied) {
 								location.href = '/';
+							} else if (result.isDenied) {
+								location.href = `/order/detail/${order_id}`;
 							}
 						});
 					}

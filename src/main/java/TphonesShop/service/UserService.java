@@ -13,8 +13,6 @@ public interface UserService {
 
 	public User findUserByEmail(String email);
 
-	public User findUserByToken(String token);
-
 	public void save(User user);
 
 	public void delete(long id);
