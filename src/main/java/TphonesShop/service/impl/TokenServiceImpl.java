@@ -18,7 +18,7 @@ public class TokenServiceImpl implements TokenService {
 	TokenRepository tokenRepository;
 
 	@Override
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(cron = "0 * * ? * *")
 	@Transactional
 	public void cleanExpiredTokens() {
 		LocalDateTime now = LocalDateTime.now();
@@ -38,6 +38,12 @@ public class TokenServiceImpl implements TokenService {
 	@Override
 	public void delete(Token token) {
 		tokenRepository.delete(token);
+	}
+
+	@Override
+	@Transactional
+	public void deleteByUserId(long user_id) {
+		tokenRepository.deleteByUserId(user_id);
 	}
 
 }

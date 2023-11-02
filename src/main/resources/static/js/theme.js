@@ -65,18 +65,6 @@
             )),
             e("#cate-toggle>ul>li.has-sub>a").append('<span class="holder"></span>'),
             e(".cart-plus-minus").append('<div class="dec qtybutton"><i class="ion-ios-arrow-down"></i></div><div class="inc qtybutton"><i class="ion-ios-arrow-up"></i></div>'),
-            e(".qtybutton").on("click", (function () {
-                var i = e(this)
-                    , s = i.parent().find("input").val();
-                if (i.hasClass("inc"))
-                    var t = parseFloat(s) + 1;
-                else if (s > 0)
-                    t = parseFloat(s) - 1;
-                else
-                    t = 0;
-                i.parent().find("input").val(t)
-            }
-            )),
             e(".hero-slider").owlCarousel({
                 smartSpeed: 1e3,
                 nav: !1,

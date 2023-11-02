@@ -15,6 +15,4 @@ public interface OrderDetailService {
     public List<OrderDetail> getOrdersByOrderId(long order_id);
 
     public void delete(long id);
-
-    public void deleteByOrderId(long order_id);
 }

@@ -20,4 +20,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	@Query(value = "SELECT * FROM cse310.orders where status!=0 and user_id=?1 ", nativeQuery = true)
 	List<Order> getHistoryOrders(long user_id);
+
+	void deleteByStatus(int status);
 }

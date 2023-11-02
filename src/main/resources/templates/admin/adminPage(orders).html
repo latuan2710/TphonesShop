@@ -101,13 +101,13 @@
 											<span th:if="${order.status < 0}">Cancel</span>
 										</td>
 										<td>
-											<a th:if="${order.status==1 || order.status<0}"
+											<a th:unless="${order.status==2}"
 												th:href=" '/order/'+${order.id}+'/status/2' "
 												class="btn btn-outline-success m-r-5">Process</a>
-											<a th:if="${order.status==2 || order.status<0}"
+											<a th:unless="${order.status==3}"
 												th:href="'/order/'+${order.id}+'/status/3'"
 												class="btn btn-outline-success m-r-5">Done</a>
-											<a th:if="${order.status > 0 && order.status != 3}"
+											<a th:unless="${order.status == -2 || order.status == -1}"
 												th:href="'/order/'+${order.id}+'/status/-2'"
 												class="btn btn-outline-danger m-r-5">Cancel</a>
 										</td>

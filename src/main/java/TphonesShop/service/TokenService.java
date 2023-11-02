@@ -9,5 +9,7 @@ public interface TokenService {
 
     public void delete(Token token);
 
+    public void deleteByUserId(long user_id);
+
     public Token findByToken(String token);
 }

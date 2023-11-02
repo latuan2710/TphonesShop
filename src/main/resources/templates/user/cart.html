@@ -82,12 +82,12 @@
                                                             th:value="${order.quantity}"
                                                             th:quantity-max="${order.product.quantity}"
                                                             onkeyup="typeQuantity(this)">
-                                                        <div class="dec qtybutton">
+                                                        <!-- <div class="dec qtybutton">
                                                             <i class="ion-ios-arrow-down"></i>
                                                         </div>
                                                         <div class="inc qtybutton">
                                                             <i class="ion-ios-arrow-up"></i>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </td>
                                                 <td class="product-subtotal">
@@ -183,7 +183,7 @@
                         'Content-Type': 'application/json'
                     },
                     url: "/update-cart",
-                    data: JSON.stringify(postdata), 
+                    data: JSON.stringify(postdata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {

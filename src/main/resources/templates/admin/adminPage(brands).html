@@ -61,7 +61,6 @@
 								th:object="${brand}" method="post">
 								<div class="row">
 									<div class="col-12 mb-5">
-										<h3 class="box-title">Add Brand</h3>
 										<label for="input-file-now">Upload your product image here</label>
 										<div class="dropify-wrapper">
 											<div class="dropify-message">
@@ -117,9 +116,8 @@
 											<td>
 												<button th:data-id="${brand.id}" onclick="editBrand(this)"
 													class="btn btn-outline-warning m-r-5">Edit</button>
-												<button 
-												th:onclick="'delete_confirm('+${brand.id}+');'"
-												th:attr="disabled=${brand.products.size() != 0 ? 'disabled':null}"
+												<button th:onclick="'delete_confirm('+${brand.id}+');'"
+													th:attr="disabled=${brand.products.size() != 0 ? 'disabled':null}"
 													class="btn btn-outline-danger">Delete</button>
 											</td>
 										</tr>

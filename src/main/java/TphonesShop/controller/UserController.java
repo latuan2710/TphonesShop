@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,7 +40,6 @@ import TphonesShop.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -103,27 +101,6 @@ public class UserController {
 			}
 		}
 		return brand_slide_html;
-	}
-
-	@GetMapping("/error")
-	public String ErrorPage(HttpServletRequest request) {
-		String errorPage = "error"; // default
-
-		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-		if (status != null) {
-			Integer statusCode = Integer.valueOf(status.toString());
-
-			if (statusCode == HttpStatus.NOT_FOUND.value()) {
-				errorPage = "error/404";
-			} else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-				errorPage = "error/403";
-			} else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				errorPage = "/login";
-			}
-		}
-
-		return errorPage;
 	}
 
 	@GetMapping("/contact")
@@ -277,7 +254,7 @@ public class UserController {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(password));
 
-		tokenService.delete(token);
+		tokenService.deleteByUserId(user.getId());
 		userService.save(user);
 
 		return toLoginPage(model);
@@ -390,7 +367,7 @@ public class UserController {
 			return "redirect:/login";
 
 		Product product = productService.findProductById(id);
-		Order order = orderService.save(new Order(user, 0));
+		Order order = orderService.save(new Order(user, 5));
 		OrderDetail orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
 
 		order.setTotalPrice(orderDetail.getFinalPrice());

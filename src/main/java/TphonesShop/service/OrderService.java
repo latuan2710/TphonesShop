@@ -17,5 +17,7 @@ public interface OrderService {
 
     public Order save(Order Order);
 
-    public void delete(long id);
+    public void delete(Order order);
+
+    public void checkStatus();
 }

@@ -83,7 +83,7 @@ public class RestController {
 			}
 
 			if (order.getOrderDetails().size() == 0) {
-				orderService.delete(order.getId());
+				orderService.delete(order);
 				return true;
 			}
 
@@ -162,7 +162,7 @@ public class RestController {
 			orderDetailService.delete(id);
 
 			if (order.getOrderDetails().size() == 0)
-				orderService.delete(order.getId());
+				orderService.delete(order);
 
 			return true;
 		} catch (Exception e) {
@@ -176,8 +176,7 @@ public class RestController {
 			User user = (User) httpSession.getAttribute("user");
 			Order order = orderService.getCart(user.getId());
 
-			orderDetailService.deleteByOrderId(order.getId());
-			orderService.delete(order.getId());
+			orderService.delete(order);
 
 			return true;
 		} catch (Exception e) {

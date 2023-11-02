@@ -218,6 +218,11 @@
 		<script src="/js/jquery_dataTables_min.js"></script>
 		<script src="/js/scripts.js"></script>
 		<script src="/js/jquery.toast.js"></script>
+		<script>
+			let title=$('h3.box-title');
+			$('h4.page-title').text(title.text());
+			title.remove();
+		</script>
 	</div>
 
 	<script th:inline="javascript">

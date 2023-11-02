@@ -3,11 +3,13 @@ package TphonesShop.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import TphonesShop.model.Order;
 import TphonesShop.repository.OrderRepository;
 import TphonesShop.service.OrderService;
+import jakarta.transaction.Transactional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -26,9 +28,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void delete(long id) {
-		orderRepository.deleteById(id);
-
+	@Transactional
+	public void delete(Order order) {
+		orderRepository.delete(order);
 	}
 
 	@Override
@@ -49,6 +51,13 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getOrderByStatus() {
 		return orderRepository.getOrdersBuyed();
+	}
+
+	@Override
+	@Scheduled(cron = "0 0 0 * * ?")
+	@Transactional
+	public void checkStatus() {
+		orderRepository.deleteByStatus(5);
 	}
 
 }
