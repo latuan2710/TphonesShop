@@ -145,7 +145,8 @@
 											<span class="control-label">Quantity</span>
 											<div class="cart-plus-minus">
 												<input class="cart-plus-minus-box" type="text" name="quantity"
-													id="product-quatity" value="1" />
+													id="product-quatity" value="1" onkeyup="typeQuantity(this)"
+													th:quantity-max="${product.quantity}" />
 											</div>
 											<div class="add">
 												<button type="submit" class="add-to-cart" id="AddToCart"
@@ -213,6 +214,31 @@
 		</footer>
 		<!--Footer Area End-->
 		<script th:inline="javascript">
+			$(".product-add-to-cart").on("click", ".qtybutton", function () {
+				let i = $(this);
+				s = i.parent().find("input");
+				let max = parseInt(s.attr("quantity-max"));
+				s = s.val();
+
+				let quantity = 0;
+				if (i.hasClass("inc"))
+					quantity = (s < max) ? (parseInt(s) + 1) : max;
+				else
+					quantity = (s > 0) ? (parseInt(s) - 1) : 0;
+
+				i.parent().find("input").val(quantity)
+			});
+
+			function typeQuantity(e) {
+				let input = $(e);
+
+				let quantity = parseInt(input.val());
+				let max = parseInt(input.attr("quantity-max"));
+
+				quantity = (quantity < 0 || !quantity) ? 0 : ((quantity > max) ? max : quantity);
+
+				input.val(quantity);
+			}
 
 			$("#AddToCart").click(function () {
 				$.post('/add-to-cart',

@@ -116,38 +116,6 @@
 				$("#RecoverPasswordForm").toggleClass("d-none");
 				$("#CustomerLoginForm").toggleClass("d-none");
 			})
-			/*---------------------------------
-				  Sticky Menu Active
-			  -----------------------------------*/
-
-			$(window).on('scroll', function () {
-				if ($(this).scrollTop() > 50) {
-					$('.header-sticky').addClass("is-sticky");
-				}
-				else {
-					$('.header-sticky').removeClass("is-sticky");
-				}
-			});
-
-
-			if ("[[${ resetToken }]]"=="true") {
-				Swal.fire({
-					icon: 'success',
-					title: 'You have successfully changed your password.'
-				})
-			}else if("[[${ resetToken }]]"=="false"){
-				Swal.fire({
-					icon: 'error',
-					title: 'Your token is invalid!'
-				})
-			}
-
-			if("[[${logError}]]"=="true"){
-				Swal.fire({
-					icon: 'error',
-					title: 'Incorrect password!!'
-				})
-			}
 
 			$('main').on('click', 'button[type="submit"]', (e) => {
 				let form = $(e.target).parents("form");
@@ -166,7 +134,7 @@
 								title: 'Incorrect username!!'
 							})
 						}
-					})
+					});
 			})
 
 		</script>

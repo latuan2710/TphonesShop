@@ -18,7 +18,7 @@ public class TokenServiceImpl implements TokenService {
 	TokenRepository tokenRepository;
 
 	@Override
-	@Scheduled(cron = "0 * * ? * *")
+	@Scheduled(fixedRate = 60000)
 	@Transactional
 	public void cleanExpiredTokens() {
 		LocalDateTime now = LocalDateTime.now();

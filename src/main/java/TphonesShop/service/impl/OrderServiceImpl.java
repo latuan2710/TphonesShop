@@ -3,6 +3,7 @@ package TphonesShop.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -49,12 +50,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrderByStatus() {
-		return orderRepository.getOrdersBuyed();
+	public List<Order> getOrdersBuyed() {
+		List<Order> result = orderRepository.findByStatus(1, Sort.by("id").descending());
+
+		result.addAll(orderRepository.findByStatus(2, Sort.by("id").descending()));
+		result.addAll(orderRepository.findByStatus(3, Sort.by("id").ascending()));
+		result.addAll(orderRepository.findByStatus(-1, Sort.by("id").ascending()));
+		result.addAll(orderRepository.findByStatus(-2, Sort.by("id").ascending()));
+
+		return result;
 	}
 
 	@Override
-	@Scheduled(cron = "0 0 0 * * ?")
+	@Scheduled(fixedRate = 1800000)
 	@Transactional
 	public void checkStatus() {
 		orderRepository.deleteByStatus(5);

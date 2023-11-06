@@ -83,6 +83,9 @@
 												<li th:if="${session.user != null && session.user.type == 'admin'}">
 													<a href="/adminPage/users">Dashboard</a>
 												</li>
+												<li th:if="${session.user != null}">
+													<a href="/change-password">Change Password</a>
+												</li>
 												<li><a href="/cart">Cart</a></li>
 												<li th:if="${session.user==null}">
 													<a href=" /login">Sign In</a>
@@ -235,7 +238,7 @@
 												30% off
 											</h1>
 											<div class="slider-btn mt-50">
-												<a href="/brand/Apple">Shop Now</a>
+												<a href="/all-product?brand=Apple">Shop Now</a>
 											</div>
 										</div>
 									</div>
@@ -255,7 +258,7 @@
 												30% off
 											</h1>
 											<div class="slider-btn mt-50">
-												<a href="/brand/Samsung">Shop Now</a>
+												<a href="/all-product?brand=Samsung">Shop Now</a>
 											</div>
 										</div>
 									</div>
@@ -548,6 +551,20 @@
 					<!--Footer Bottom Area End-->
 				</div>
 			</div>
+			<script th:inline="javascript">
+				let message =/*[[${message}]]*/ '';
+				if ("[[${ flag }]]" == "true") {
+					Swal.fire({
+						icon: 'success',
+						title: message
+					})
+				} else if ("[[${ flag }]]" == "false") {
+					Swal.fire({
+						icon: 'error',
+						title: message
+					})
+				}
+			</script>
 		</footer>
 		<!--Footer Area End-->
 		<script th:inline="javascript">

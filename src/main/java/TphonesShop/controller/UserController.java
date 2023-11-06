@@ -130,6 +130,28 @@ public class UserController {
 		return "user/login.html";
 	}
 
+	@PostMapping("/login")
+	public String login(Model model, @Param("username") String username, @Param("password") String password,
+			HttpSession httpSession) {
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		User user = userService.findUserByUsername(username);
+		if (user.isStatus() && encoder.matches(password, user.getPassword())) {
+			httpSession.setAttribute("user", user);
+			if (user.getType().equals("admin")) {
+				return "redirect:/adminPage/users";
+			} else {
+				return "redirect:/";
+			}
+		}
+
+		model.addAttribute("flag", false);
+		model.addAttribute("message", "Incorrect Password!");
+
+		return toLoginPage(model);
+	}
+
 	@GetMapping("/account")
 	public String toProfilePage(Model model, HttpSession session) {
 		User user = (User) session.getAttribute("user");
@@ -157,27 +179,6 @@ public class UserController {
 		orderService.save(order);
 
 		return "redirect:/account";
-	}
-
-	@PostMapping("/login")
-	public String login(Model model, @Param("username") String username, @Param("password") String password,
-			HttpSession httpSession) {
-
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-		User user = userService.findUserByUsername(username);
-		if (user.isStatus() && encoder.matches(password, user.getPassword())) {
-			httpSession.setAttribute("user", user);
-			if (user.getType().equals("admin")) {
-				return "redirect:/adminPage/users";
-			} else {
-				return toHomePage(model);
-			}
-		}
-
-		model.addAttribute("logError", true);
-
-		return toLoginPage(model);
 	}
 
 	@GetMapping("/product/{name}")
@@ -228,6 +229,21 @@ public class UserController {
 		return "redirect:/login";
 	}
 
+	@GetMapping("/change-password")
+	public String changePassword(HttpSession session, HttpServletRequest request, Model model) {
+
+		String tokenString = RandomStringUtils.randomAlphanumeric(60);
+
+		User user = (User) session.getAttribute("user");
+
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime expirationTime = now.plusMinutes(30);
+
+		tokenService.save(new Token(tokenString, user.getId(), expirationTime));
+
+		return toResetPasswordPage(tokenString, model);
+	}
+
 	@GetMapping("/reset-password")
 	public String toResetPasswordPage(@RequestParam("token") String tokenString, Model model) {
 		Token token = tokenService.findByToken(tokenString);
@@ -240,22 +256,26 @@ public class UserController {
 
 	@PostMapping("/reset-password")
 	public String resetPassword(Model model, @RequestParam("token") String tokenString,
-			@RequestParam("password") String password) {
+			@RequestParam("password") String password, HttpSession httpSession) {
 
 		Token token = tokenService.findByToken(tokenString);
 		if (token == null) {
-			model.addAttribute("resetToken", false);
+			model.addAttribute("flag", false);
+			model.addAttribute("message", "Your token link is invalid!");
 			return toLoginPage(model);
 		}
 		User user = userService.findUserById(token.getUserId());
 
-		model.addAttribute("resetToken", true);
+		model.addAttribute("flag", true);
 		model.addAttribute("message", "You have successfully changed your password.");
+		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(password));
 
 		tokenService.deleteByUserId(user.getId());
 		userService.save(user);
+
+		httpSession.removeAttribute("user");
 
 		return toLoginPage(model);
 	}

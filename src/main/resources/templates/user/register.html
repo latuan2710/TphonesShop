@@ -51,12 +51,12 @@
 									</div>
 									<div class="register-form">
 										<form method="post" th:object="${saveUser}" action="/register"
-											id="create_customer" onsubmit="return checkForm();">
+											id="create_customer" onsubmit="return false">
 											<div class="errors">
 												<ul>
 												</ul>
 											</div>
-											<label class="required" for="username">Username</label> 
+											<label class="required" for="username">Username</label>
 											<input type="text" id="username" class="input-full" th:field="*{username}"
 												required>
 											<label class="required" for="password">Password</label>
@@ -68,7 +68,8 @@
 											<input type="date" id="dateOfBirth" class="input-full"
 												th:field="*{dateOfBirth}">
 											<label class="required" for="phone">Phone</label>
-											<input type="text" id="phone" class="input-full" th:field="*{phone}">
+											<input type="text" id="phone" class="input-full" th:field="*{phone}"
+												required>
 											<label class="required" for="email">Email</label>
 											<input type="email" name="email" id="email" class="input-full"
 												th:field="*{email}" required>
@@ -95,60 +96,55 @@
 		<footer th:replace="~{user/index.html :: footer}"></footer>
 		<!--Footer Area End-->
 		<script>
-			/*---------------------------------
-				Sticky Menu Active
-			-----------------------------------*/
+			$(`button[type='submit']`).click(async (e) => {
+				let username_input = $("#username").val();
+				let email_input = $("#email").val();
+				let phone_input = $("#phone").val();
 
-			$(window).on('scroll', function () {
-				if ($(this).scrollTop() > 50) {
-					$('.header-sticky').addClass("is-sticky");
+				if (username_input === "" || email_input === "" || phone_input === "") {
+					Swal.fire({
+						icon: 'error',
+						title: 'Please fill in all the required fields!'
+					});
+					return;
 				}
-				else {
-					$('.header-sticky').removeClass("is-sticky");
-				}
-			});
-			function checkUsername() {
-				let val = $("#username").val();
-				$.post("/check/username", { username: val }, function (data) {
-					if (data) {
-						$(".errors ul").append(`<li class="error-username">Username existed</li>`)
-					} else {
-						$(".error-username").remove();
-					}
-				})
-			}
-			function checkEmail() {
-				let val = $("#email").val();
-				$.post("/check/email", { email: val }, function (data) {
-					if (data) {
-						$(".errors ul").append(`<li class="error-email">Email existed</li>`)
-					} else {
-						$(".error-email").remove();
-					}
-				})
-			}
-			function checkPhone() {
-				let val = $("#phone").val();
-				$.post("/check/phone", { phone: val }, function (data) {
-					if (data) {
-						$(".errors ul").append(`<li class="error-phone">Phone number existed</li>`)
-					} else {
-						$(".error-phone").remove();
-					}
-				})
-			}
+				
+				res = await fetch(`/check?key=${username_input}`);
+				data = await res.json();
+				let usernameExist = data;
 
-			$("#username").on("change", checkUsername);
-			$("#email").on("change", checkEmail);
-			$("#phone").on("change", checkPhone);
+				res = await fetch(`/check?key=${email_input}`);
+				data = await res.json();
+				let emailExist = data;
 
-			function checkForm() {
-				if ($(".errors li").length) {
-					return false;
+				res = await fetch(`/check?key=${phone_input}`);
+				data = await res.json();
+				let phoneExist = data;
+
+				let message = "";
+				if (usernameExist && emailExist && phoneExist) {
+					message = "Your username, email and phone number are existed!"
+				} else if (usernameExist && emailExist) {
+					message = "Your username and email are existed!"
+				} else if (usernameExist && phoneExist) {
+					message = "Your username and phone number are existed!"
+				} else if (emailExist && phoneExist) {
+					message = "Your email and phone number are existed!"
+				} else if (usernameExist) {
+					message = "Your username is existed!"
+				} else if (emailExist) {
+					message = "Your email is existed!"
+				} else if (phoneExist) {
+					message = "Your phone number is existed!"
 				} else {
-					return true;
+					document.getElementById('create_customer').submit();
 				}
-			}
+
+				Swal.fire({
+					icon: 'error',
+					title: message
+				})
+			});
 
 			var date = new Date();
 			var day = date.getDate();
