@@ -160,7 +160,6 @@ public class UserController {
 			return "redirect:/login";
 
 		model.addAttribute("orders", orderService.getHistoryOrders(user.getId()));
-
 		return "user/profile.html";
 	}
 

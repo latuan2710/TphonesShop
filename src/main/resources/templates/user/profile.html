@@ -11,6 +11,15 @@
 			font-size: larger;
 		}
 
+		i.fa.fa-pencil-square-o {
+			margin-left: 5px;
+			cursor: pointer;
+		}
+
+		i.fa.fa-pencil-square-o:hover {
+			color: #442674;
+		}
+
 		.btn {
 			display: inline-block;
 			font-weight: 400;
@@ -40,13 +49,36 @@
 			background-color: #17a2b8;
 		}
 
-		i.fa.fa-pencil-square-o {
-			margin-left: 5px;
+		.btn-info:hover {
+			border: none;
+		}
+
+		.box-order {
+			margin: 12px 0;
+			box-shadow: 0 0px 1px 0 rgb(0, 0, 0);
+			border-radius: 0.125rem;
+		}
+
+		.order-product-image {
+			height: 100px;
+			width: 100px;
 			cursor: pointer;
 		}
 
-		i.fa.fa-pencil-square-o:hover {
-			color: #442674;
+		.order-product-name>p {
+			cursor: pointer;
+		}
+
+		.order-product-name span {
+			color: #17a2b8;
+		}
+
+		hr {
+			margin: 0;
+		}
+
+		.box-order-bottom {
+			padding: 10px;
 		}
 	</style>
 	<div class="wrapper">
@@ -117,41 +149,45 @@
 							<h2 class="h4">Order History</h2>
 							<p th:if="${orders.size==0}">You haven't placed any orders yet.</p>
 							<div th:if="${orders.size!=0}">
-								<table>
-									<thead>
-										<tr>
-											<th>No.</th>
-											<th>Order Id</th>
-											<th>Total Products</th>
-											<th>Total Money</th>
-											<th>Status</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="order,index : ${orders}">
-											<td th:text="${index.index+1}"></td>
-											<td th:text="${order.id}"></td>
-											<td th:text="${order.orderDetails.size}"></td>
-											<td th:text="${order.totalPrice}"></td>
-											<td>
-												<span th:if="${order.status==-1}">Cancelled</span>
-												<span th:if="${order.status==-2}">Cancelled by Shop</span>
-												<span th:if="${order.status==1}">Preparing</span>
-												<span th:if="${order.status==2}">Shipping</span>
-												<span th:if="${order.status==3}">Shipped</span>
-											</td>
-											<td class="d-flex justify-content-center align-items-center gap-2"
-												style="gap: 5px;">
-												<a class="btn btn-info border-0"
-													th:href="${'/order/detail/'+order.id}">Detail</a>
-												<a class="btn btn-danger border-0"
-													th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
-													th:href="${'/order/delete/'+order.id}">Cancel</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								<div class="box-order" name="iPhone 14 Pro Max" th:each="order : ${orders}">
+									<div class="d-flex box-order-top m-2">
+										<div class="order-product-image d-flex align-items-center">
+											<img class="mw-100 mh-100"
+												th:src="${order.orderDetails[0].product.featuredImage}"
+												alt="order-product-image" loading="lazy">
+										</div>
+										<div class="mt-10 mb-10 d-flex flex-column justify-content-between w-100">
+											<div class="order-product-name d-flex justify-content-between">
+												<p>[(${order.orderDetails[0].product.name})]</p>
+												<span class="d-block" th:if="${order.status==-1}">Cancelled</span>
+												<span class="d-block" th:if="${order.status==-2}">Cancelled by
+													Shop</span>
+												<span class="d-block" th:if="${order.status==1}">Preparing</span>
+												<span class="d-block" th:if="${order.status==2}">Shipping</span>
+												<span class="d-block" th:if="${order.status==3}">Shipped</span>
+											</div>
+											<div class="order-product-quantity text-right">
+												x[(${order.orderDetails[0].quantity})]
+											</div>
+											<div class="order-product-totalPrice text-right">
+												$[(${order.orderDetails[0].finalPrice})]
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="box-order-middle d-flex justify-content-between align-items-center">
+										<p class="m-2 ml-3">[(${order.orderDetails.size()})] item</p>
+										<p class="m-2">Order Total: <span>$[(${order.totalPrice})]</span></p>
+									</div>
+									<hr>
+									<div class="box-order-bottom text-right">
+										<a class="btn btn-info border-0"
+											th:href="${'/order/detail/'+order.id}">Detail</a>
+										<a class="btn btn-danger border-0"
+											th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
+											th:href="${'/order/delete/'+order.id}">Cancel</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
