@@ -1,7 +1,16 @@
 if ($(window).width() <= 766) {
 	$('body').toggleClass('content-wrapper')
 }
-
+function onlyNumbers(event) {
+	if (event.ctrlKey || event.altKey || event.metaKey || event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+		return true;
+	}
+	if (/^\d|-$/i.test(event.key)) {
+		return true;
+	}
+	event.preventDefault();
+	return false;
+}
 function showPass() {
 	if ($("#password").attr("type") == "password") {
 		$("#password").attr("type", "text")

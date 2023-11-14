@@ -19,6 +19,28 @@
 		tr.loading td {
 			text-align: center;
 		}
+
+		.child-table th:nth-child(2) {
+			width: fit-content;
+			text-align: center;
+		}
+
+		.child-table tr td:nth-child(2) {
+			height: 100px;
+		}
+
+		.child-table th:nth-child(3),
+		.child-table tr>td:nth-child(3) {
+			text-align: left !important;
+			width: 30%;
+		}
+
+		.child-table th:nth-child(4),
+		.child-table th:nth-child(5),
+		.child-table tr td:nth-child(4),
+		.child-table tr td:nth-child(5) {
+			text-align: right;
+		}
 	</style>
 	<div id="wrapper">
 		<!-- Top Navigation -->
@@ -200,29 +222,6 @@
 			row.child.hide();
 		}
 	</script>
-	<style>
-		.child-table th:nth-child(2) {
-			width: fit-content;
-			text-align: center;
-		}
-
-		.child-table tr td:nth-child(2) {
-			height: 100px;
-		}
-
-		.child-table th:nth-child(3),
-		.child-table tr>td:nth-child(3) {
-			text-align: left !important;
-			width: 30%;
-		}
-
-		.child-table th:nth-child(4),
-		.child-table th:nth-child(5),
-		.child-table tr td:nth-child(4),
-		.child-table tr td:nth-child(5) {
-			text-align: right;
-		}
-	</style>
 </body>
 
 </html>

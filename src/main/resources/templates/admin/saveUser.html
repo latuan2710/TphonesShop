@@ -55,9 +55,8 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="white-box">
-
-							<form class="form-horizontal" th:object="${saveUser}" onsubmit="return checkForm();"
-								th:action="@{'/saveUser/'+${saveUser.id}}" method="post">
+							<form class="form-horizontal" th:object="${saveUser}" onsubmit="return false;"
+								th:action="@{'/saveUser/'+${saveUser.id}}" method="post" id="saveUser">
 								<div class="row">
 									<div class="col-md-6 col-12 form-group">
 										<label for="username" class="col-md-12 required">Username</label>
@@ -92,15 +91,15 @@
 									<div class="col-md-6 col-12 form-group">
 										<label for="birth" class="col-md-12">Date Of Birth</label>
 										<div class="col-md-12">
-											<input id="birth" th:value="${saveUser.getDate()}"  name="dateOfBirth" type="date"
-												class="form-control">
+											<input id="birth" th:value="${saveUser.getDate()}" name="dateOfBirth"
+												type="date" class="form-control">
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group">
 										<label for="phone" class="col-md-12 required">Phone</label>
 										<div class="col-md-12">
 											<input id="phone" th:field="*{phone}" type="text" class="form-control"
-												required>
+												required onkeydown="return onlyNumbers(event)">
 										</div>
 									</div>
 									<div class="col-md-6 col-12 form-group">
@@ -135,7 +134,7 @@
 									</div>
 								</div>
 							</form>
-							
+
 						</div>
 					</div>
 				</div>
@@ -153,77 +152,65 @@
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
 
-		let origin_username = $("#username").val();
-		let origin_email = $("#email").val();
-		let origin_phone = $("#phone").val();
+		let orgirinal_username = $("#username").val();
+		let orgirinal_email = $("#email").val();
+		let orgirinal_phone = $("#phone").val();
+		let orgirinals = [orgirinal_username, orgirinal_email, orgirinal_phone]
 
-		function checkUsername() {
-			let val = $("#username").val();
-			if (origin_username != val) {
-				$.post("/check/username", { username: val }, function (data) {
-					if (data) {
-						$("#username").addClass("form-control-danger");
-						$("#username").parents(".form-group").addClass("has-danger")
-					} else {
-						$("#username").removeClass("form-control-danger");
-						$("#username").parents(".form-group").removeClass("has-danger")
-					}
-				})
-			} else {
-				$("#phone").removeClass("form-control-danger");
-				$("#phone").parents(".form-group").removeClass("has-danger")
-			}
-		}
-		function checkEmail() {
-			let val = $("#email").val();
-			if (origin_email != val) {
-				$.post("/check/email", { email: val }, function (data) {
-					if (data) {
-						$("#email").addClass("form-control-danger");
-						$("#email").parents(".form-group").addClass("has-danger")
-					} else {
-						$("#email").removeClass("form-control-danger");
-						$("#email").parents(".form-group").removeClass("has-danger")
-					}
-				})
-			} else {
-				$("#phone").removeClass("form-control-danger");
-				$("#phone").parents(".form-group").removeClass("has-danger")
-			}
-		}
-		function checkPhone() {
-			let val = $("#phone").val();
-			if (origin_phone != val) {
-				$.post("/check/phone", { phone: val }, function (data) {
-					if (data) {
-						$("#phone").addClass("form-control-danger");
-						$("#phone").parents(".form-group").addClass("has-danger")
-					} else {
-						$("#phone").removeClass("form-control-danger");
-						$("#phone").parents(".form-group").removeClass("has-danger")
-					}
-				})
-			} else {
-				$("#phone").removeClass("form-control-danger");
-				$("#phone").parents(".form-group").removeClass("has-danger")
-			}
+		$(`button[type='submit']`).click(async (e) => {
+			let username_input = $("#username").val();
+			let email_input = $("#email").val();
+			let phone_input = $("#phone").val();
+
+			if (!orgirinals.includes(username_input))
+				check(username_input);
+			if (!orgirinals.includes(email_input))
+				check(email_input);
+			if (!orgirinals.includes(phone_input))
+				check(phone_input);
+
+			res = await fetch(`/check?key=${username_input}`);
+			data = await res.json();
+			let usernameExist = data;
+
+			res = await fetch(`/check?key=${email_input}`);
+			data = await res.json();
+			let emailExist = data;
+
+			res = await fetch(`/check?key=${phone_input}`);
+			data = await res.json();
+			let phoneExist = data;
+
+			let message = "Your ";
+
+			if (usernameExist)
+				message += "Username ";
+			if (emailExist)
+				message += "Email "
+			if (phoneExist)
+				message += "Phone "
+
+			if (message == "Your ")
+				document.getElementById('create_customer').submit();
+
+			message += "are existed!!"
+
+			Swal.fire({
+				icon: 'error',
+				title: message
+			})
+		});
+
+		function isChange(input) {
+			return orgirinals.includes(input);
 		}
 
-		$("#username").on("change", checkUsername);
-		$("#email").on("change", checkEmail);
-		$("#phone").on("change", checkPhone);
-
-		function checkForm() {
-			let username = $("#username").hasClass("form-control-danger");
-			let email = $("#email").hasClass("form-control-danger");
-			let phone = $("#phone").hasClass("form-control-danger");
-
-			if (username || email || phone) {
-				return false;
-			} else {
-				return true;
-			}
-		}
+		async function check(key) {
+			fetch(`/check?key=${key}`)
+				.then((response) => response.json())
+				.then(data => { return data })
+				.catch(error => { console.error(error) })
+		};
 
 		if ($("#birth").val() == '') {
 			var date = new Date();

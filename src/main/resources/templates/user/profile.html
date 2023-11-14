@@ -235,10 +235,16 @@
 				let value = parent.find('input').val();
 
 				if (name == "email" && !value.includes('@')) {
-					alert("Please enter a valid email.");
+					Swal.fire({
+						icon: 'error',
+						title: "Please enter a valid email."
+					})
 					return false;
 				} else if (name == "phone" && /[a-zA-Z]/.test(value)) {
-					alert("Please enter a valid phone number.");
+					Swal.fire({
+						icon: 'error',
+						title: "Please enter a valid phone number."
+					})
 					return false;
 				}
 

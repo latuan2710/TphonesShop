@@ -69,7 +69,7 @@
 												th:field="*{dateOfBirth}">
 											<label class="required" for="phone">Phone</label>
 											<input type="text" id="phone" class="input-full" th:field="*{phone}"
-												required>
+												required onkeydown="return onlyNumbers(event)">
 											<label class="required" for="email">Email</label>
 											<input type="email" name="email" id="email" class="input-full"
 												th:field="*{email}" required>
@@ -108,43 +108,34 @@
 					});
 					return;
 				}
-				
-				res = await fetch(`/check?key=${username_input}`);
-				data = await res.json();
-				let usernameExist = data;
 
-				res = await fetch(`/check?key=${email_input}`);
-				data = await res.json();
-				let emailExist = data;
-
-				res = await fetch(`/check?key=${phone_input}`);
-				data = await res.json();
-				let phoneExist = data;
+				let usernameExist = await check(username_input);
+				let emailExist = await check(email_input);
+				let phoneExist = await check(phone_input);
 
 				let message = "";
-				if (usernameExist && emailExist && phoneExist) {
-					message = "Your username, email and phone number are existed!"
-				} else if (usernameExist && emailExist) {
-					message = "Your username and email are existed!"
-				} else if (usernameExist && phoneExist) {
-					message = "Your username and phone number are existed!"
-				} else if (emailExist && phoneExist) {
-					message = "Your email and phone number are existed!"
-				} else if (usernameExist) {
-					message = "Your username is existed!"
-				} else if (emailExist) {
-					message = "Your email is existed!"
-				} else if (phoneExist) {
-					message = "Your phone number is existed!"
-				} else {
+
+				if (usernameExist)
+					message += "Your username is existed!\n";
+				if (emailExist)
+					message += "Your email is existed!\n"
+				if (phoneExist)
+					message += "Your phone is existed!\n"
+
+				if (message.length == 0)
 					document.getElementById('create_customer').submit();
-				}
 
 				Swal.fire({
 					icon: 'error',
 					title: message
 				})
 			});
+
+			async function check(key) {
+				const response = await fetch(`check?key=${key}`);
+				const data = await response.json();
+				return data;
+			}
 
 			var date = new Date();
 			var day = date.getDate();

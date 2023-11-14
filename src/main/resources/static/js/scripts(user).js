@@ -1,11 +1,12 @@
-function showPass() {
-	if ($("#password").attr("type") == "password") {
-		$("#password").attr("type", "text")
-	} else {
-		$("#password").attr("type", "password")
+function onlyNumbers(event) {
+	if (event.ctrlKey || event.altKey || event.metaKey || event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+		return true;
 	}
-	$("#basic-addon2 .fa").toggleClass("fa-eye-slash")
-	$("#basic-addon2 .fa").toggleClass("fa-eye")
+	if (/^\d|-$/i.test(event.key)) {
+		return true;
+	}
+	event.preventDefault();
+	return false;
 }
 
 $(window).ready(function () {
