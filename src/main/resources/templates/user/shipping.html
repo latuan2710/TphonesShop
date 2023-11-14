@@ -84,6 +84,61 @@
 			font-weight: bold;
 			margin: 0;
 		}
+
+		.order-summary {
+			display: none;
+		}
+
+		@media only screen and (max-width: 600px) {
+			main>.container>.row>div.col-md-4.col-12 {
+				display: none;
+			}
+
+			.order-summary {
+				display: block;
+			}
+
+			.order-summary h3 {
+				position: relative;
+			}
+
+			.order-summary h3>button {
+				font-size: 14px;
+				color: #ff6a00;
+				position: absolute;
+				right: 0;
+				top: 50%;
+				transform: translate(-10%, -50%);
+			}
+
+			.order-summary .hide-order::after {
+				content: "\f107";
+				font: normal normal normal 14px/1 FontAwesome;
+				font-size: inherit;
+				text-rendering: auto;
+				-webkit-font-smoothing: antialiased;
+				margin-left: 3px;
+			}
+
+			.order-summary .show-order::after {
+				content: "\f106";
+				font: normal normal normal 14px/1 FontAwesome;
+				font-size: inherit;
+				text-rendering: auto;
+				-webkit-font-smoothing: antialiased;
+				margin-left: 3px;
+			}
+
+			.order-summary>div.pt-20 {
+				padding: 0;
+				overflow: hidden;
+			}
+
+			div.order-summary>div.totalPriceContent {
+				margin: 0 !important;
+				margin-bottom: 10px !important;
+			}
+		}
 	</style>
 	<div class="wrapper">
 		<!-- Header control start -->
@@ -155,6 +210,33 @@
 										<p>We take your payment after arriving at your product.</p>
 									</div>
 								</div>
+								<div class="order-summary mb-0">
+									<h3>Order Summary([(${order.orderDetails.size()})])
+										<button class="show-order" onclick="showOrder(this)">Hide</button>
+									</h3>
+									<div class="pt-20">
+										<div class="single-product d-flex justify-content-between align-items-center m-2"
+											th:each="orders : ${order.orderDetails}" th:name="${orders.product.name}">
+											<div
+												class="position-relative d-flex justify-content-center align-items-center">
+												<img th:src="${orders.product.featuredImage}" alt="product image"
+													loading="lazy" class="mw-100 mh-100 d-block">
+												<span class="single-product-quantity position-absolute"
+													th:text="${orders.quantity}">2</span>
+											</div>
+											<p class="single-product-name" style="width: 50%;"
+												th:text="${orders.product.name}">
+												Product
+												Name</p>
+											<p class="single-product-totalPrice" th:text="${'$'+orders.finalPrice}">$155
+											</p>
+										</div>
+									</div>
+									<div class="totalPriceContent m-0 d-flex justify-content-between">
+										<p>Total:</p>
+										<p class="d-block">$[(${order.totalPrice})]</p>
+									</div>
+								</div>
 								<button type="submit" class="btn btn-primary w-100" th:data-id="${order.id}">Complete
 									Order</button>
 							</div>
@@ -192,14 +274,30 @@
 		<script>
 			$('.single-product').on('click', '.position-relative,.single-product-name', (e) => {
 				let name = $(e.target).parents('div.single-product').attr('name');
-				location.href=`/product/${name}`;
+				location.href = `/product/${name}`;
 			})
+
+			function showOrder(e) {
+				let ele = $(e);
+				if (ele.hasClass("show-order")) {
+					ele.addClass("hide-order")
+					ele.removeClass("show-order");
+					ele.text("Show");
+					$(".order-summary>div.pt-20").fadeToggle();
+
+				} else {
+					ele.removeClass("hide-order")
+					ele.addClass("show-order");
+					ele.text("Hide");
+					$(".order-summary>div.pt-20").fadeToggle()
+				}
+			}
 
 			$(`button[type='submit']`).click((e) => {
 				let order_id = $(e.target).attr('data-id');
 				let address = $('textarea').val();
-				let receiver_fullName=$(`input[name="fullName"]`).val();
-				let receiver_phone=$(`input[name="phone"]`).val();
+				let receiver_fullName = $(`input[name="fullName"]`).val();
+				let receiver_phone = $(`input[name="phone"]`).val();
 				let products_name = [];
 				let products_quantity = [];
 
@@ -211,21 +309,34 @@
 					return;
 				}
 
-				$('.single-product').each((index, ele) => {
-					let name = $(ele).find(".single-product-name").text();
-					let quantity = $(ele).find(".single-product-quantity").text();
+				if ($(window).width() <= 600) {
+					$('.order-summary .single-product').each((index, ele) => {
+						let name = $(ele).find(".single-product-name").text();
+						let quantity = $(ele).find(".single-product-quantity").text();
 
-					products_name.push(name);
-					products_quantity.push(quantity);
-				})
+						products_name.push(name);
+						products_quantity.push(quantity);
+					})
+				} else {
+					$('main>.container>.row>div.col-md-4.col-12 .single-product').each((index, ele) => {
+						let name = $(ele).find(".single-product-name").text();
+						let quantity = $(ele).find(".single-product-quantity").text();
+
+						products_name.push(name);
+						products_quantity.push(quantity);
+					})
+				}
+
+				console.log(products_name);
+				console.log(products_quantity);
 
 				$.ajax({
 					url: '/checkout',
 					type: 'POST',
 					data: {
-						address:address,
-						receiver:receiver_fullName,
-						phone:receiver_phone,
+						address: address,
+						receiver: receiver_fullName,
+						phone: receiver_phone,
 						order_id: order_id,
 						products_name: products_name,
 						products_quantity: products_quantity
