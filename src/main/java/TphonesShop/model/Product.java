@@ -90,12 +90,9 @@ public class Product {
 	}
 
 	public double getFinal_price() {
-		return final_price;
-	}
-
-	public String showFinal_price() {
-		DecimalFormat df = new DecimalFormat("0.00");
-		return df.format(final_price);
+		DecimalFormat decimalFormat = new DecimalFormat("#.00");
+		String formattedValueString = decimalFormat.format(final_price);
+		return Double.parseDouble(formattedValueString);
 	}
 
 	public void setFinal_price() {

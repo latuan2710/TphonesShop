@@ -1,5 +1,6 @@
 package TphonesShop.model;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class Order {
 	private long id;
 	private int status = 0;
 	private double totalPrice = 0;
+	private String receiverName;
+	private String receiverPhone;
+	private String receiverAddress;
+	private String receiverEmail;
 
 	@CurrentTimestamp
 	private LocalDateTime createdDateTime;
@@ -67,6 +72,38 @@ public class Order {
 		this.status = status;
 	}
 
+	public String getReceiverName() {
+		return receiverName;
+	}
+
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+
+	public String getReceiverPhone() {
+		return receiverPhone;
+	}
+
+	public void setReceiverPhone(String receiverPhone) {
+		this.receiverPhone = receiverPhone;
+	}
+
+	public String getReceiverAddress() {
+		return receiverAddress;
+	}
+
+	public void setReceiverAddress(String receiverAddress) {
+		this.receiverAddress = receiverAddress;
+	}
+
+	public String getReceiverEmail() {
+		return receiverEmail;
+	}
+
+	public void setReceiverEmail(String receiverEmail) {
+		this.receiverEmail = receiverEmail;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -97,7 +134,9 @@ public class Order {
 	}
 
 	public double getTotalPrice() {
-		return totalPrice;
+		DecimalFormat decimalFormat = new DecimalFormat("#.00");
+		String formattedValueString = decimalFormat.format(totalPrice);
+		return Double.parseDouble(formattedValueString);
 	}
 
 	public void setTotalPrice(double totalPrice) {

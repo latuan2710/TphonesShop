@@ -1,5 +1,7 @@
 package TphonesShop.model;
 
+import java.text.DecimalFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -80,7 +82,9 @@ public class OrderDetail {
 	}
 
 	public double getFinalPrice() {
-		return finalPrice;
+		DecimalFormat decimalFormat = new DecimalFormat("#.00");
+		String formattedValueString = decimalFormat.format(finalPrice);
+		return Double.parseDouble(formattedValueString);
 	}
 
 	public void setFinalPrice() {

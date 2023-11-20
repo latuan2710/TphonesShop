@@ -80,7 +80,7 @@
 
 .header-bottom-area.header-style-2 .main-menu > li.active > a,
 .header-bottom-area.header-style-2 .main-menu > li > a:hover {
-  color: #3ea89f;
+  color: rgb(255, 166, 0);
 }
 
 .header-style-2 .main-menu li a,
@@ -91,7 +91,7 @@
 
 .header-style-2 .main-menu li:hover > a,
 .header-bottom-area.header-style-2 .mega-menu > li > ul > li > a:hover {
-  color: #3ea89f;
+  color: rgb(255, 166, 0);
 }
 
 #main-header {

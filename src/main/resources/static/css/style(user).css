@@ -2651,7 +2651,7 @@ li.right-menu .cat-mega-menu > li {
 
 .header-bottom-area.header-style-2 .dropdown > li > a:hover,
 .header-bottom-area.header-style-2 .mega-menu > li > ul > li > a:hover {
-  color: #3ea89f;
+  color: rgb(255, 166, 0);
 }
 
 .header-bottom-area.header-style-2 .category-menu-list > ul > li > a:hover,

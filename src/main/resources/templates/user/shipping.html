@@ -294,14 +294,15 @@
 			}
 
 			$(`button[type='submit']`).click((e) => {
-				let order_id = $(e.target).attr('data-id');
+				let name = $(`input[name="fullName"]`).val();
+				let email = $('input[name="email"]').val();
+				let phone = $(`input[name="phone"]`).val();
 				let address = $('textarea').val();
-				let receiver_fullName = $(`input[name="fullName"]`).val();
-				let receiver_phone = $(`input[name="phone"]`).val();
+				let order_id = $(e.target).attr('data-id');
 				let products_name = [];
 				let products_quantity = [];
 
-				if (address === "" || receiver_fullName === "" || receiver_phone === "") {
+				if (address === "" || name === "" || phone === "") {
 					Swal.fire({
 						icon: 'error',
 						title: 'Please fill in all the required fields!'
@@ -335,8 +336,9 @@
 					type: 'POST',
 					data: {
 						address: address,
-						receiver: receiver_fullName,
-						phone: receiver_phone,
+						name: name,
+						email: email,
+						phone: phone,
 						order_id: order_id,
 						products_name: products_name,
 						products_quantity: products_quantity

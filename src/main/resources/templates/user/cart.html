@@ -9,6 +9,41 @@
         table img {
             max-height: 150px;
         }
+
+        table .stt {
+            font-weight: bold;
+        }
+
+        .btn-success {
+            color: #fff;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-success:hover {
+            color: #fff;
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .btn-warning {
+            color: #212529;
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .btn-warning:hover {
+            color: #212529;
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+        @media (max-width: 768px) {
+            .cart-buttons {
+                width: 100%;
+                text-align: left;
+            }
+        }
     </style>
     <div class="wrapper">
         <!-- Header control start -->
@@ -45,7 +80,8 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th class="picaboo-product-remove">Remove</th>
+                                                <th class="picaboo-product-remove"></th>
+                                                <th class="text-center stt">No.</th>
                                                 <th class="picaboo-product-thumbnail">Image</th>
                                                 <th class="cart-product-name">Product</th>
                                                 <th class="picaboo-product-price">Price</th>
@@ -54,12 +90,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="order : ${order.orderDetails}">
+                                            <tr th:each="order,index : ${order.orderDetails}">
                                                 <td class="picaboo-product-remove">
                                                     <button th:onclick=" 'removeCart('+ ${order.id}+ ')' ">
                                                         <i class="fa fa-times"></i>
                                                     </button>
                                                 </td>
+                                                <td class="text-center stt" th:text="${index.index+1}"></td>
                                                 <td class="picaboo-product-thumbnail">
                                                     <a th:href="${'/product/'+order.product.name}">
                                                         <img th:src="${order.product.featuredImage}"
@@ -89,7 +126,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="5"></td>
+                                                <td colspan="6"></td>
                                                 <td class="product-subtotal total text-center">
                                                     <span class="money">$[(${order.totalPrice})]</span>
                                                 </td>
@@ -98,16 +135,15 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-12 d-flex justify-content-between">
+                            <div class="col-12 d-flex flex-wrap justify-content-between">
+                                <div class="cart-buttons">
+                                    <button class="default-btn btn-success" th:order-id="${order.id}"
+                                        onclick="checkout(this);"> Buy now </button>
+                                    <button class="default-btn btn-warning" id="update-cart">Update Cart</button>
+                                </div>
                                 <div class="cart-buttons text-left">
                                     <a class="default-btn" href="/">Continue Shopping</a>
                                     <button class="default-btn" id="clear-cart">Clear Cart</button>
-                                    <input class="default-btn" type="submit" value="Update Cart" id="update-cart" />
-                                </div>
-                                <div class="cart-buttons">
-                                    <a class="default-btn" th:href="${'/shipping/'+order.id}">
-                                        Buy now
-                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -201,6 +237,10 @@
                     }
                 })
             })
+            let checkout = (e) => {
+                let id = $(e).attr('order-id');
+                location.href = `/shipping/${id}`
+            }
             alert_action(localStorage.getItem("alert-action"));
         </script>
 </body>

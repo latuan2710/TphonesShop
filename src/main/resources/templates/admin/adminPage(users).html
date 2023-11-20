@@ -155,37 +155,34 @@
 								<table id="users" class="table table-striped">
 									<thead>
 										<tr>
-											<th>N.o</th>
+											<th class="text-center">No.</th>
 											<th>Username</th>
 											<th>Full Name</th>
-											<th>Phone</th>
+											<th class="text-right">Phone</th>
 											<th>Email</th>
-											<th>Date Of Birth</th>
+											<th class="text-right">Date Of Birth</th>
 											<th>Address</th>
 											<th>Type</th>
-											<th>Status</th>
 											<th>Function</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="user,object :${users}">
-											<td th:text="${object.index+1}">1</td>
+											<td class="text-center" th:text="${object.index+1}">1</td>
 											<td th:text="${user.username}">latuan2710</td>
 											<td th:text="${user.fullName}">La Anh Tuan</td>
-											<td th:text="${user.phone}">0967843879</td>
+											<td class="text-right" th:text="${user.phone}">0967843879</td>
 											<td th:text="${user.email}">tuan.la.cit19@eiu.edu.vn</td>
-											<td th:text="${user.getDate()}">27/10/2001</td>
+											<td class="text-right" th:text="${user.getDate()}">27/10/2001</td>
 											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau
 												Mot, Binh Duong</td>
 											<td th:text="${user.type}">user</td>
 											<td>
+												<a th:href="@{/editUser(id=${user.id})}"
+													class="btn btn-outline-warning m-r-5">Edit</a>
 												<a th:href="'/disable/'+${user.id}" class="btn"
 													th:classappend="${user.status} ? 'btn-success' : 'btn-danger'"
 													th:text="${user.status} ? 'Active' : 'Disabled' "></a>
-											</td>
-											<td>
-												<a th:href="@{/editUser(id=${user.id})}"
-													class="btn btn-outline-warning m-r-5">Edit</a>
 											</td>
 										</tr>
 									</tbody>
@@ -219,7 +216,7 @@
 		<script src="/js/scripts.js"></script>
 		<script src="/js/jquery.toast.js"></script>
 		<script>
-			let title=$('h3.box-title');
+			let title = $('h3.box-title');
 			$('h4.page-title').text(title.text());
 			title.remove();
 		</script>
@@ -228,7 +225,7 @@
 	<script th:inline="javascript">
 		$('#users').dataTable({
 			"columnDefs": [{
-				"targets": [8,9],
+				"targets": 8,
 				"orderable": false
 			}]
 		});

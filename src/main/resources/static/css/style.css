@@ -17815,55 +17815,6 @@ ul.wp-side-menu img {
   height: 20px;
 }
 
-#users tr > th:nth-child(1),
-#users tr > td:nth-child(1),
-#users tr > th:nth-child(9),
-#users tr > td:nth-child(9),
-#products tr > th:nth-child(1),
-#products tr > td:nth-child(1),
-#products tr > th:nth-child(2),
-#products tr > td:nth-child(2),
-#brands tr > th:nth-child(1),
-#brands tr > td:nth-child(1),
-#brands tr > th:nth-child(2),
-#brands tr > td:nth-child(2),
-#orders tr > th:nth-child(1),
-#orders tr > td:nth-child(1) {
-  text-align: center;
-}
-
-#users tr > th:nth-child(6),
-#users tr > td:nth-child(6),
-#products tr > th:nth-child(5),
-#products tr > td:nth-child(5),
-#products tr > th:nth-child(6),
-#products tr > td:nth-child(6),
-#orders tr > th:nth-child(3),
-#orders tr > td:nth-child(3),
-#orders tr > th:nth-child(4),
-#orders tr > td:nth-child(4),
-#contacts tr > th:nth-child(1),
-#contacts tr > td:nth-child(1) {
-  text-align: right;
-}
-
-#products tr > th:nth-child(1) {
-  width: 5% !important;
-}
-#products tr > th:nth-child(2) {
-  width: 15% !important;
-}
-
-#products tr > th:nth-child(3) {
-  width: 25% !important;
-}
-
-#products tr > th:nth-child(4),
-#products tr > th:nth-child(5),
-#products tr > th:nth-child(6) {
-  width: 10% !important;
-}
-
 #products tr > td:nth-child(2),
 #brands tr > td:nth-child(2) {
   width: 200px;

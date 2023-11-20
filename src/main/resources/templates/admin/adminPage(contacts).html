@@ -61,11 +61,11 @@
 							<table id="contacts" class="table table-striped">
 								<thead>
 									<tr>
-										<th>No.</th>
-										<th>Time</th>
+										<th class="text-center">No.</th>
+										<th class="text-right">Time</th>
 										<th>Full Name</th>
 										<th>Email</th>
-										<th>Phone</th>
+										<th class="text-right">Phone</th>
 										<th>Title</th>
 										<th>Message</th>
 										<th>Status</th>
@@ -73,11 +73,11 @@
 								</thead>
 								<tbody>
 									<tr th:each="contact,index:${contacts}">
-										<td th:text="${index.index+1}"></td>
-										<td th:text="${contact.getCreatedDateTime()}"></td>
+										<td class="text-center" th:text="${index.index+1}"></td>
+										<td class="text-right" th:text="${contact.getCreatedDateTime()}"></td>
 										<td th:text="${contact.fullName}"></td>
 										<td th:text="${contact.email}"></td>
-										<td th:text="${contact.phone}"></td>
+										<td class="text-right" th:text="${contact.phone}"></td>
 										<td th:text="${contact.title}"></td>
 										<td th:text="${contact.message}"></td>
 										<td>

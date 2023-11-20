@@ -327,7 +327,7 @@
 											</h4>
 											<div class="product-price">
 												<span class="price"><span class="money"
-														th:text="${product.showFinal_price()}+'$'">55.00$</span></span>
+														th:text="${product.final_price}+'$'">55.00$</span></span>
 												<span class="sale-price"><span class="money"
 														th:text="${product.price}+'$'">75.00$</span></span>
 											</div>
@@ -387,7 +387,7 @@
 											<div class="product-price">
 												<span class="price">
 													<span class="money"
-														th:text="${product.showFinal_price()}+'$'">100.00$</span>
+														th:text="${product.final_price}+'$'">100.00$</span>
 												</span>
 												<span class="sale-price" th:if="${product.discount!=0}">
 													<span class="money" th:text="${product.price}+'$'">75.00$</span>

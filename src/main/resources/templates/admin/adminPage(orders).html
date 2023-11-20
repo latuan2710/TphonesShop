@@ -6,6 +6,42 @@
 
 <body>
 	<style>
+		#orders>thead>tr>th:nth-child(1) {
+			width: 5px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(2) {
+			width: 50px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(3) {
+			width: 120px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(4) {
+			width: 100px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(5) {
+			width: 140px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(6) {
+			width: fit-content !important;
+		}
+
+		#orders>thead>tr>th:nth-child(7) {
+			width: 100px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(8) {
+			width: 70px !important;
+		}
+
+		#orders>thead>tr>th:nth-child(9) {
+			width: 250px !important;
+		}
+
 		td.details-control>i::before {
 			content: "\f105";
 			cursor: pointer;
@@ -98,24 +134,27 @@
 							<table id="orders" class="table table-striped">
 								<thead>
 									<tr>
-										<th></th>
-										<th>No.</th>
-										<th>Created DateTime</th>
-										<th>Username</th>
-										<th>Total Product</th>
-										<th>Total Price</th>
+										<th style="width: 1%;"></th>
+										<th class="text-center" style="width: 5%;">No. </th>
+										<th class="text-right" style="width: 15%;">Ordered Date</th>
+										<th style="width: 13%;"> Name</th>
+										<th class="text-right" style="width: 15%;">Phone Number</th>
+										<th>Address</th>
+										<th class="text-right" style="width: 10%;">Total Price</th>
 										<th>Status</th>
-										<th>Function</th>
+										<th style="width: 22%;">Function</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="order,index :${orders}" th:order-id="${order.id}">
 										<td class="details-control"><i class="fa"></i></td>
-										<td th:text="${index.index+1}"></td>
-										<td th:text="${order.getCreatedDateTime()}">1</td>
-										<td th:text="${order.user.username}">Iphone 13 pro max</td>
-										<td th:text="${order.orderDetails.size}">Iphone 13 pro max</td>
-										<td th:text="${order.totalPrice}">Iphone 13 pro max</td>
+										<td class="show-details text-center" th:text="${index.index+1}"></td>
+										<td class="show-details text-right" th:text="${order.getCreatedDateTime()}">
+											2013-12-30</td>
+										<td class="show-details" th:text="${order.receiverName}">La Anh Tuan</td>
+										<td class="show-details text-right" th:text="${order.receiverPhone}">0967843879</td>
+										<td class="show-details" th:text="${order.receiverAddress}">Binh Duong</td>
+										<td class="show-details text-right" th:text="${order.totalPrice}">12.33</td>
 										<td>
 											<span th:if="${order.status==1}">New</span>
 											<span th:if="${order.status==2}">Processing</span>
@@ -125,7 +164,7 @@
 										<td>
 											<a th:unless="${order.status==2}"
 												th:href=" '/order/'+${order.id}+'/status/2' "
-												class="btn btn-outline-success m-r-5">Process</a>
+												class="btn btn-outline-warning m-r-5">Process</a>
 											<a th:unless="${order.status==3}"
 												th:href="'/order/'+${order.id}+'/status/3'"
 												class="btn btn-outline-success m-r-5">Done</a>
@@ -154,7 +193,7 @@
 		$("#orders").dataTable({
 			order: [1, 'asc'],
 			"columnDefs": [{
-				"targets": [0, 7],
+				"targets": [0, 8],
 				"orderable": false
 			}]
 		});
@@ -162,7 +201,7 @@
 			$(".wp-side-menu li:nth-child(4)").addClass("selected")
 		})
 
-		$("#orders").on("click", "td.details-control", function () {
+		$("#orders").on("click", "td.details-control,td.show-details", function () {
 			var tr = $(this).closest("tr");
 			var row = $("#orders").DataTable().row(tr);
 			var order_id = tr.attr("order-id");

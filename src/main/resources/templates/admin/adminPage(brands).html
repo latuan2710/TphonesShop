@@ -98,7 +98,7 @@
 								<table id="brands" class="table table-striped">
 									<thead>
 										<tr>
-											<th>No</th>
+											<th class="text-center">No.</th>
 											<th>Brand Image</th>
 											<th>Brand Name</th>
 											<th>Function</th>
@@ -106,7 +106,7 @@
 									</thead>
 									<tbody>
 										<tr th:each="brand,object :${brands}">
-											<td th:text="${object.index+1}">1</td>
+											<td class="text-center" th:text="${object.index+1}">1</td>
 											<td>
 												<a th:href="@{${'/brand/'+brand.name}}">
 													<img th:src="${brand.image}" alt="">

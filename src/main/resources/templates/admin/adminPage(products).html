@@ -5,6 +5,25 @@
 </head>
 
 <body>
+	<style>
+		#products tr>th:nth-child(1) {
+			width: 5% !important;
+		}
+
+		#products tr>th:nth-child(2) {
+			width: 15% !important;
+		}
+
+		#products tr>th:nth-child(3) {
+			width: 25% !important;
+		}
+
+		#products tr>th:nth-child(4),
+		#products tr>th:nth-child(5),
+		#products tr>th:nth-child(6) {
+			width: 10% !important;
+		}
+	</style>
 	<div id="wrapper">
 		<!-- Top Navigation -->
 		<nav class="navbar navbar-default navbar-static-top m-b-0">
@@ -63,18 +82,18 @@
 								<table id="products" class="table table-striped">
 									<thead>
 										<tr>
-											<th>N.o</th>
+											<th class="text-center">No.</th>
 											<th>Image Product</th>
 											<th>Name Product</th>
 											<th>Brand</th>
-											<th>Quantity</th>
-											<th>Price ($)</th>
+											<th class="text-right">Quantity</th>
+											<th class="text-right">Price ($)</th>
 											<th>Function</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="product,index :${products}">
-											<td th:text="${index.index}+1">1</td>
+											<td class="text-center" th:text="${index.index}+1">1</td>
 											<td>
 												<a th:href="@{${'/product/'+product.name}}">
 													<img th:src="${product.featuredImage}" alt="">
@@ -82,13 +101,12 @@
 											</td>
 											<td th:text="${product.name}">Iphone 11</td>
 											<td th:text="${product.brand.name}">Apple</td>
-											<td th:text="${product.quantity}">12</td>
-											<td th:text="${product.showFinal_price()}">1000</td>
+											<td class="text-right" th:text="${product.quantity}">12</td>
+											<td class="text-right" th:text="${product.final_price}">1000</td>
 											<td>
 												<a th:href="@{/editProduct(id=${product.id})}"
 													class="btn btn-outline-warning m-r-5">Edit</a>
-												<button
-													th:onclick="'delete_confirm('+${product.id}+');'"
+												<button th:onclick="'delete_confirm('+${product.id}+');'"
 													th:attr="disabled=${product.orderDetails.size() != 0 ? 'disabled':null}"
 													class="btn btn-outline-danger">Delete</button>
 											</td>

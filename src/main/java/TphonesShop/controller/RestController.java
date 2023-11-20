@@ -1,5 +1,6 @@
 package TphonesShop.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -189,7 +190,11 @@ public class RestController {
 	public boolean buyOrder(
 			@RequestParam("order_id") int id,
 			@RequestParam("products_name[]") String[] products_name,
-			@RequestParam("products_quantity[]") int[] products_quantity) {
+			@RequestParam("products_quantity[]") int[] products_quantity,
+			@RequestParam("name") String name,
+			@RequestParam("email") String email,
+			@RequestParam("phone") String phone,
+			@RequestParam("address") String address) {
 
 		for (int i = 0; i < products_quantity.length; i++) {
 			Product product = productService.findProductByName(products_name[i]);
@@ -199,6 +204,11 @@ public class RestController {
 
 		Order order = orderService.findOrderById(id);
 		order.setStatus(1);
+		order.setReceiverName(name);
+		order.setReceiverEmail(email);
+		order.setReceiverPhone(phone);
+		order.setReceiverAddress(address);
+		order.setCreatedDateTime(LocalDateTime.now());
 		orderService.save(order);
 
 		return true;

@@ -9,6 +9,9 @@
         table img {
             max-height: 150px;
         }
+        table .stt{
+            font-weight: bold;
+        }
     </style>
     <div class="wrapper">
         <!-- Header control start -->
@@ -45,6 +48,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
+                                                <th class="text-center stt">No.</th>
                                                 <th class="picaboo-product-thumbnail">Image</th>
                                                 <th class="cart-product-name">Product</th>
                                                 <th class="picaboo-product-price">Price</th>
@@ -53,7 +57,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="order : ${orderDetails}">
+                                            <tr th:each="order,index : ${orderDetails}">
+                                                <td class="text-center stt" th:text="${index.index+1}"></td>
                                                 <td class="picaboo-product-thumbnail">
                                                     <a th:href="'/product/'+${order.product.name}">
                                                         <img th:src="${order.product.featuredImage}"
@@ -78,7 +83,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4"></td>
+                                                <td colspan="5"></td>
                                                 <td class="product-subtotal total text-center">
                                                     <span class="money">$[(${total})]</span>
                                                 </td>
