@@ -3,6 +3,8 @@ package TphonesShop.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getHistoryOrders(long user_id) {
-		return orderRepository.getHistoryOrders(user_id);
+	public Page<Order> getHistoryOrders(Pageable pageable, long user_id) {
+		return orderRepository.getHistoryOrders(pageable, user_id);
 	}
 
 	@Override

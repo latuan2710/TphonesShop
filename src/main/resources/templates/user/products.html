@@ -54,8 +54,50 @@
 				<!-- Start Shop Page -->
 				<div class="shop-area mt-80 mb-80">
 					<div class="container">
-						<div class="row flex-row-reverse">
-							<div class="col-lg-9 col-8">
+						<div class="row">
+							<div class="col-md-3 col-12 filter-side">
+								<form class="filter-form storefront-filter" name="testform" id="myform">
+									<input type="hidden" name="pageNo">
+									<input type="hidden" name="key">
+									<aside class="shop-sidebar mb-30">
+										<h3 class="wedget-title">Brand Categories</h3>
+										<div class="shop-checkbox">
+											<ul id="brand-checkbox">
+												<li th:each="brand : ${brands}">
+													<label th:for="${brand.name}">
+														<input type="checkbox" name="brand" th:value="${brand.name}"
+															th:id="${brand.name}">
+														<span th:text="${brand.name}"></span>
+													</label>
+												</li>
+											</ul>
+										</div>
+									</aside>
+									<aside class="shop-sidebar mb-30">
+										<h3 class="wedget-title">Price</h3>
+										<div class="shop-checkbox">
+											<div class="sidebar-list-style">
+												<div class="checkbox-container categories-list sidebar-price-filter">
+													<div class="filter-range-from">
+														<label for="Filter-Price-2">From</label>
+														<span>$</span>
+														<input name="minPrice" id="Filter-Price-2" type="number" min="0"
+															placeholder="0">
+													</div>
+													<div class="filter-price-range-to">
+														<label for="Filter-Price-2">To</label>
+														<span>$</span>
+														<input name="maxPrice" id="Filter-Price-2" type="number" min="0"
+															placeholder="0">
+													</div>
+												</div>
+												<input class="theme-default-button" type="submit" value="Filter">
+											</div>
+										</div>
+									</aside>
+								</form>
+							</div>
+							<div class="col-md-9 col-12">
 								<div th:unless="${products.getContent().size()==0}" class="shop-layout">
 									<div class="shop-product">
 										<div class="product-grid-view border-0">
@@ -106,7 +148,7 @@
 												</div>
 											</div>
 										</div>
-										<nav aria-label="Page navigation example" class="mt-15">
+										<nav class="mt-15">
 											<ul class="pagination justify-content-end">
 												<li class="page-item page-move"
 													th:classappend="${page == 1} ? 'disabled'">
@@ -126,60 +168,12 @@
 														tabindex="1">Next</button>
 												</li>
 											</ul>
-											<script th:inline="javascript">
-												$(".pagination").on('click', 'button', (e) => {
-													$("input[name='pageNo']").val(parseInt(e.target.getAttribute('page')));
-													$('form[name="testform"]').submit();
-												})
-											</script>
 										</nav>
 									</div>
 								</div>
 								<div th:if="${products.getContent().size()==0}" class="shop-layout">
 									<h2>There are no products available at this time</h2>
 								</div>
-							</div>
-							<div class="col-lg-3 col-4 filter-side">
-								<form class="filter-form storefront-filter" name="testform" id="myform">
-									<input type="hidden" name="pageNo">
-									<input type="hidden" name="key">
-									<aside class="shop-sidebar mb-30">
-										<h3 class="wedget-title">Brand Categories</h3>
-										<div class="shop-checkbox">
-											<ul id="brand-checkbox">
-												<li th:each="brand : ${brands}">
-													<input type="checkbox" name="brand" th:value="${brand.name}"
-														th:attr="id=${brand.name}">
-													<label th:attr="for=${brand.name}"
-														th:text="${brand.name}">Apple</label>
-												</li>
-											</ul>
-										</div>
-									</aside>
-									<aside class="shop-sidebar mb-30">
-										<h3 class="wedget-title">Price</h3>
-										<div class="shop-checkbox">
-											<div class="sidebar-list-style">
-												<div class="checkbox-container categories-list sidebar-price-filter">
-													<div class="filter-range-from">
-														<label for="Filter-Price-2">From</label>
-														<span>$</span>
-														<input name="minPrice" id="Filter-Price-2" type="number" min="0"
-															placeholder="0">
-													</div>
-													<div class="filter-price-range-to">
-														<label for="Filter-Price-2">To</label>
-														<span>$</span>
-														<input name="maxPrice" id="Filter-Price-2" type="number" min="0"
-															placeholder="0">
-													</div>
-												</div>
-												<input class="theme-default-button" type="submit" value="Filter">
-											</div>
-										</div>
-									</aside>
-								</form>
-
 							</div>
 						</div>
 					</div>
@@ -197,6 +191,10 @@
 				setTimeout(function () {
 					$('form[name="testform"]').submit();
 				}, 500);
+			});
+			$(".pagination").on('click', 'button', (e) => {
+				$("input[name='pageNo']").val(parseInt(e.target.getAttribute('page')));
+				$('form[name="testform"]').submit();
 			});
 
 			let queryString = window.location.search;

@@ -39,6 +39,9 @@
   .product-list-action {
     margin-top: 15px;
   }
+  .box-order{
+    width: 500px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -420,11 +423,28 @@
   .blog_sidebar {
     margin-top: 40px;
   }
+  .box-order{
+    width: 500px;
+  }
 }
 
 @media (max-width: 767px) {
-  .container {
-    /* width:300px; */
+  .name-categoreis {
+    display: none;
+  }
+  .header-middle-area.header-style-2
+    div.row.align-items-center
+    > div:nth-child(1) {
+    display: flex;
+    justify-content: center;
+  }
+
+  a.mean-expand {
+    display: block;
+  }
+
+  ul.main-menu > li > a > i.ion-ios-arrow-down {
+    display: none;
   }
 
   .header-top-left > a {
@@ -1035,6 +1055,7 @@
   }
 
   .product-add-to-cart .cart-plus-minus {
+    width: 70px;
     margin-right: 10px;
   }
 
@@ -1052,6 +1073,11 @@
     height: 30px;
     line-height: 30px;
     font-size: 16px;
+  }
+
+  .single-product .product-action {
+    top: 0;
+    width: 32px;
   }
 
   .table-content table td.picaboo-product-name {
@@ -1206,18 +1232,54 @@
   .error-button a {
     margin-top: 25px;
   }
+  aside.shop-sidebar.mb-30 {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  aside.shop-sidebar.mb-30 > h3 {
+    width: 100%;
+  }
+  #brand-checkbox input[type="checkbox"] {
+    display: none;
+  }
+  #brand-checkbox {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #brand-checkbox li {
+    margin-left: 5px;
+  }
+  #brand-checkbox li span,
+  #brand-checkbox li label {
+    margin: 0;
+    padding: 0 4px;
+  }
+  #brand-checkbox li:has(input[type="checkbox"]:checked) {
+    background-color: rgb(255, 166, 0);
+    border-radius: 4px;
+    color: #fff !important;
+  }
+  #brand-checkbox li:has(input[type="checkbox"]:checked) span {
+    color: white;
+  }
+  .sidebar-price-filter {
+    gap: 20px;
+  }
+  .sidebar-list-style {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .sidebar-list-style > input {
+    width: fit-content;
+    margin: 0 !important;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
   .container {
     width: 450px;
-  }
-
-  .header-middle-area.header-style-2
-    div.row.align-items-center
-    > div:nth-child(1) {
-    display: flex;
-    justify-content: center;
   }
 
   .header-top-left > a {

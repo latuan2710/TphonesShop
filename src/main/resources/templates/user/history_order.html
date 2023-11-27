@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{user/index.html :: head}">
+</head>
+
+<body id="account" class="template-login">
+	<style>
+		.btn {
+			display: inline-block;
+			font-weight: 400;
+			line-height: 1;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: middle;
+			cursor: pointer;
+			border: 1px solid transparent;
+			padding: 7px 14px;
+			font-size: 14px;
+			border-radius: 5px;
+		}
+
+		.btn-danger {
+			color: #fff !important;
+			background-color: #dc3545;
+		}
+
+		.btn-danger:hover {
+			color: #fff !important;
+			background-color: #760611;
+		}
+
+		.btn-info {
+			color: #fff;
+			background-color: #17a2b8;
+		}
+
+		.btn-info:hover {
+			border: none;
+		}
+
+		.box-order {
+			margin: 12px 0;
+			box-shadow: 0 0px 1px 0 rgb(0, 0, 0);
+			border-radius: 0.125rem;
+		}
+
+		.order-product-image {
+			height: 100px;
+			width: 100px;
+			cursor: pointer;
+		}
+
+		.order-product-name>p {
+			cursor: pointer;
+		}
+
+		.order-product-name span {
+			color: #17a2b8;
+		}
+
+		hr {
+			margin: 0;
+		}
+
+		.box-order-bottom {
+			padding: 10px;
+		}
+	</style>
+	<div class="wrapper">
+		<!-- Header control start -->
+		<div id="shopify-section-header-two" class="shopify-section">
+			<!--Header Area Start-->
+			<header th:replace="~{user/index.html :: header}">
+			</header>
+			<!--Header Area End-->
+		</div>
+		<!-- Header control end -->
+		<div class="breadcrumb-wrapper">
+			<div class="breadcrumb-area breadcrumbs overlay-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<div class="breadcrumb-content text-center">
+								<h1 class="breadmome-name breadcrumbs-title">History Order</h1>
+								<nav class role="navigation" aria-label="breadcrumbs">
+									<ul class="breadcrumb-list">
+										<li>
+											<a href="/" title="Back to the home page">Home</a>
+										</li>
+										<li>
+											<span>History Order</span>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- BREADCRUMBS SETCTION END -->
+		<main>
+			<div class="customer-page theme-default-margin my-account-page">
+				<div class="container">
+					<div class="d-flex justify-content-center">
+						<div>
+							<p class="h4" th:if="${orders.getContent().size()==0}">You haven't placed any orders yet.</p>
+							<div th:if="${orders.getContent().size()!=0}">
+								<div class="box-order" name="iPhone 14 Pro Max" th:each="order : ${orders}">
+									<div class="d-flex box-order-top m-2">
+										<div class="order-product-image d-flex align-items-center">
+											<img class="mw-100 mh-100"
+												th:src="${order.orderDetails[0].product.featuredImage}"
+												alt="order-product-image" loading="lazy">
+										</div>
+										<div class="mt-10 mb-10 d-flex flex-column justify-content-between w-100">
+											<div class="order-product-name d-flex justify-content-between">
+												<p>[(${order.orderDetails[0].product.name})]</p>
+												<span class="d-block" th:if="${order.status==-1}">Cancelled</span>
+												<span class="d-block" th:if="${order.status==-2}">Cancelled by
+													Shop</span>
+												<span class="d-block" th:if="${order.status==1}">Preparing</span>
+												<span class="d-block" th:if="${order.status==2}">Shipping</span>
+												<span class="d-block" th:if="${order.status==3}">Shipped</span>
+											</div>
+											<div class="order-product-quantity text-right">
+												x[(${order.orderDetails[0].quantity})]
+											</div>
+											<div class="order-product-totalPrice text-right">
+												$[(${order.orderDetails[0].finalPrice})]
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="box-order-middle d-flex justify-content-between align-items-center">
+										<p class="m-2 ml-3">[(${order.orderDetails.size()})] item</p>
+										<p class="m-2">Order Total: <span>$[(${order.totalPrice})]</span></p>
+									</div>
+									<hr>
+									<div class="box-order-bottom text-right">
+										<a class="btn btn-info border-0"
+											th:href="${'/order/detail/'+order.id}">Detail</a>
+										<a class="btn btn-danger border-0"
+											th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
+											th:href="${'/order/delete/'+order.id}">Cancel</a>
+									</div>
+								</div>
+								<nav class="mt-15">
+									<ul class="pagination">
+										<li class="page-item page-move" th:classappend="${page == 1} ? 'disabled'">
+											<button class="page-previous page-link" type="button"
+												th:page="${page==1} ? ${page} : ${page-1}"
+												tabindex="-1">Previous</button>
+										</li>
+										<li class="page-item" th:each="i : ${#numbers.sequence(1, total)}"
+											th:classappend="${i == page} ? 'active'">
+											<button class="page-buttons page-link" type="button" th:page="${i}"
+												th:text="${i}">1</button>
+										</li>
+										<li class="page-item page-move" th:classappend="${total == page} ? 'disabled'">
+											<button class="page-next page-link" type="button"
+												th:page="${page==total} ? ${page} : ${page+1}"
+												tabindex="1">Next</button>
+										</li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!--Footer Area Start-->
+		<div th:replace="~{user/index.html :: footer-top}">
+		</div>
+		<footer th:replace="~{user/index.html :: footer}">
+		</footer>
+		<!--Footer Area End-->
+		<script>
+			$(".pagination").on('click', 'button', (e) => {
+				let pageNo = parseInt(e.target.getAttribute('page'));
+				location.href = `/history?pageNo=${pageNo}`;
+			});
+		</script>
+</body>
+
+</html>

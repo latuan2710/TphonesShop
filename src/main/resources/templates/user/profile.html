@@ -117,8 +117,12 @@
 		<main>
 			<div class="customer-page theme-default-margin my-account-page">
 				<div class="container">
-					<div class="grid">
-						<div class="grid__item five-twelfths medium-down--one-whole mt-xs-30">
+					<div class="d-flex justify-content-center">
+						<div style="box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+									-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+									-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+									padding: 10px;
+									border-radius: 10px;">
 							<h2 class="h4" th:text="${session.user.fullName}"></h2>
 							<p>
 								<i class="fa mr-1">@</i>
@@ -145,51 +149,6 @@
 								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 							</p>
 						</div>
-						<div class="grid__item seven-twelfths medium-down--one-whole">
-							<h2 class="h4">Order History</h2>
-							<p th:if="${orders.size==0}">You haven't placed any orders yet.</p>
-							<div th:if="${orders.size!=0}">
-								<div class="box-order" name="iPhone 14 Pro Max" th:each="order : ${orders}">
-									<div class="d-flex box-order-top m-2">
-										<div class="order-product-image d-flex align-items-center">
-											<img class="mw-100 mh-100"
-												th:src="${order.orderDetails[0].product.featuredImage}"
-												alt="order-product-image" loading="lazy">
-										</div>
-										<div class="mt-10 mb-10 d-flex flex-column justify-content-between w-100">
-											<div class="order-product-name d-flex justify-content-between">
-												<p>[(${order.orderDetails[0].product.name})]</p>
-												<span class="d-block" th:if="${order.status==-1}">Cancelled</span>
-												<span class="d-block" th:if="${order.status==-2}">Cancelled by
-													Shop</span>
-												<span class="d-block" th:if="${order.status==1}">Preparing</span>
-												<span class="d-block" th:if="${order.status==2}">Shipping</span>
-												<span class="d-block" th:if="${order.status==3}">Shipped</span>
-											</div>
-											<div class="order-product-quantity text-right">
-												x[(${order.orderDetails[0].quantity})]
-											</div>
-											<div class="order-product-totalPrice text-right">
-												$[(${order.orderDetails[0].finalPrice})]
-											</div>
-										</div>
-									</div>
-									<hr>
-									<div class="box-order-middle d-flex justify-content-between align-items-center">
-										<p class="m-2 ml-3">[(${order.orderDetails.size()})] item</p>
-										<p class="m-2">Order Total: <span>$[(${order.totalPrice})]</span></p>
-									</div>
-									<hr>
-									<div class="box-order-bottom text-right">
-										<a class="btn btn-info border-0"
-											th:href="${'/order/detail/'+order.id}">Detail</a>
-										<a class="btn btn-danger border-0"
-											th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
-											th:href="${'/order/delete/'+order.id}">Cancel</a>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -201,7 +160,7 @@
 		</footer>
 		<!--Footer Area End-->
 		<script>
-			$("div.five-twelfths").on('click', 'i.fa.fa-pencil-square-o', (e) => {
+			$("div.d-flex.justify-content-center").on('click', 'i.fa.fa-pencil-square-o', (e) => {
 				let edit_button = $(e.target);
 				let span = edit_button.closest('p').find('span');
 				let input = $(`<input type="${edit_button.closest('p').attr('input-type')}">`).val(span.text());

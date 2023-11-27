@@ -2,6 +2,9 @@ package TphonesShop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import TphonesShop.model.Order;
 
 public interface OrderService {
@@ -9,7 +12,7 @@ public interface OrderService {
 
     public List<Order> getOrdersBuyed();
 
-    public List<Order> getHistoryOrders(long user_id);
+    public Page<Order> getHistoryOrders(Pageable pageable, long user_id);
 
     public Order getCart(long user_id);
 

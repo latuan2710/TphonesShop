@@ -78,15 +78,21 @@
 												<i class="ion-ios-arrow-down"></i>
 											</span>
 											<ul class="ht-dropdown">
-												<li><a href="/account">My Account</a>
+												<li>
+													<a href="/account">My Profile</a>
+												</li>
+												<li>
+													<a href="/history">History Orders</a>
 												</li>
 												<li th:if="${session.user != null && session.user.type == 'admin'}">
 													<a href="/adminPage/users">Dashboard</a>
 												</li>
+												<li>
+													<a href="/cart">Cart</a>
+												</li>
 												<li th:if="${session.user != null}">
 													<a href="/change-password">Change Password</a>
 												</li>
-												<li><a href="/cart">Cart</a></li>
 												<li th:if="${session.user==null}">
 													<a href=" /login">Sign In</a>
 												</li>
@@ -187,6 +193,7 @@
 															th:text="${brand.name}">SamSung</a>
 													</li>
 												</ul>
+												<a class="mean-expand" href="#" style="font-size: 18px">+</a>
 											</li>
 											<li>
 												<a href="/about">About Us </a>
@@ -271,7 +278,25 @@
 										<h2>Our Categories</h2>
 									</div>
 									<div class="categori-block-content owl-carousel">
-										[(${brandSlideHtml})]
+										<div th:each="i : ${#numbers.sequence(0, brands.size()/3-1)}">
+											<div class="item-listcategories">
+												<div th:each="brand : ${brands.subList(3*i, 3*i+3)}"
+													class="list-categories list-categories d-flex align-items-center justify-content-center">
+													<div class="desc-listcategoreis">
+														<div class="name-categoreis">
+															<a th:href="'all-product?brand=' + ${brand.name}">[(${brand.name})]
+															</a>
+														</div>
+													</div>
+													<div class="thumb-category">
+														<a th:href="'all-product?brand=' + ${brand.name}">
+															<img th:src="${brand.image}" alt="${brand.name}"
+																class="brand-image">
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 								<!--Sidebar Product Categories Start-->
@@ -460,7 +485,7 @@
 					<div id="section-footer-top" class="footer-top-area pt-50 pb-35">
 						<div class="container">
 							<div class="row">
-								<div class="col-lg-6 col-12 row">
+								<div class="col-lg-6 col-12 row p-0 m-0">
 									<div class="col-md-6 col-12 map mb-30">
 									</div>
 									<div class="single-footer-wiedget mb-30 col-md-6 col-12">
@@ -570,6 +595,43 @@
 		<script th:inline="javascript">
 			$(window).ready(() => {
 				$('ul.main-menu li:nth-child(1)').addClass("active");
+				$(".hero-slider").owlCarousel({
+					smartSpeed: 1e3,
+					nav: !1,
+					loop: !0,
+					animateOut: "fadeOut",
+					animateIn: "fadeIn",
+					autoplay: !1,
+					navText: ["prev", "next"],
+					responsive: {
+						0: {
+							items: 1,
+							autoplay: !0
+						},
+						600: {
+							items: 1
+						},
+						1e3: {
+							items: 1
+						}
+					}
+				});
+				$(".categori-block-content").owlCarousel({
+					nav: !1,
+					loop: !1,
+					navText: ["prev", "next"],
+					responsive: {
+						0: {
+							items: 2
+						},
+						600: {
+							items: 1
+						},
+						1e3: {
+							items: 1
+						}
+					}
+				});
 			})
 
 			product_carousel('#iphones')

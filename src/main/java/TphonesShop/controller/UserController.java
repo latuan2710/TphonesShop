@@ -2,12 +2,13 @@ package TphonesShop.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import TphonesShop.model.Brand;
 import TphonesShop.model.Contact;
 import TphonesShop.model.Order;
 import TphonesShop.model.OrderDetail;
@@ -68,39 +68,9 @@ public class UserController {
 
 		model.addAttribute("saleProduct", productService.getSaleProducts());
 		model.addAttribute("newest", productService.getNewestProducts());
-		model.addAttribute("brandSlideHtml", makeBrandSlideHtml());
+		model.addAttribute("brands", brandService.getBrandList());
 
 		return "user/index.html";
-	}
-
-	private String makeBrandSlideHtml() {
-		List<Brand> brands = brandService.getBrandList();
-		String brand_slide_html = "";
-
-		for (int i = 0; i < brands.size(); i++) {
-			if (i % 3 == 0) {
-				brand_slide_html += "<div class='item-listcategories'>";
-			}
-			brand_slide_html += "<div class='list-categories'>" +
-					"<div class='desc-listcategoreis'>" +
-					"<div class='name-categoreis'>" +
-					"<a href='/all-product?brand=" + brands.get(i).getName() + "'>" + brands.get(i).getName() + "</a>" +
-					"</div>" +
-					"<div class='view-more'>" +
-					"<a href='/all-product?brand=" + brands.get(i).getName() + "'>Buy Now</a>" +
-					"</div>" +
-					"</div>" +
-					"<div class='thumb-category'>" +
-					"<a href='/all-product?brand=" + brands.get(i).getName() + "'>" +
-					"<img src='" + brands.get(i).getImage() + "' alt>" +
-					"</a>" +
-					"</div>" +
-					"</div>";
-			if ((i + 1) % 3 == 0) {
-				brand_slide_html += "</div>";
-			}
-		}
-		return brand_slide_html;
 	}
 
 	@GetMapping("/contact")
@@ -159,8 +129,24 @@ public class UserController {
 		if (user == null)
 			return "redirect:/login";
 
-		model.addAttribute("orders", orderService.getHistoryOrders(user.getId()));
 		return "user/profile.html";
+	}
+
+	@GetMapping("/history")
+	public String toHistoryPage(Model model, HttpSession session,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+		User user = (User) session.getAttribute("user");
+		Page<Order> orders = new PageImpl<>(new ArrayList<>());
+		Pageable paging = PageRequest.of(pageNo - 1, 5);
+
+		if (user != null) {
+			orders = orderService.getHistoryOrders(paging, user.getId());
+		}
+
+		model.addAttribute("page", pageNo);
+		model.addAttribute("orders", orders);
+		model.addAttribute("total", orders.getTotalPages());
+		return "user/history_order.html";
 	}
 
 	@GetMapping("/order/detail/{id}")
@@ -267,7 +253,7 @@ public class UserController {
 
 		model.addAttribute("flag", true);
 		model.addAttribute("message", "You have successfully changed your password.");
-		
+
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(password));
 
