@@ -113,7 +113,7 @@ public class Order {
 	}
 
 	public String getCreatedDateTime() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		return createdDateTime.format(format);
 	}
 

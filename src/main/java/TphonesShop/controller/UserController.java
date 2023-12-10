@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,19 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import TphonesShop.model.Contact;
-import TphonesShop.model.Order;
-import TphonesShop.model.OrderDetail;
-import TphonesShop.model.Product;
-import TphonesShop.model.Token;
-import TphonesShop.model.User;
-import TphonesShop.service.BrandService;
-import TphonesShop.service.ContactService;
-import TphonesShop.service.OrderDetailService;
-import TphonesShop.service.OrderService;
-import TphonesShop.service.ProductService;
-import TphonesShop.service.TokenService;
-import TphonesShop.service.UserService;
+import TphonesShop.model.*;
+import TphonesShop.service.*;
 import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -65,11 +55,9 @@ public class UserController {
 
 	@GetMapping("/")
 	public String toHomePage(Model model) {
-
 		model.addAttribute("saleProduct", productService.getSaleProducts());
 		model.addAttribute("newest", productService.getNewestProducts());
 		model.addAttribute("brands", brandService.getBrandList());
-
 		return "user/index.html";
 	}
 
@@ -312,9 +300,7 @@ public class UserController {
 	}
 
 	@GetMapping("/all-product")
-	public String allProducts(
-			Model model,
-			@RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
+	public String allProducts(Model model, @RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
 			@RequestParam(value = "maxPrice", defaultValue = "-1") int maxPrice,
 			@RequestParam(value = "key", required = false) String key,
 			@RequestParam(value = "brand", required = false) String[] brands,

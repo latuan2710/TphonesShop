@@ -139,41 +139,34 @@
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}">
 	</div>
 	<script th:inline="javascript">
-		$('#brands').dataTable({
-			"columnDefs": [{
-				"targets": [1, 3],
-				"orderable": false
-			}]
-		});
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(3)").addClass("selected")
-		})
+			$(".wp-side-menu li:nth-child(3)").addClass("selected");
+			$('#brands').dataTable({
+				"columnDefs": [{
+					"targets": [1, 3],
+					"orderable": false
+				}]
+			});
+		});
+
 		function delete_confirm(data_id) {
-			let text = "This brand and the products associated with it will be permanently deleted.";
-			$("body").append(`
-			<div class="sweet-overlay"></div>
-	<div class="sweet-alert showSweetAlert visible">
-		<div class="sa-icon sa-warning pulseWarning">
-			<span class="sa-body pulseWarningIns"></span>
-			<span class="sa-dot pulseWarningIns"></span>
-		</div>
-		<h2>Are you sure?</h2>
-		<p>${text}</p>
-		<div class="sa-button-container">
-			<div class="sa-confirm-button-container">
-				<button onclick='confirm(${data_id})' class="confirm">
-					Yes,delete it!
-				</button>
-			</div>
-			<button onclick='cancel()' class="cancel">Cancel</button>
-		</div>
-	</div>
-			`)
+			swal({
+				title: "Are you sure?",
+				text: "This brand and the products associated with it will be permanently deleted!",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes, delete it!",
+				cancelButtonText: "No, cancel!",
+				closeOnConfirm: false,
+				closeOnCancel: true
+			}, function (isConfirm) {
+				if (isConfirm) {
+					location.href = "/deleteBrand/" + data_id;
+				}
+			});
 		}
 
-		function confirm(id) {
-			location.href = "/deleteBrand/" + id
-		}
 		$("#input-file-now").change(function (event) {
 			$(".dropify-render").html(`<img src="` + window.URL.createObjectURL(this.files[0]) + `">`)
 			$(".dropify-preview").css("display", "block");

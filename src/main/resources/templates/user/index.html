@@ -68,13 +68,15 @@
 								<!--Header Top Right Start-->
 								<div class="header-top-right text-center text-md-right">
 									<ul class="header-top-menu">
-										<li class="drodown-show">
+										<li th:if="${session.user==null}">
+											<a href="/login">Sign In</a>
+										</li>
+										<li th:if="${session.user==null}">
+											<a href="/register">Sign Up</a>
+										</li>
+										<li class="drodown-show" th:if="${session.user!=null}">
 											<span>
-												<span th:if="${session.user==null}">My
-													Account</span>
-												<span th:if="${session.user}!=null">
-													Hi, [(${session.user.fullName})]
-												</span>
+												<span> Hi, [(${session.user.fullName})] </span>
 												<i class="ion-ios-arrow-down"></i>
 											</span>
 											<ul class="ht-dropdown">
@@ -84,22 +86,16 @@
 												<li>
 													<a href="/history">History Orders</a>
 												</li>
-												<li th:if="${session.user != null && session.user.type == 'admin'}">
+												<li th:if="${session.user.type == 'admin'}">
 													<a href="/adminPage/users">Dashboard</a>
 												</li>
 												<li>
 													<a href="/cart">Cart</a>
 												</li>
-												<li th:if="${session.user != null}">
+												<li>
 													<a href="/change-password">Change Password</a>
 												</li>
-												<li th:if="${session.user==null}">
-													<a href=" /login">Sign In</a>
-												</li>
-												<li th:if="${session.user==null}">
-													<a href=" /register">Sign Up</a>
-												</li>
-												<li th:if="${session.user != null}">
+												<li>
 													<a href="/logout">Log out</a>
 												</li>
 											</ul>

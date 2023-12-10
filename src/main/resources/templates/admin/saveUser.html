@@ -5,7 +5,6 @@
 </head>
 
 <body>
-	<link rel="stylesheet" href="/css/drop.css">
 	<div id="wrapper">
 		<!-- Top Navigation -->
 		<nav class="navbar navbar-default navbar-static-top m-b-0">
@@ -87,7 +86,6 @@
 												required>
 										</div>
 									</div>
-
 									<div class="col-md-6 col-12 form-group">
 										<label for="birth" class="col-md-12">Date Of Birth</label>
 										<div class="col-md-12">
@@ -152,65 +150,54 @@
 			$(".wp-side-menu li:nth-child(1)").addClass("selected")
 		})
 
-		let orgirinal_username = $("#username").val();
 		let orgirinal_email = $("#email").val();
 		let orgirinal_phone = $("#phone").val();
-		let orgirinals = [orgirinal_username, orgirinal_email, orgirinal_phone]
 
 		$(`button[type='submit']`).click(async (e) => {
 			let username_input = $("#username").val();
 			let email_input = $("#email").val();
 			let phone_input = $("#phone").val();
 
-			if (!orgirinals.includes(username_input))
-				check(username_input);
-			if (!orgirinals.includes(email_input))
-				check(email_input);
-			if (!orgirinals.includes(phone_input))
-				check(phone_input);
+			let emailExist = await check(email_input);
+			let phoneExist = await check(phone_input);
 
-			res = await fetch(`/check?key=${username_input}`);
-			data = await res.json();
-			let usernameExist = data;
+			let message = "";
 
-			res = await fetch(`/check?key=${email_input}`);
-			data = await res.json();
-			let emailExist = data;
+			if ($(".form-group:has(#password)").hasClass('d-none')) {
 
-			res = await fetch(`/check?key=${phone_input}`);
-			data = await res.json();
-			let phoneExist = data;
+				if (emailExist && email_input !== orgirinal_email)
+					message += "Your email already exists!\n"
+				if (phoneExist && phone_input !== orgirinal_phone)
+					message += "Your phone already exists!\n"
 
-			let message = "Your ";
+			} else {
 
-			if (usernameExist)
-				message += "Username ";
-			if (emailExist)
-				message += "Email "
-			if (phoneExist)
-				message += "Phone "
+				let usernameExist = await check(username_input);
 
-			if (message == "Your ")
-				document.getElementById('create_customer').submit();
 
-			message += "are existed!!"
+				if (usernameExist)
+					message += "Your username already exists!\n";
+				if (emailExist)
+					message += "Your email already exists!\n"
+				if (phoneExist)
+					message += "Your phone already exists!\n"
 
-			Swal.fire({
-				icon: 'error',
-				title: message
-			})
+			}
+
+			if (message.length == 0)
+				document.getElementById('saveUser').submit();
+			else
+				swal({
+					title: message,
+					type: "error"
+				});
 		});
 
-		function isChange(input) {
-			return orgirinals.includes(input);
-		}
-
 		async function check(key) {
-			fetch(`/check?key=${key}`)
-				.then((response) => response.json())
-				.then(data => { return data })
-				.catch(error => { console.error(error) })
-		};
+			const response = await fetch(`check?key=${key}`);
+			const data = await response.json();
+			return data;
+		}
 
 		if ($("#birth").val() == '') {
 			var date = new Date();

@@ -45,6 +45,10 @@
 			border-radius: 0.125rem;
 		}
 
+		.container>div:has(.box-order){
+			width: 70%;
+		}
+
 		.order-product-image {
 			height: 100px;
 			width: 100px;
@@ -103,70 +107,66 @@
 		<main>
 			<div class="customer-page theme-default-margin my-account-page">
 				<div class="container">
-					<div class="d-flex justify-content-center">
-						<div>
-							<p class="h4" th:if="${orders.getContent().size()==0}">You haven't placed any orders yet.</p>
-							<div th:if="${orders.getContent().size()!=0}">
-								<div class="box-order" name="iPhone 14 Pro Max" th:each="order : ${orders}">
-									<div class="d-flex box-order-top m-2">
-										<div class="order-product-image d-flex align-items-center">
-											<img class="mw-100 mh-100"
-												th:src="${order.orderDetails[0].product.featuredImage}"
-												alt="order-product-image" loading="lazy">
-										</div>
-										<div class="mt-10 mb-10 d-flex flex-column justify-content-between w-100">
-											<div class="order-product-name d-flex justify-content-between">
-												<p>[(${order.orderDetails[0].product.name})]</p>
-												<span class="d-block" th:if="${order.status==-1}">Cancelled</span>
-												<span class="d-block" th:if="${order.status==-2}">Cancelled by
-													Shop</span>
-												<span class="d-block" th:if="${order.status==1}">Preparing</span>
-												<span class="d-block" th:if="${order.status==2}">Shipping</span>
-												<span class="d-block" th:if="${order.status==3}">Shipped</span>
-											</div>
-											<div class="order-product-quantity text-right">
-												x[(${order.orderDetails[0].quantity})]
-											</div>
-											<div class="order-product-totalPrice text-right">
-												$[(${order.orderDetails[0].finalPrice})]
-											</div>
-										</div>
+					
+					<div class="d-flex flex-column m-auto">
+						<p class="h4 text-center" th:if="${orders.getContent().size()==0}">
+							You haven't placed any orders yet.
+						</p>
+						<div th:if="${orders.getContent().size()!=0}" class="box-order" name="iPhone 14 Pro Max"
+							th:each="order : ${orders}">
+							<div class="d-flex box-order-top m-2">
+								<div class="order-product-image d-flex align-items-center">
+									<img class="mw-100 mh-100" th:src="${order.orderDetails[0].product.featuredImage}"
+										alt="order-product-image" loading="lazy">
+								</div>
+								<div class="mt-10 mb-10 d-flex flex-column justify-content-between w-100">
+									<div class="order-product-name d-flex justify-content-between">
+										<p>[(${order.orderDetails[0].product.name})]</p>
+										<span class="d-block" th:if="${order.status==-1}">Cancelled</span>
+										<span class="d-block" th:if="${order.status==-2}">Cancelled by
+											Shop</span>
+										<span class="d-block" th:if="${order.status==1}">Preparing</span>
+										<span class="d-block" th:if="${order.status==2}">Shipping</span>
+										<span class="d-block" th:if="${order.status==3}">Shipped</span>
 									</div>
-									<hr>
-									<div class="box-order-middle d-flex justify-content-between align-items-center">
-										<p class="m-2 ml-3">[(${order.orderDetails.size()})] item</p>
-										<p class="m-2">Order Total: <span>$[(${order.totalPrice})]</span></p>
+									<div class="order-product-quantity text-right">
+										x[(${order.orderDetails[0].quantity})]
 									</div>
-									<hr>
-									<div class="box-order-bottom text-right">
-										<a class="btn btn-info border-0"
-											th:href="${'/order/detail/'+order.id}">Detail</a>
-										<a class="btn btn-danger border-0"
-											th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
-											th:href="${'/order/delete/'+order.id}">Cancel</a>
+									<div class="order-product-totalPrice text-right">
+										$[(${order.orderDetails[0].finalPrice})]
 									</div>
 								</div>
-								<nav class="mt-15">
-									<ul class="pagination">
-										<li class="page-item page-move" th:classappend="${page == 1} ? 'disabled'">
-											<button class="page-previous page-link" type="button"
-												th:page="${page==1} ? ${page} : ${page-1}"
-												tabindex="-1">Previous</button>
-										</li>
-										<li class="page-item" th:each="i : ${#numbers.sequence(1, total)}"
-											th:classappend="${i == page} ? 'active'">
-											<button class="page-buttons page-link" type="button" th:page="${i}"
-												th:text="${i}">1</button>
-										</li>
-										<li class="page-item page-move" th:classappend="${total == page} ? 'disabled'">
-											<button class="page-next page-link" type="button"
-												th:page="${page==total} ? ${page} : ${page+1}"
-												tabindex="1">Next</button>
-										</li>
-									</ul>
-								</nav>
+							</div>
+							<hr>
+							<div class="box-order-middle d-flex justify-content-between align-items-center">
+								<p class="m-2 ml-3">[(${order.orderDetails.size()})] item</p>
+								<p class="m-2">Order Total: <span>$[(${order.totalPrice})]</span></p>
+							</div>
+							<hr>
+							<div class="box-order-bottom text-right">
+								<a class="btn btn-info border-0" th:href="${'/order/detail/'+order.id}">Detail</a>
+								<a class="btn btn-danger border-0"
+									th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
+									th:href="${'/order/delete/'+order.id}">Cancel</a>
 							</div>
 						</div>
+						<nav th:if="${orders.getContent().size()!=0}" class="mt-15 float-left">
+							<ul class="pagination">
+								<li class="page-item page-move" th:classappend="${page == 1} ? 'disabled'">
+									<button class="page-previous page-link" type="button"
+										th:page="${page==1} ? ${page} : ${page-1}" tabindex="-1">Previous</button>
+								</li>
+								<li class="page-item" th:each="i : ${#numbers.sequence(1, total)}"
+									th:classappend="${i == page} ? 'active'">
+									<button class="page-buttons page-link" type="button" th:page="${i}"
+										th:text="${i}">1</button>
+								</li>
+								<li class="page-item page-move" th:classappend="${total == page} ? 'disabled'">
+									<button class="page-next page-link" type="button"
+										th:page="${page==total} ? ${page} : ${page+1}" tabindex="1">Next</button>
+								</li>
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</div>

@@ -61,36 +61,28 @@ public class RestController {
 
 		try {
 			User user = (User) httpSession.getAttribute("user");
-
 			Order order = orderService.getCart(user.getId());
 
 			double total = order.getTotalPrice();
 			for (HashMap<String, Integer> oH : data) {
-
 				OrderDetail orderDetail = orderDetailService.getOrdersByProductId(
 						order.getId(), oH.get("productId"));
-
 				total -= orderDetail.getFinalPrice();
 				if (oH.get("quantity") == 0) {
 					orderDetailService.delete(orderDetail.getId());
 					continue;
 				}
-
 				orderDetail.setQuantity(oH.get("quantity"));
 				orderDetail.setFinalPrice();
 				orderDetailService.save(orderDetail);
-
 				total += orderDetail.getFinalPrice();
 			}
-
 			if (order.getOrderDetails().size() == 0) {
 				orderService.delete(order);
 				return true;
 			}
-
 			order.setTotalPrice(total);
 			orderService.save(order);
-
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -101,25 +93,19 @@ public class RestController {
 	public boolean addToCart(HttpSession httpSession,
 			@RequestParam("product_id") long product_id,
 			@RequestParam(value = "quantity", defaultValue = "1") int quantity) {
-
 		User user = (User) httpSession.getAttribute("user");
-
 		if (user != null) {
-
 			Order order = orderService.getCart(user.getId());
 			Product product = productService.findProductById(product_id);
 			OrderDetail orderDetail;
 
 			double total = 0;
-
 			if (order == null) {
 				order = orderService.save(new Order(user, 0));
 				orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
 			} else {
 				total = order.getTotalPrice();
-
 				orderDetail = orderDetailService.getOrdersByProductId(order.getId(), product_id);
-
 				if (orderDetail == null) {
 					orderDetail = new OrderDetail(order, product, quantity, product.getFinal_price());
 				} else {
@@ -130,12 +116,9 @@ public class RestController {
 			}
 			total += orderDetail.getFinalPrice();
 			order.setTotalPrice(total);
-
 			orderDetailService.save(orderDetail);
-
 			return true;
 		}
-
 		return false;
 	}
 
@@ -143,7 +126,7 @@ public class RestController {
 	public List<OrderDetail> getCart(HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
-			Order order = orderService.getCart(user.getId());
+			Order order = orderService.getCart(user.getId()); 
 			if (order != null) {
 				return orderDetailService.getOrdersByOrderId(order.getId());
 			}
@@ -151,7 +134,7 @@ public class RestController {
 		return null;
 	}
 
-	@PostMapping("/remove-cart")
+	@PostMapping("/remove-cart-item")
 	public boolean removeCartItem(@RequestParam("id") long id) {
 		try {
 			OrderDetail orderDetail = orderDetailService.findById(id);

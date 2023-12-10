@@ -50,12 +50,9 @@
 										<p>Please Register using account detail bellow.</p>
 									</div>
 									<div class="register-form">
+										
 										<form method="post" th:object="${saveUser}" action="/register"
 											id="create_customer" onsubmit="return false">
-											<div class="errors">
-												<ul>
-												</ul>
-											</div>
 											<label class="required" for="username">Username</label>
 											<input type="text" id="username" class="input-full" th:field="*{username}"
 												required>
@@ -63,7 +60,7 @@
 											<input type="password" id="password" class="input-full"
 												th:field="*{password}" required>
 											<label for="fullName">Full Name</label>
-											<input type="text" id="fullName" class="input-full" th:field="*{fullName}">
+											<input type="text" id="fullName" class="input-full" th:field="*{fullName}" required>
 											<label for="dateOfBirth">Date Of Birth</label>
 											<input type="date" id="dateOfBirth" class="input-full"
 												th:field="*{dateOfBirth}">
@@ -80,6 +77,7 @@
 												<button type="submit" class="default-btn">Submit</button>
 											</div>
 										</form>
+
 										<div class="account-optional-action">
 											<a href="/">Return to Store</a>
 										</div>
@@ -116,11 +114,11 @@
 				let message = "";
 
 				if (usernameExist)
-					message += "Your username is existed!\n";
+					message += "Your username already exists!\n";
 				if (emailExist)
-					message += "Your email is existed!\n"
+					message += "Your email already exists!\n"
 				if (phoneExist)
-					message += "Your phone is existed!\n"
+					message += "Your phone already exists!\n"
 
 				if (message.length == 0)
 					document.getElementById('create_customer').submit();

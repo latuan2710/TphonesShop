@@ -42,6 +42,10 @@
 			width: 250px !important;
 		}
 
+		#orders>tbody>tr>td:not(:last-child) {
+			cursor: pointer;
+		}
+
 		td.details-control>i::before {
 			content: "\f105";
 			cursor: pointer;
@@ -56,18 +60,23 @@
 			text-align: center;
 		}
 
+		.child-table th:nth-child(1),
+		.child-table tr>td:nth-child(1) {
+			text-align: center;
+		}
+
 		.child-table th:nth-child(2) {
 			width: fit-content;
 			text-align: center;
 		}
 
 		.child-table tr td:nth-child(2) {
+			text-align: center;
 			height: 100px;
 		}
 
 		.child-table th:nth-child(3),
 		.child-table tr>td:nth-child(3) {
-			text-align: left !important;
 			width: 30%;
 		}
 
@@ -134,15 +143,15 @@
 							<table id="orders" class="table table-striped">
 								<thead>
 									<tr>
-										<th style="width: 1%;"></th>
-										<th class="text-center" style="width: 5%;">No. </th>
-										<th class="text-right" style="width: 15%;">Ordered Date</th>
-										<th style="width: 13%;"> Name</th>
-										<th class="text-right" style="width: 15%;">Phone Number</th>
+										<th></th>
+										<th class="text-center">No. </th>
+										<th class="text-right">Ordered Date</th>
+										<th> Name</th>
+										<th class="text-right">Phone Number</th>
 										<th>Address</th>
-										<th class="text-right" style="width: 10%;">Total Price</th>
+										<th class="text-right">Total Price</th>
 										<th>Status</th>
-										<th style="width: 22%;">Function</th>
+										<th>Function</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -152,10 +161,11 @@
 										<td class="show-details text-right" th:text="${order.getCreatedDateTime()}">
 											2013-12-30</td>
 										<td class="show-details" th:text="${order.receiverName}">La Anh Tuan</td>
-										<td class="show-details text-right" th:text="${order.receiverPhone}">0967843879</td>
+										<td class="show-details text-right" th:text="${order.receiverPhone}">0967843879
+										</td>
 										<td class="show-details" th:text="${order.receiverAddress}">Binh Duong</td>
 										<td class="show-details text-right" th:text="${order.totalPrice}">12.33</td>
-										<td>
+										<td class="show-details">
 											<span th:if="${order.status==1}">New</span>
 											<span th:if="${order.status==2}">Processing</span>
 											<span th:if="${order.status==3}">Done</span>

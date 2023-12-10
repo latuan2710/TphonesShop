@@ -75,6 +75,7 @@ function product_carousel(id) {
 
 function updateCart() {
 	$.post("/get-cart", function (data) {
+		console.log(data);
 		if (data != "") {
 			let total = 0;
 			let str = `<a href="/cart">
@@ -115,7 +116,7 @@ function updateCart() {
 				</li>
                     </ul>
                     <div class="cart-total cart-total-price">
-                      <h5>Total: <span class="shopping-cart__total"><span class="money">$${total}</span></span></h5>
+                      <h5>Total: <span class="shopping-cart__total"><span class="money">$${Number(total).toFixed(2)}</span></span></h5>
                     </div>
                     <div class="checkout">
                       <a class="minicart-edit-cart" href="/cart">View Cart</a>
@@ -140,7 +141,7 @@ function updateCart() {
 }
 
 function quickRemoveCart(id) {
-	$.post('/remove-cart', { id: id }, function (data) {
+	$.post('/remove-cart-item', { id: id }, function (data) {
 		if (data) {
 			updateCart()
 		}
@@ -148,7 +149,7 @@ function quickRemoveCart(id) {
 }
 
 function removeCart(id) {
-	$.post('/remove-cart', { id: id }, function (data) {
+	$.post('/remove-cart-item', { id: id }, function (data) {
 		if (data) {
 			location.reload()
 		}

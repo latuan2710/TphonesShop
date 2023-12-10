@@ -14,6 +14,32 @@
             font-weight: bold;
         }
 
+        .btn-outline-primary {
+            color: #007bff;
+            background-color: transparent;
+            background-image: none;
+            border: 1px solid #007bff;
+            display: inline-block;
+        }
+
+        .btn-outline-primary:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            color: #fff;
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
         .btn-success {
             color: #fff;
             background-color: #28a745;
@@ -26,23 +52,52 @@
             border-color: #1e7e34;
         }
 
-        .btn-warning {
-            color: #212529;
+        .btn-outline-warning {
+            color: #ffc107;
+            background-color: transparent;
+            background-image: none;
+            border: 1px solid #ffc107;
+        }
+
+        .btn-outline-warning:hover {
+            color: #212529 !important;
             background-color: #ffc107;
             border-color: #ffc107;
         }
 
-        .btn-warning:hover {
-            color: #212529;
-            background-color: #e0a800;
-            border-color: #d39e00;
+        .mobile-cart-buttons {
+            display: none;
         }
 
-        @media (max-width: 768px) {
+        .mobile-picaboo-product-price {
+            display: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 480px) {
+            .mobile-picaboo-product-price {
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .picaboo-product-price,
+            .picaboo-product-quantity {
+                display: none;
+            }
+
             .cart-buttons {
+                display: none;
+            }
+
+
+            .mobile-cart-buttons {
+                display: block;
                 width: 100%;
                 text-align: left;
             }
+
         }
     </style>
     <div class="wrapper">
@@ -81,10 +136,10 @@
                                         <thead>
                                             <tr>
                                                 <th class="picaboo-product-remove"></th>
-                                                <th class="text-center stt">No.</th>
                                                 <th class="picaboo-product-thumbnail">Image</th>
                                                 <th class="cart-product-name">Product</th>
                                                 <th class="picaboo-product-price">Price</th>
+                                                <th class="mobile-picaboo-product-price">Price</th>
                                                 <th class="picaboo-product-quantity">Quantity</th>
                                                 <th class="picaboo-product-subtotal">Total</th>
                                             </tr>
@@ -96,7 +151,6 @@
                                                         <i class="fa fa-times"></i>
                                                     </button>
                                                 </td>
-                                                <td class="text-center stt" th:text="${index.index+1}"></td>
                                                 <td class="picaboo-product-thumbnail">
                                                     <a th:href="${'/product/'+order.product.name}">
                                                         <img th:src="${order.product.featuredImage}"
@@ -106,6 +160,15 @@
                                                     <a th:href="${'/product/'+order.product.name}">
                                                         [(${order.product.name})]
                                                     </a>
+                                                </td>
+                                                <td class="mobile-picaboo-product-price">
+                                                    <span>$[(${order.price})]</span>
+                                                    <span> x </span>
+                                                    <input class="cart-plus-minus-box quantity"
+                                                        th:data-id="${order.product.id}" type="text"
+                                                        th:value="${order.quantity}"
+                                                        th:quantity-max="${order.product.quantity}"
+                                                        onkeyup="typeQuantity(this)">
                                                 </td>
                                                 <td class="picaboo-product-price">
                                                     <span class="amount">
@@ -126,7 +189,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="6"></td>
+                                                <td colspan="5"></td>
                                                 <td class="product-subtotal total text-center">
                                                     <span class="money">$[(${order.totalPrice})]</span>
                                                 </td>
@@ -135,15 +198,22 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-12 d-flex flex-wrap justify-content-between">
+                            <div class="col-12 d-flex flex-wrap justify-content-end all-cart-buttons">
                                 <div class="cart-buttons">
-                                    <button class="default-btn btn-success" th:order-id="${order.id}"
+                                    <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
+                                    <button class="default-btn btn-danger clear-cart">Clear Cart</button>
+                                    <button class="default-btn btn-outline-warning update-cart">Update
+                                        Cart</button>
+                                    <button class="default-btn" th:order-id="${order.id}"
                                         onclick="checkout(this);"> Buy now </button>
-                                    <button class="default-btn btn-warning" id="update-cart">Update Cart</button>
                                 </div>
-                                <div class="cart-buttons text-left">
-                                    <a class="default-btn" href="/">Continue Shopping</a>
-                                    <button class="default-btn" id="clear-cart">Clear Cart</button>
+                                <div class="mobile-cart-buttons cart-buttons">
+                                    <button class="default-btn" th:order-id="${order.id}"
+                                        onclick="checkout(this);"> Buy now </button>
+                                    <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
+                                    <button class="default-btn btn-outline-warning update-cart">Update
+                                        Cart</button>
+                                    <button class="default-btn btn-danger clear-cart">Clear Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -169,6 +239,14 @@
         </footer>
         <!--Footer Area End-->
         <script>
+            $(window).ready(() => {
+                let width = window.outerWidth;
+
+                if (width <= 480) {
+                    $('table tr:last-child>td:first-child').attr('colspan', 4);
+                }
+            });
+
             $(".my-data-table").on("click", ".qtybutton", function () {
                 let i = $(this);
                 s = i.parent().find("input");
@@ -195,9 +273,17 @@
                 input.val(quantity);
             }
 
-            $('#update-cart').click(() => {
+
+            $('.all-cart-buttons').on('click', '.update-cart', () => {
                 let postdata = [];
-                let list_pro = $('.quantity')
+                let list_pro;
+
+                if (window.outerWidth > 480) {
+                    list_pro=$('td.picaboo-product-quantity input');
+                } else {
+                    list_pro=$('td.mobile-picaboo-product-price input');
+                }
+
                 for (let i = 0; i < list_pro.length; i++) {
                     let object = {
                         productId: $(list_pro[i]).attr('data-id'),
@@ -227,7 +313,7 @@
                 });
             })
 
-            $('#clear-cart').click(() => {
+            $('.all-cart-buttons').on('click', '.clear-cart', () => {
                 $.post('/clear-cart', function (data) {
                     if (data) {
                         localStorage.setItem("alert-action", data);
@@ -237,6 +323,7 @@
                     }
                 })
             })
+
             let checkout = (e) => {
                 let id = $(e).attr('order-id');
                 location.href = `/shipping/${id}`

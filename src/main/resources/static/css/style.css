@@ -17827,32 +17827,6 @@ ul.wp-side-menu img {
   max-width: 100%;
 }
 
-.sweet-overlay {
-  opacity: 1.01;
-  display: block !important;
-}
-
-.sweet-alert.showSweetAlert.visible {
-  display: block;
-  margin-top: -184px;
-}
-
-.sa-icon.sa-warning.pulseWarning {
-  display: block;
-}
-
-.sa-button-container .cancel {
-  display: inline-block;
-  box-shadow: none;
-}
-
-.sa-button-container .confirm {
-  display: inline-block;
-  background-color: rgb(221, 107, 85);
-  box-shadow: rgba(221, 107, 85, 0.8) 0px 0px 2px,
-    rgba(0, 0, 0, 0.05) 0px 0px 0px 1px inset;
-}
-
 label.required::after {
   content: "*";
   color: red;

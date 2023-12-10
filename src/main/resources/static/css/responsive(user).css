@@ -39,9 +39,6 @@
   .product-list-action {
     margin-top: 15px;
   }
-  .box-order{
-    width: 500px;
-  }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -422,9 +419,6 @@
 
   .blog_sidebar {
     margin-top: 40px;
-  }
-  .box-order{
-    width: 500px;
   }
 }
 
@@ -1315,6 +1309,14 @@
   .footer-payments-image {
     margin-top: 15px;
   }
-}
 
+  .container>div:has(.box-order) {
+    width: 90% !important;
+  }
+}
+@media (max-width: 480px) {
+  .container>div:has(.box-order) {
+    width: 100% !important;
+  }
+}
 /*# sourceMappingURL=/cdn/shop/t/10/assets/responsive.css.map?v=23287849904433313911645970596 */

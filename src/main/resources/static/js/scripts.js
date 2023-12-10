@@ -20,10 +20,6 @@ function showPass() {
 	$("#basic-addon2 .fa").toggleClass("fa-eye-slash")
 	$("#basic-addon2 .fa").toggleClass("fa-eye")
 }
-function cancel() {
-	$(".sweet-overlay").remove();
-	$(".sweet-alert").remove()
-}
 function alert_action(alert) {
 	if (alert == "success") {
 		$.toast({
