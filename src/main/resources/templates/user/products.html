@@ -58,7 +58,7 @@
 							<div class="col-md-3 col-12 filter-side">
 								<form class="filter-form storefront-filter" name="testform" id="myform">
 									<input type="hidden" name="pageNo">
-									<input type="hidden" name="key">
+									<input type="hidden" id="key">
 									<aside class="shop-sidebar mb-30">
 										<h3 class="wedget-title">Brand Categories</h3>
 										<div class="shop-checkbox">
@@ -79,15 +79,15 @@
 											<div class="sidebar-list-style">
 												<div class="checkbox-container categories-list sidebar-price-filter">
 													<div class="filter-range-from">
-														<label for="Filter-Price-2">From</label>
+														<label for="Filter-Price-1">From</label>
 														<span>$</span>
-														<input name="minPrice" id="Filter-Price-2" type="number" min="0"
+														<input id="Filter-Price-1" type="number" min="0"
 															placeholder="0">
 													</div>
 													<div class="filter-price-range-to">
 														<label for="Filter-Price-2">To</label>
 														<span>$</span>
-														<input name="maxPrice" id="Filter-Price-2" type="number" min="0"
+														<input id="Filter-Price-2" type="number" min="0"
 															placeholder="0">
 													</div>
 												</div>
@@ -184,12 +184,34 @@
 		<footer th:replace="~{user/index.html :: footer}"></footer>
 		<!--Footer Area End-->
 		<script>
-			$(window).ready(() => { $('ul.main-menu li:nth-child(2)').addClass("active") })
+			$(window).ready(() => { $('ul.main-menu li:nth-child(2)').addClass("active") });
 			$('input[type="checkbox"]').click(function () {
 				setTimeout(function () {
 					$('form[name="testform"]').submit();
 				}, 500);
 			});
+			$('input.theme-default-button').click((e) => {
+				e.preventDefault();
+
+				let min = +$('#Filter-Price-1').val();
+				let max = +$('#Filter-Price-2').val();
+
+				if (min > max) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'You enter wrong input!!!',
+						text: `The maximum price must be greater than the minimum price!\nPlease enter again!`,
+					})
+				} else if (max > min) {
+					$('#Filter-Price-1').attr('name', 'minPrice');
+					$('#Filter-Price-2').attr('name', 'maxPrice');
+					$(e.target).parents('form').submit();
+				}else{
+					$('#Filter-Price-1').attr('name', null);
+					$('#Filter-Price-2').attr('name', null);
+					$(e.target).parents('form').submit();
+				}
+			})
 			$(".pagination").on('click', 'button', (e) => {
 				$("input[name='pageNo']").val(parseInt(e.target.getAttribute('page')));
 				$('form[name="testform"]').submit();
@@ -202,9 +224,18 @@
 			let minPrice = urlParams.get('minPrice');
 			let maxPrice = urlParams.get('maxPrice');
 
-			if (minPrice != null) $('input[name="minPrice"]').val(minPrice);
-			if (maxPrice != null) $('input[name="maxPrice"]').val(maxPrice);
-			if (key != null) $('input[name="key"]').val(key);
+			if (minPrice != null) {
+				$('#Filter-Price-1').attr('name', 'minPrice');
+				$('input[name="minPrice"]').val(minPrice);
+			}
+			if (maxPrice != null) {
+				$('#Filter-Price-2').attr('name', 'maxPrice');
+				$('input[name="maxPrice"]').val(maxPrice);
+			}
+			if (key != null) {
+				$('#key').attr("name", "key");
+				$('input[name="key"]').val(key);
+			};
 
 			document.querySelectorAll("#brand-checkbox input").forEach(ele => {
 				if (brands.includes(ele.value)) {

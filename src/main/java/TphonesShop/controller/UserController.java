@@ -300,7 +300,7 @@ public class UserController {
 
 	@GetMapping("/all-product")
 	public String allProducts(Model model, @RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
-			@RequestParam(value = "maxPrice", defaultValue = "-1") int maxPrice,
+			@RequestParam(value = "maxPrice", defaultValue = "0") int maxPrice,
 			@RequestParam(value = "key", required = false) String key,
 			@RequestParam(value = "brand", required = false) String[] brands,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
@@ -309,7 +309,7 @@ public class UserController {
 		Page<Product> productsPage = null;
 
 		if (brands == null) {
-			if (minPrice != 0 || maxPrice != -1) {
+			if (maxPrice != 0) {
 				if (key == null) {
 					productsPage = productService.findByPrice(paging, minPrice, maxPrice);
 				} else {
@@ -321,7 +321,7 @@ public class UserController {
 				productsPage = productService.findByKey(key, paging);
 			}
 		} else {
-			if (minPrice != 0 || maxPrice != -1) {
+			if (maxPrice != 0) {
 				if (key == null) {
 					productsPage = productService.findByPriceAndBrand(paging, minPrice, maxPrice, brands);
 				} else {
