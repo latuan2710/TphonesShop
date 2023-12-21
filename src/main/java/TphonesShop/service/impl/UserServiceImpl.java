@@ -17,7 +17,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUserList() {
-		return userRepository.findAll();
+		return userRepository.findAllByType("user");
+	}
+
+	@Override
+	public List<User> getAdminList() {
+		return userRepository.findAllByType("admin");
 	}
 
 	@Override

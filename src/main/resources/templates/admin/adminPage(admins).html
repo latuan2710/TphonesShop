@@ -5,25 +5,6 @@
 </head>
 
 <body>
-	<style>
-		#products tr>th:nth-child(1) {
-			width: 5% !important;
-		}
-
-		#products tr>th:nth-child(2) {
-			width: 15% !important;
-		}
-
-		#products tr>th:nth-child(3) {
-			width: 25% !important;
-		}
-
-		#products tr>th:nth-child(4),
-		#products tr>th:nth-child(5),
-		#products tr>th:nth-child(6) {
-			width: 10% !important;
-		}
-	</style>
 	<div id="wrapper">
 		<!-- Top Navigation -->
 		<nav class="navbar navbar-default navbar-static-top m-b-0">
@@ -63,13 +44,13 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="/add-product"
+						<a href="/add-user"
 							class="btn btn-info pull-right btn-rounded btn-outline waves-effect waves-light">
-							Add Product
+							Add Admin
 						</a>
 						<ol class="breadcrumb">
 							<li><a href="#">Dashboard</a></li>
-							<li class="active">Products Table</li>
+							<li class="active">Admins Table</li>
 						</ol>
 					</div>
 				</div>
@@ -77,38 +58,39 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="white-box">
-							<h3 class="box-title m-b-30">Products Table</h3>
+							<h3 class="box-title m-b-30">Users Table</h3>
 							<div class="table-responsive">
-								<table id="products" class="table table-striped">
+								<table id="admins" class="table table-striped">
 									<thead>
 										<tr>
 											<th class="text-center">No.</th>
-											<th>Image Product</th>
-											<th>Name Product</th>
-											<th>Brand</th>
-											<th class="text-right">Quantity</th>
-											<th class="text-right">Price ($)</th>
+											<th>Username</th>
+											<th>Full Name</th>
+											<th class="text-right">Phone</th>
+											<th>Email</th>
+											<th class="text-right">Date Of Birth</th>
+											<th>Address</th>
+											<th>Status</th>
 											<th>Function</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="product,index :${products}">
-											<td class="text-center" th:text="${index.index}+1">1</td>
+										<tr th:each="user,object :${users}">
+											<td class="text-center" th:text="${object.index+1}">1</td>
+											<td th:text="${user.username}">latuan2710</td>
+											<td th:text="${user.fullName}">La Anh Tuan</td>
+											<td class="text-right" th:text="${user.phone}">0967843879</td>
+											<td th:text="${user.email}">tuan.la.cit19@eiu.edu.vn</td>
+											<td class="text-right" th:text="${user.getDate()}">27/10/2001</td>
+											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau
+												Mot, Binh Duong</td>
+											<td th:text="${!user.status} ? 'Disabled' : 'Active'">user</td>
 											<td>
-												<a th:href="@{${'/product/'+product.name}}">
-													<img th:src="${product.featuredImage}" alt="">
-												</a>
-											</td>
-											<td th:text="${product.name}">Iphone 11</td>
-											<td th:text="${product.brand.name}">Apple</td>
-											<td class="text-right" th:text="${product.quantity}">12</td>
-											<td class="text-right" th:text="${product.final_price}">1000</td>
-											<td>
-												<a th:href="@{/editProduct(id=${product.id})}"
+												<a th:href="@{/editUser(id=${user.id})}"
 													class="btn btn-outline-warning m-r-5">Edit</a>
-												<button th:onclick="'delete_confirm('+${product.id}+');'"
-													th:attr="disabled=${(product.orderDetails.size() != 0 || product.quantity>0) ? 'disabled':null}"
-													class="btn btn-outline-danger">Delete</button>
+												<a th:href="'/disable/'+${user.id}" class="btn"
+													th:classappend="${!user.status} ? 'btn-success' : 'btn-danger'"
+													th:text="${!user.status} ? 'Active' : 'Disabled' "></a>
 											</td>
 										</tr>
 									</tbody>
@@ -126,34 +108,18 @@
 	</div>
 	<!-- /#wrapper -->
 	<div th:replace="~{admin/adminPage(users) :: script-fragment}"></div>
-	<script th:inline="javascript">
-		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(3)").addClass("selected");
-			$('#products').dataTable({
-				"columnDefs": [{
-					"targets": [1, 6],
-					"orderable": false
-				}]
-			});
-		});
 
-		function delete_confirm(data_id) {
-			swal({
-				title: "Are you sure?",
-				text: "This product will be permanently deleted!",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Yes, delete it!",
-				cancelButtonText: "No, cancel!",
-				closeOnConfirm: false,
-				closeOnCancel: true
-			}, function (isConfirm) {
-				if (isConfirm) {
-					location.href = "/deleteProduct/" + data_id;
-				}
-			});
-		}
+	<script th:inline="javascript">
+		$('#admins').dataTable({
+			"columnDefs": [{
+				"targets": 8,
+				"orderable": false
+			}]
+		});
+		$(window).ready(function () {
+			$(".wp-side-menu li:nth-child(1)").addClass("selected")
+		})
+
 		alert_action(/*[[${alert}]]*/)
 	</script>
 </body>

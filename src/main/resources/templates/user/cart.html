@@ -65,6 +65,19 @@
             border-color: #ffc107;
         }
 
+        .btn-outline-danger {
+            color: #dc3545;
+            background-color: transparent;
+            background-image: none;
+            border: 1px solid #dc3545;
+        }
+
+        .btn-outline-danger:hover {
+            color: #fff !important;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
         .mobile-cart-buttons {
             display: none;
         }
@@ -201,19 +214,19 @@
                             <div class="col-12 d-flex flex-wrap justify-content-end all-cart-buttons">
                                 <div class="cart-buttons">
                                     <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
-                                    <button class="default-btn btn-danger clear-cart">Clear Cart</button>
+                                    <button class="default-btn btn-outline-danger clear-cart">Clear Cart</button>
                                     <button class="default-btn btn-outline-warning update-cart">Update
                                         Cart</button>
-                                    <button class="default-btn" th:order-id="${order.id}"
-                                        onclick="checkout(this);"> Buy now </button>
+                                    <button class="default-btn" th:order-id="${order.id}" onclick="checkout(this);"> Buy
+                                        now </button>
                                 </div>
                                 <div class="mobile-cart-buttons cart-buttons">
-                                    <button class="default-btn" th:order-id="${order.id}"
-                                        onclick="checkout(this);"> Buy now </button>
+                                    <button class="default-btn" th:order-id="${order.id}" onclick="checkout(this);"> Buy
+                                        now </button>
                                     <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
                                     <button class="default-btn btn-outline-warning update-cart">Update
                                         Cart</button>
-                                    <button class="default-btn btn-danger clear-cart">Clear Cart</button>
+                                    <button class="default-btn btn-outline-danger clear-cart">Clear Cart</button>
                                 </div>
                             </div>
                         </div>
@@ -279,9 +292,9 @@
                 let list_pro;
 
                 if (window.outerWidth > 480) {
-                    list_pro=$('td.picaboo-product-quantity input');
+                    list_pro = $('td.picaboo-product-quantity input');
                 } else {
-                    list_pro=$('td.mobile-picaboo-product-price input');
+                    list_pro = $('td.mobile-picaboo-product-price input');
                 }
 
                 for (let i = 0; i < list_pro.length; i++) {

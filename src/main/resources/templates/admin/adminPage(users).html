@@ -98,6 +98,12 @@
 				</div>
 				<ul class="wp-side-menu">
 					<li>
+						<a href="/adminPage/admins">
+							<img src="/image/administrator.png" alt="user icon" loading="lazy">
+							<span class="hide-menu  m-l-5">Admins</span>
+						</a>
+					</li>
+					<li>
 						<a href="/adminPage/users">
 							<img src="/image/users-icon.png" alt="user icon" loading="lazy">
 							<span class="hide-menu  m-l-5">Users</span>
@@ -136,10 +142,6 @@
 			<div class="container-fluid">
 				<div class="row bg-title">
 					<div class="col-12">
-						<a href="/add-user"
-							class="btn btn-danger pull-right btn-rounded btn-outline waves-effect waves-light">
-							Add User
-						</a>
 						<ol class="breadcrumb">
 							<li><a href="#">Dashboard</a></li>
 							<li class="active">Users Table</li>
@@ -162,7 +164,7 @@
 											<th>Email</th>
 											<th class="text-right">Date Of Birth</th>
 											<th>Address</th>
-											<th>Type</th>
+											<th>Status</th>
 											<th>Function</th>
 										</tr>
 									</thead>
@@ -176,13 +178,13 @@
 											<td class="text-right" th:text="${user.getDate()}">27/10/2001</td>
 											<td style="width: 20%;" th:text="${user.address}">89,D12, Phu Tan, Thu Dau
 												Mot, Binh Duong</td>
-											<td th:text="${user.type}">user</td>
+											<td th:text="${!user.status} ? 'Disabled' : 'Active' ">user</td>
 											<td>
 												<a th:href="@{/editUser(id=${user.id})}"
 													class="btn btn-outline-warning m-r-5">Edit</a>
 												<a th:href="'/disable/'+${user.id}" class="btn"
-													th:classappend="${user.status} ? 'btn-success' : 'btn-danger'"
-													th:text="${user.status} ? 'Active' : 'Disabled' "></a>
+													th:classappend="${!user.status} ? 'btn-success' : 'btn-danger'"
+													th:text="${!user.status} ? 'Active' : 'Disabled' "></a>
 											</td>
 										</tr>
 									</tbody>
@@ -231,7 +233,7 @@
 			}]
 		});
 		$(window).ready(function () {
-			$(".wp-side-menu li:nth-child(1)").addClass("selected")
+			$(".wp-side-menu li:nth-child(2)").addClass("selected")
 		})
 
 		alert_action(/*[[${alert}]]*/)

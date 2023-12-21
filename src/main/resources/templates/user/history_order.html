@@ -146,7 +146,7 @@
 							<div class="box-order-bottom text-right">
 								<a class="btn btn-info border-0" th:href="${'/order/detail/'+order.id}">Detail</a>
 								<a class="btn btn-danger border-0"
-									th:unless="${order.status == 3 || order.status == -1 || order.status == -2}"
+									th:if="${order.status == 1}"
 									th:href="${'/order/delete/'+order.id}">Cancel</a>
 							</div>
 						</div>

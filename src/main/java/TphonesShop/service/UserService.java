@@ -7,6 +7,8 @@ import TphonesShop.model.User;
 public interface UserService {
 	public List<User> getUserList();
 
+	public List<User> getAdminList();
+
 	public User findUserById(long id);
 
 	public User findUserByUsername(String username);

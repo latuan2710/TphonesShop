@@ -202,13 +202,9 @@
 						title: 'You enter wrong input!!!',
 						text: `The maximum price must be greater than the minimum price!\nPlease enter again!`,
 					})
-				} else if (max > min) {
+				} else {
 					$('#Filter-Price-1').attr('name', 'minPrice');
 					$('#Filter-Price-2').attr('name', 'maxPrice');
-					$(e.target).parents('form').submit();
-				}else{
-					$('#Filter-Price-1').attr('name', null);
-					$('#Filter-Price-2').attr('name', null);
 					$(e.target).parents('form').submit();
 				}
 			})

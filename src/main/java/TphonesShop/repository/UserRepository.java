@@ -1,5 +1,7 @@
 package TphonesShop.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			"(u.email = :key) or " +
 			"(u.phone = :key)")
 	boolean checkExist(@Param("key") String key);
+
+    List<User> findAllByType(String type);
 }

@@ -48,6 +48,12 @@ public class AdminController {
 	@Resource
 	ContactService contactService;
 
+	@GetMapping("/adminPage/admins")
+	public String adminPageAdmins(Model model) {
+		model.addAttribute("users", userService.getAdminList());
+		return "/admin/adminPage(admins).html";
+	}
+
 	@GetMapping("/adminPage/users")
 	public String adminPageUsers(Model model) {
 		model.addAttribute("users", userService.getUserList());
@@ -187,8 +193,8 @@ public class AdminController {
 
 	@GetMapping("/disable/{id}")
 	public String disableUser(@PathVariable("id") Long id, Model model) {
+		User user = userService.findUserById(id);
 		try {
-			User user = userService.findUserById(id);
 			user.setStatus(!user.isStatus());
 			userService.save(user);
 
@@ -196,6 +202,10 @@ public class AdminController {
 		} catch (Exception e) {
 			model.addAttribute("alert", "error");
 		}
+
+		if (user.getType().equals("admin"))
+			return adminPageAdmins(model);
+
 		return adminPageUsers(model);
 	}
 
