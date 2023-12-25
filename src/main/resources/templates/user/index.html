@@ -302,12 +302,12 @@
 				</div>
 				<!--Slider Area End-->
 			</div>
-			<div class="product-area mt-55 mb-80" id="iphones">
+			<div class="product-area mt-55 mb-80" id="sales">
 				<div class="container">
 					<div class="row">
 						<div class="col-12 ">
 							<div class="section-title  position-relative">
-								<h2>Sale Product</h2>
+								<h2>Sale Products</h2>
 								<div class="button-action">
 									<button class="to-left"><i class="fa fa-angle-left"></i></button>
 									<button class="to-right"><i class="fa fa-angle-right"></i></button>
@@ -361,12 +361,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="product-area mt-55 mb-80" id="samsungs">
+			<div class="product-area mt-55 mb-80" id="iphones">
 				<div class="container">
 					<div class="row">
 						<div class="col-12 ">
 							<div class="section-title  position-relative">
-								<h2>Newest Product</h2>
+								<h2>Apple products</h2>
 								<div class="button-action">
 									<button class="to-left"><i class="fa fa-angle-left"></i></button>
 									<button class="to-right"><i class="fa fa-angle-right"></i></button>
@@ -377,7 +377,131 @@
 					<div class="product-block-content product-list">
 						<div>
 							<div class="row">
-								<div class="col-md-3 col-6" th:each="product : ${newest}">
+								<div class="col-md-3 col-6" th:each="product : ${iphones}">
+									<!--Single Product Start-->
+									<div class="single-product">
+										<div class="product-img">
+											<a th:href="'/product/'+${product.name}">
+												<img th:src="${product.featuredImage}" alt="image product"
+													loading="lazy">
+											</a>
+											<div class="badge-wrapper" th:if="${product.discount != 0}">
+												<span class="percent-count sticker"
+													th:text="'-'+${product.discount}+'%'">-27%</span>
+											</div>
+											<div class="product-action">
+												<ul>
+													<li>
+														<button th:onclick="'quickAdd('+${product.id}+')'">
+															<span class="cart-title">
+																<i class="fa fa-cart-plus"></i>
+															</span>
+														</button>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="product-content">
+											<h4>
+												<a th:href="'/product/'+${product.name}" th:text="${product.name}"></a>
+											</h4>
+											<div class="product-price">
+												<span class="price">
+													<span class="money"
+														th:text="${product.final_price}+'$'">100.00$</span>
+												</span>
+												<span class="sale-price" th:if="${product.discount!=0}">
+													<span class="money" th:text="${product.price}+'$'">75.00$</span>
+												</span>
+											</div>
+										</div>
+									</div>
+									<!--Single Product End-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="product-area mt-55 mb-80" id="samsungs">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 ">
+							<div class="section-title  position-relative">
+								<h2>Samsung products</h2>
+								<div class="button-action">
+									<button class="to-left"><i class="fa fa-angle-left"></i></button>
+									<button class="to-right"><i class="fa fa-angle-right"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="product-block-content product-list">
+						<div>
+							<div class="row">
+								<div class="col-md-3 col-6" th:each="product : ${samsungs}">
+									<!--Single Product Start-->
+									<div class="single-product">
+										<div class="product-img">
+											<a th:href="'/product/'+${product.name}">
+												<img th:src="${product.featuredImage}" alt="image product"
+													loading="lazy">
+											</a>
+											<div class="badge-wrapper" th:if="${product.discount != 0}">
+												<span class="percent-count sticker"
+													th:text="'-'+${product.discount}+'%'">-27%</span>
+											</div>
+											<div class="product-action">
+												<ul>
+													<li>
+														<button th:onclick="'quickAdd('+${product.id}+')'">
+															<span class="cart-title">
+																<i class="fa fa-cart-plus"></i>
+															</span>
+														</button>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="product-content">
+											<h4>
+												<a th:href="'/product/'+${product.name}" th:text="${product.name}"></a>
+											</h4>
+											<div class="product-price">
+												<span class="price">
+													<span class="money"
+														th:text="${product.final_price}+'$'">100.00$</span>
+												</span>
+												<span class="sale-price" th:if="${product.discount!=0}">
+													<span class="money" th:text="${product.price}+'$'">75.00$</span>
+												</span>
+											</div>
+										</div>
+									</div>
+									<!--Single Product End-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="product-area mt-55 mb-80" id="xiaomis">
+				<div class="container">
+					<div class="row">
+						<div class="col-12 ">
+							<div class="section-title  position-relative">
+								<h2>Xiaomi products</h2>
+								<div class="button-action">
+									<button class="to-left"><i class="fa fa-angle-left"></i></button>
+									<button class="to-right"><i class="fa fa-angle-right"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="product-block-content product-list">
+						<div>
+							<div class="row">
+								<div class="col-md-3 col-6" th:each="product : ${xiaomis}">
 									<!--Single Product Start-->
 									<div class="single-product">
 										<div class="product-img">
@@ -630,8 +754,10 @@
 				});
 			})
 
+			product_carousel('#sales')
 			product_carousel('#iphones')
 			product_carousel('#samsungs')
+			product_carousel('#xiaomis')
 
 			alert_action(localStorage.getItem("alert-action"));
 		</script>

@@ -54,9 +54,13 @@ public class UserController {
 
 	@GetMapping("/")
 	public String toHomePage(Model model) {
+		Pageable paging = PageRequest.of(0, 10, Sort.by("id").descending());
+
 		model.addAttribute("saleProduct", productService.getSaleProducts());
-		model.addAttribute("newest", productService.getNewestProducts());
 		model.addAttribute("brands", brandService.getBrandList());
+		model.addAttribute("iphones", productService.findByBrand(new String[] { "Apple" }, paging));
+		model.addAttribute("samsungs", productService.findByBrand(new String[] { "SamSung" }, paging));
+		model.addAttribute("xiaomis", productService.findByBrand(new String[] { "Xiaomi" }, paging));
 		return "user/index.html";
 	}
 
@@ -94,10 +98,20 @@ public class UserController {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 		User user = userService.findUserByUsername(username);
-		if (user.isStatus() && encoder.matches(password, user.getPassword())) {
+
+		if (!user.isStatus()) {
+			model.addAttribute("flag", false);
+			model.addAttribute("message", "Your account has been disabled!");
+
+			return toLoginPage(model);
+		}
+
+		if (encoder.matches(password, user.getPassword())) {
+
 			httpSession.setAttribute("user", user);
+
 			if (user.getType().equals("admin")) {
-				return "redirect:/adminPage/users";
+				return "redirect:/adminPage/admins";
 			} else {
 				return "redirect:/";
 			}

@@ -80,7 +80,7 @@ body {
   background: #4f5467;
 }
 .wp-side-menu li a {
-  color: #a6acbc;
+  color: #ffffff;
 }
 .wp-side-menu li a:hover {
   color: #03a9f3;
@@ -120,7 +120,7 @@ body {
   }
 }
 .user-profile .user-pro-body .u-dropdown {
-  color: #a6acbc;
+  color: #fff;
 }
 /*themecolor*/
 .bg-theme {

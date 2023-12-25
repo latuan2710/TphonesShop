@@ -49,8 +49,11 @@
 					</a>
 				</div>
 				<ul class="nav navbar-top-links navbar-left hidden-xs align-items-center">
-					<li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i
-								class="ti-menu icon-arrow-left-circle"></i></a></li>
+					<li>
+						<a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light">
+							<i class="ti-menu"></i>
+						</a>
+					</li>
 					<li>
 						<h4 class="page-title">Add Product</h4>
 					</li>
@@ -199,7 +202,7 @@
 	<script src="/js/summernote.min.js"></script>
 
 	<script th:inline="javascript">
-		$(".wp-side-menu li:nth-child(2)").addClass("selected")
+		$(".wp-side-menu li:nth-child(3)").addClass("selected")
 
 		$(window).ready(function () {
 			$('#description').summernote({

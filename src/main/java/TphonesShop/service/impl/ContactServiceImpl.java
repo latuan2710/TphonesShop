@@ -1,8 +1,10 @@
 package TphonesShop.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import TphonesShop.model.Contact;
@@ -27,7 +29,12 @@ public class ContactServiceImpl implements ContactService {
 
 	@Override
 	public List<Contact> getContactList() {
-		return contactRepository.findAll();
+		List<Contact> result = new ArrayList<>();
+
+		result.addAll(contactRepository.findByStatus(false, Sort.by("id").descending()));
+		result.addAll(contactRepository.findByStatus(true, Sort.by("id").descending()));
+
+		return result;
 	}
 
 	@Override
