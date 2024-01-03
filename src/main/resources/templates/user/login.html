@@ -60,7 +60,7 @@
 													<input type="password" value name="password" id="password"
 														class="input-full">
 													<div class="button-box">
-														<button type="submit" class="default-btn">Sign In</button>
+														<button type="submit" class="default-btn" formFor="Username">Sign In</button>
 														<a href="#recover" id="RecoverPassword">Forgot your
 															password?</a>
 													</div>
@@ -89,7 +89,7 @@
 													class="input-full key" autocorrect="off" autocapitalize="off">
 												<div class="login-toggle-btn">
 													<div class="form-action-button">
-														<button type="submit" class="default-btn">Submit</button>
+														<button type="submit" class="default-btn" formFor="Email">Submit</button>
 														<a href="#" id="HideRecoverPasswordLink">Cancel</a>
 													</div>
 												</div>
@@ -126,6 +126,7 @@
 				let form_id = form.attr('id');
 				let input = $("#" + form_id + " input.key");
 				let key = input.val();
+				let type=$(e.target).attr("formFor");
 
 				fetch("/check?key=" + key)
 					.then((res) => res.json())
@@ -135,7 +136,7 @@
 						} else {
 							Swal.fire({
 								icon: 'error',
-								title: 'Incorrect username!!'
+								title: `Incorrect ${type}!!`
 							})
 						}
 					});

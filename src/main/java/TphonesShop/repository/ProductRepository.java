@@ -23,6 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Page<Product> findByNameContains(String name, Pageable pageable);
 
+	@Query("SELECT p FROM Product p WHERE (p.final_price BETWEEN :minPrice AND :maxPrice)")
 	Page<Product> findByPriceBetween(Pageable pageable, int minPrice, int maxPrice);
 
 	@Query("Select p From Product p where p.brand.name in :brands")

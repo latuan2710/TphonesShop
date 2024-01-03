@@ -126,7 +126,7 @@ public class AdminController {
 	@PostMapping("/saveBrand")
 	public String saveBrand(Model model,
 			@RequestParam("brandImg") MultipartFile file,
-			@ModelAttribute("brand") Brand brand) {
+			@ModelAttribute Brand brand) {
 		try {
 			brand = brandService.save(brand);
 
@@ -151,7 +151,7 @@ public class AdminController {
 	@PostMapping("/saveProduct")
 	public String saveProduct(Model model,
 			@RequestParam("product_img") MultipartFile file,
-			@ModelAttribute("product") Product product) {
+			@ModelAttribute Product product) {
 		try {
 			product = productService.save(product);
 
@@ -192,7 +192,7 @@ public class AdminController {
 	/* DELETE */
 
 	@GetMapping("/disable/{id}")
-	public String disableUser(@PathVariable("id") Long id, Model model) {
+	public String disableUser(@PathVariable Long id, Model model) {
 		User user = userService.findUserById(id);
 		try {
 			user.setStatus(!user.isStatus());
@@ -210,7 +210,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/deleteProduct/{id}")
-	public String deleteProduct(@PathVariable("id") Long id, Model model) {
+	public String deleteProduct(@PathVariable Long id, Model model) {
 		try {
 			Product product = productService.findProductById(id);
 
@@ -229,7 +229,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/deleteBrand/{id}")
-	public String deleteBrand(@PathVariable("id") Long id, Model model) throws IOException {
+	public String deleteBrand(@PathVariable Long id, Model model) throws IOException {
 
 		try {
 			Brand brand = brandService.findBrandById(id);
@@ -249,8 +249,8 @@ public class AdminController {
 
 	@GetMapping("/order/{order_id}/status/{order_status}")
 	public String updateOrderStatus(
-			@PathVariable("order_id") int order_id,
-			@PathVariable("order_status") int order_status) {
+			@PathVariable int order_id,
+			@PathVariable int order_status) {
 
 		Order order = orderService.findOrderById(order_id);
 		order.setStatus(order_status);
@@ -260,7 +260,7 @@ public class AdminController {
 	}
 
 	@GetMapping("/processContact/{id}")
-	public String contactProcess(@PathVariable("id") long id, Model model) {
+	public String contactProcess(@PathVariable long id, Model model) {
 
 		try {
 			Contact contact = contactService.findContactById(id);

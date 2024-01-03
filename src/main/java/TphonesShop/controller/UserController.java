@@ -135,7 +135,7 @@ public class UserController {
 
 	@GetMapping("/history")
 	public String toHistoryPage(Model model, HttpSession session,
-			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+			@RequestParam(defaultValue = "1") int pageNo) {
 		User user = (User) session.getAttribute("user");
 		Page<Order> orders = new PageImpl<>(new ArrayList<>());
 		Pageable paging = PageRequest.of(pageNo - 1, 5);
@@ -151,14 +151,14 @@ public class UserController {
 	}
 
 	@GetMapping("/order/detail/{id}")
-	public String toHistoryCartPage(Model model, @PathVariable("id") long id) {
+	public String toHistoryCartPage(Model model, @PathVariable long id) {
 		model.addAttribute("total", orderService.findOrderById(id).getTotalPrice());
 		model.addAttribute("orderDetails", orderDetailService.getOrdersByOrderId(id));
 		return "user/history_detail_cart.html";
 	}
 
 	@GetMapping("order/delete/{id}")
-	public String cancelOrder(@PathVariable("id") long id) {
+	public String cancelOrder(@PathVariable long id) {
 
 		Order order = orderService.findOrderById(id);
 		order.setStatus(-1);
@@ -168,7 +168,7 @@ public class UserController {
 	}
 
 	@GetMapping("/product/{name}")
-	public String toShowProductPage(Model model, @PathVariable("name") String name) {
+	public String toShowProductPage(Model model, @PathVariable String name) {
 		model.addAttribute("product", productService.findProductByName(name));
 		return "user/productDetail.html";
 	}
@@ -195,7 +195,7 @@ public class UserController {
 	}
 
 	@PostMapping("/forgot-password")
-	public String forgotPass(@RequestParam("email") String email, HttpServletRequest request) {
+	public String forgotPass(@RequestParam String email, HttpServletRequest request, Model model) {
 
 		String tokenString = RandomStringUtils.randomAlphanumeric(60);
 
@@ -212,7 +212,10 @@ public class UserController {
 		String resetPasswordLink = siteURL + "/reset-password?token=" + tokenString;
 		sendEmail(email, resetPasswordLink);
 
-		return "redirect:/login";
+		model.addAttribute("flag", true);
+		model.addAttribute("message", "Please check your email to get the password change link!");
+
+		return toLoginPage(model);
 	}
 
 	@GetMapping("/change-password")
@@ -242,7 +245,7 @@ public class UserController {
 
 	@PostMapping("/reset-password")
 	public String resetPassword(Model model, @RequestParam("token") String tokenString,
-			@RequestParam("password") String password, HttpSession httpSession) {
+			@RequestParam String password, HttpSession httpSession) {
 
 		Token token = tokenService.findByToken(tokenString);
 		if (token == null) {
@@ -313,11 +316,12 @@ public class UserController {
 	}
 
 	@GetMapping("/all-product")
-	public String allProducts(Model model, @RequestParam(value = "minPrice", defaultValue = "0") int minPrice,
-			@RequestParam(value = "maxPrice", defaultValue = "0") int maxPrice,
-			@RequestParam(value = "key", required = false) String key,
+	public String allProducts(Model model,
+			@RequestParam(defaultValue = "0") int minPrice,
+			@RequestParam(defaultValue = "0") int maxPrice,
+			@RequestParam(required = false) String key,
 			@RequestParam(value = "brand", required = false) String[] brands,
-			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo) {
+			@RequestParam(defaultValue = "1") int pageNo) {
 
 		Pageable paging = PageRequest.of(pageNo - 1, 12, Sort.by("id").descending());
 		Page<Product> productsPage = null;

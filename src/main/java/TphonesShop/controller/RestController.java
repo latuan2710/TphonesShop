@@ -41,7 +41,7 @@ public class RestController {
 	OrderDetailService orderDetailService;
 
 	@GetMapping("/check")
-	public boolean check(@RequestParam("key") String key) {
+	public boolean check(@RequestParam String key) {
 		return userService.checkExist(key);
 	}
 
@@ -51,7 +51,7 @@ public class RestController {
 	}
 
 	@PostMapping("/get/brand/{id}")
-	public Brand getBrandById(@PathVariable("id") long id) {
+	public Brand getBrandById(@PathVariable long id) {
 		return brandService.findBrandById(id);
 	}
 
@@ -91,8 +91,8 @@ public class RestController {
 
 	@PostMapping("/add-to-cart")
 	public boolean addToCart(HttpSession httpSession,
-			@RequestParam("product_id") long product_id,
-			@RequestParam(value = "quantity", defaultValue = "1") int quantity) {
+			@RequestParam long product_id,
+			@RequestParam(defaultValue = "1") int quantity) {
 		User user = (User) httpSession.getAttribute("user");
 		if (user != null) {
 			Order order = orderService.getCart(user.getId());
@@ -135,7 +135,7 @@ public class RestController {
 	}
 
 	@PostMapping("/remove-cart-item")
-	public boolean removeCartItem(@RequestParam("id") long id) {
+	public boolean removeCartItem(@RequestParam long id) {
 		try {
 			OrderDetail orderDetail = orderDetailService.findById(id);
 			Order order = orderDetail.getOrder();
@@ -174,10 +174,10 @@ public class RestController {
 			@RequestParam("order_id") int id,
 			@RequestParam("products_name[]") String[] products_name,
 			@RequestParam("products_quantity[]") int[] products_quantity,
-			@RequestParam("name") String name,
-			@RequestParam("email") String email,
-			@RequestParam("phone") String phone,
-			@RequestParam("address") String address) {
+			@RequestParam String name,
+			@RequestParam String email,
+			@RequestParam String phone,
+			@RequestParam String address) {
 
 		for (int i = 0; i < products_quantity.length; i++) {
 			Product product = productService.findProductByName(products_name[i]);
@@ -198,7 +198,7 @@ public class RestController {
 	}
 
 	@PostMapping("/search")
-	public List<Product> searchProducts(@RequestParam("key") String key) {
+	public List<Product> searchProducts(@RequestParam String key) {
 		Pageable paging = PageRequest.of(0, 10, Sort.by("id").descending());
 		return productService.findByKey(key, paging).getContent();
 	}
@@ -212,8 +212,8 @@ public class RestController {
 	public boolean updateUserDetail(
 			HttpSession session,
 			@PathVariable("user_id") long id,
-			@RequestParam("name") String name,
-			@RequestParam("value") String value) {
+			@RequestParam String name,
+			@RequestParam String value) {
 		User user = userService.findUserById(id);
 
 		try {
