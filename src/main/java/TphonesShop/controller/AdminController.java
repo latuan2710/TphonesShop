@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -112,7 +111,7 @@ public class AdminController {
 	public String saveUser(Model model, @ModelAttribute("saveUser") User user) {
 		try {
 			if (user.getId() == 0) {
-				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				ShaEncoder encoder = new ShaEncoder();
 				user.setPassword(encoder.encode(user.getPassword()));
 			}
 			userService.save(user);
@@ -120,7 +119,7 @@ public class AdminController {
 		} catch (Exception e) {
 			model.addAttribute("alert", "error");
 		}
-		return adminPageUsers(model);
+		return adminPageAdmins(model);
 	}
 
 	@PostMapping("/saveBrand")

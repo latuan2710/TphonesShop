@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,7 +94,7 @@ public class UserController {
 	public String login(Model model, @Param("username") String username, @Param("password") String password,
 			HttpSession httpSession) {
 
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		ShaEncoder encoder = new ShaEncoder();
 
 		User user = userService.findUserByUsername(username);
 
@@ -106,7 +105,7 @@ public class UserController {
 			return toLoginPage(model);
 		}
 
-		if (encoder.matches(password, user.getPassword())) {
+		if (encoder.encode(password).equals(user.getPassword())) {
 
 			httpSession.setAttribute("user", user);
 
@@ -181,7 +180,7 @@ public class UserController {
 
 	@PostMapping("/register")
 	public String registerNewUser(Model model, @ModelAttribute("saveUser") User user) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		ShaEncoder encoder = new ShaEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
 		user.setType("user");
 		userService.save(user);
@@ -258,7 +257,7 @@ public class UserController {
 		model.addAttribute("flag", true);
 		model.addAttribute("message", "You have successfully changed your password.");
 
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		ShaEncoder encoder = new ShaEncoder();
 		user.setPassword(encoder.encode(password));
 
 		tokenService.deleteByUserId(user.getId());
