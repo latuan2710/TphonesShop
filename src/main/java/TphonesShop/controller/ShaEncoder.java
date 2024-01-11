@@ -15,7 +15,6 @@ public class ShaEncoder {
             while (hashtext.length() < 32) {
                 hashtext = "0" + hashtext;
             }
-            System.out.println(hashtext);
             return hashtext;
         } catch (NoSuchAlgorithmException ex) {
             System.out.println("We have some error when encoding password!!!!!");
