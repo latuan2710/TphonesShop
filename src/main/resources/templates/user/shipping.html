@@ -5,365 +5,367 @@
 </head>
 
 <body id="account" class="template-login">
-	<style>
-		body {
-			background-color: rgb(247, 247, 247);
-		}
+<style>
+    body {
+        background-color: rgb(247, 247, 247);
+    }
 
-		main>.container>.row>div>div {
-			background-color: #fff;
-			border-radius: 10px;
-			padding: 20px;
-			gap: 10px;
-			box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
-			-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
-			-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
-		}
+    main > .container > .row > div > div {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        gap: 10px;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+    }
 
-		main div.form>div {
-			margin-bottom: 50px;
-		}
+    main div.form > div {
+        margin-bottom: 50px;
+    }
 
-		p.note {
-			color: rgba(0, 0, 0, 0.56);
-		}
+    p.note {
+        color: rgba(0, 0, 0, 0.56);
+    }
 
-		.payment div p {
-			padding: 15px;
-			margin: 0;
-		}
+    .payment div p {
+        padding: 15px;
+        margin: 0;
+    }
 
-		.payment div p:nth-child(1) {
-			border: 1px solid #ff6a00;
-			background-color: #fff4f2;
-			border-top-right-radius: 10px;
-			border-top-left-radius: 10px;
-		}
+    .payment div p:nth-child(1) {
+        border: 1px solid #ff6a00;
+        background-color: #fff4f2;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
 
-		.payment div p:nth-child(2) {
-			border: 1px solid rgb(222, 222, 222);
-			background-color: rgb(244, 244, 244);
-			border-bottom-left-radius: 10px;
-			border-bottom-right-radius: 10px;
-			text-align: center;
-		}
+    .payment div p:nth-child(2) {
+        border: 1px solid rgb(222, 222, 222);
+        background-color: rgb(244, 244, 244);
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        text-align: center;
+    }
 
-		.single-product div {
-			width: 70px;
-			height: 80px;
-			padding: 3px;
-			border: 1px solid rgb(223, 223, 223);
-			border-radius: 10px;
-			background-color: rgb(248, 248, 248);
-			cursor: pointer;
-		}
+    .single-product div {
+        width: 70px;
+        height: 80px;
+        padding: 3px;
+        border: 1px solid rgb(223, 223, 223);
+        border-radius: 10px;
+        background-color: rgb(248, 248, 248);
+        cursor: pointer;
+    }
 
-		.single-product .single-product-name {
-			cursor: pointer;
-			font-size: 15px;
-		}
+    .single-product .single-product-name {
+        cursor: pointer;
+        font-size: 15px;
+    }
 
-		.single-product .position-absolute {
-			top: -5px;
-			right: -5px;
-			border-radius: 50%;
-			background-color: rgba(0, 0, 0, 0.56);
-			color: #fff;
-			width: 20px;
-			height: 20px;
-			font-size: small;
-			text-align: center;
-			font-weight: bold;
-		}
+    .single-product .position-absolute {
+        top: -5px;
+        right: -5px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.56);
+        color: #fff;
+        width: 20px;
+        height: 20px;
+        font-size: small;
+        text-align: center;
+        font-weight: bold;
+    }
 
-		.totalPriceContent {
-			margin-top: 20px !important;
-		}
+    .totalPriceContent {
+        margin-top: 20px !important;
+    }
 
-		.totalPriceContent p {
-			font-weight: bold;
-			margin: 0;
-		}
+    .totalPriceContent p {
+        font-weight: bold;
+        margin: 0;
+    }
 
-		.order-summary {
-			display: none;
-		}
+    .order-summary {
+        display: none;
+    }
 
-		@media only screen and (max-width: 600px) {
-			main>.container>.row>div.col-md-4.col-12 {
-				display: none;
-			}
+    @media only screen and (max-width: 600px) {
+        main > .container > .row > div.col-md-4.col-12 {
+            display: none;
+        }
 
-			.order-summary {
-				display: block;
-			}
+        .order-summary {
+            display: block;
+        }
 
-			.order-summary h3 {
-				position: relative;
-			}
+        .order-summary h3 {
+            position: relative;
+        }
 
-			.order-summary h3>button {
-				font-size: 14px;
-				color: #ff6a00;
-				position: absolute;
-				right: 0;
-				top: 50%;
-				transform: translate(-10%, -50%);
-			}
+        .order-summary h3 > button {
+            font-size: 14px;
+            color: #ff6a00;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(-10%, -50%);
+        }
 
-			.order-summary .hide-order::after {
-				content: "\f107";
-				font: normal normal normal 14px/1 FontAwesome;
-				font-size: inherit;
-				text-rendering: auto;
-				-webkit-font-smoothing: antialiased;
-				margin-left: 3px;
-			}
+        .order-summary .hide-order::after {
+            content: "\f107";
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            margin-left: 3px;
+        }
 
-			.order-summary .show-order::after {
-				content: "\f106";
-				font: normal normal normal 14px/1 FontAwesome;
-				font-size: inherit;
-				text-rendering: auto;
-				-webkit-font-smoothing: antialiased;
-				margin-left: 3px;
-			}
+        .order-summary .show-order::after {
+            content: "\f106";
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            margin-left: 3px;
+        }
 
-			.order-summary>div.pt-20 {
-				padding: 0;
-				overflow: hidden;
-			}
+        .order-summary > div.pt-20 {
+            padding: 0;
+            overflow: hidden;
+        }
 
-			div.order-summary>div.totalPriceContent {
-				margin: 0 !important;
-				margin-bottom: 10px !important;
-			}
-		}
-	</style>
-	<div class="wrapper">
-		<!-- Header control start -->
-		<div id="shopify-section-header-two" class="shopify-section">
-			<!--Header Area Start-->
-			<header th:replace="~{user/index.html :: header}">
-			</header>
-			<!--Header Area End-->
-		</div>
-		<!-- Header control end -->
-		<div class="breadcrumb-wrapper">
-			<div class="breadcrumb-area breadcrumbs overlay-bg">
-				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div class="breadcrumb-content text-center">
-								<h1 class="breadmome-name breadcrumbs-title">Shipping</h1>
-								<nav class role="navigation" aria-label="breadcrumbs">
-									<ul class="breadcrumb-list">
-										<li>
-											<a href="/" title="Back to the home page">Home</a>
-										</li>
-										<li>
-											<span>Shipping</span>
-										</li>
-									</ul>
-								</nav>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- BREADCRUMBS SETCTION END -->
-		<main>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-12">
-						<div>
-							<div class="form">
-								<div>
-									<h3>Billing Detail</h3>
-									<div class="row">
-										<div class="form-group  col-12">
-											<input type="text" class="form-control" placeholder="Full Name"
-												name="fullName" th:value="${session.user.fullName}">
-										</div>
-									</div>
-									<div class="row">
-										<div class="form-group col-md-6 col-12">
-											<input type="text" class="form-control" placeholder="Phone Number"
-												name="phone" th:value="${session.user.phone}">
-										</div>
-										<div class="form-group col-md-6 col-12">
-											<input type="text" class="form-control" placeholder="Email Address"
-												name="email" th:value="${session.user.email}">
-										</div>
-									</div>
-									<div class="form-group">
+        div.order-summary > div.totalPriceContent {
+            margin: 0 !important;
+            margin-bottom: 10px !important;
+        }
+    }
+</style>
+<div class="wrapper">
+    <!-- Header control start -->
+    <div id="shopify-section-header-two" class="shopify-section">
+        <!--Header Area Start-->
+        <header th:replace="~{user/index.html :: header}">
+        </header>
+        <!--Header Area End-->
+    </div>
+    <!-- Header control end -->
+    <div class="breadcrumb-wrapper">
+        <div class="breadcrumb-area breadcrumbs overlay-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-content text-center">
+                            <h1 class="breadmome-name breadcrumbs-title">Shipping</h1>
+                            <nav class role="navigation" aria-label="breadcrumbs">
+                                <ul class="breadcrumb-list">
+                                    <li>
+                                        <a href="/" title="Back to the home page">Home</a>
+                                    </li>
+                                    <li>
+                                        <span>Shipping</span>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BREADCRUMBS SETCTION END -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <div>
+                        <div class="form">
+                            <div>
+                                <h3>Billing Detail</h3>
+                                <div class="row">
+                                    <div class="form-group  col-12">
+                                        <input type="text" class="form-control" placeholder="Full Name"
+                                               name="fullName" th:value="${session.user.fullName}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6 col-12">
+                                        <input type="text" class="form-control" placeholder="Phone Number"
+                                               name="phone" th:value="${session.user.phone}">
+                                    </div>
+                                    <div class="form-group col-md-6 col-12">
+                                        <input type="text" class="form-control" placeholder="Email Address"
+                                               name="email" th:value="${session.user.email}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
 										<textarea class="form-control" name="address" placeholder="Enter address here"
-											th:text="${session.user.address}"></textarea>
-									</div>
-								</div>
-								<div class="payment">
-									<h3>Payment</h3>
-									<p class="note border-0">All transactions are secure and encrypted.</p>
-									<div>
-										<p>Cash on Delivery (COD)</p>
-										<p>We take your payment after arriving at your product.</p>
-									</div>
-								</div>
-								<div class="order-summary mb-0">
-									<h3>Order Summary([(${order.orderDetails.size()})])
-										<button class="show-order" onclick="showOrder(this)">Hide</button>
-									</h3>
-									<div class="pt-20">
-										<div class="single-product d-flex justify-content-between align-items-center m-2"
-											th:each="orders : ${order.orderDetails}" th:name="${orders.product.name}">
-											<div
-												class="position-relative d-flex justify-content-center align-items-center">
-												<img th:src="${orders.product.featuredImage}" alt="product image"
-													loading="lazy" class="mw-100 mh-100 d-block">
-												<span class="single-product-quantity position-absolute"
-													th:text="${orders.quantity}">2</span>
-											</div>
-											<p class="single-product-name" style="width: 50%;"
-												th:text="${orders.product.name}">
-												Product
-												Name</p>
-											<p class="single-product-totalPrice" th:text="${'$'+orders.finalPrice}">$155
-											</p>
-										</div>
-									</div>
-									<div class="totalPriceContent m-0 d-flex justify-content-between">
-										<p>Total:</p>
-										<p class="d-block">$[(${order.totalPrice})]</p>
-									</div>
-								</div>
-								<button type="submit" class="btn btn-primary w-100" th:data-id="${order.id}">Complete
-									Order</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-12">
-						<div>
-							<div class="single-product d-flex justify-content-between align-items-center m-2"
-								th:each="orders : ${order.orderDetails}" th:name="${orders.product.name}">
-								<div class="position-relative d-flex justify-content-center align-items-center">
-									<img th:src="${orders.product.featuredImage}" alt="product image" loading="lazy"
-										class="mw-100 mh-100 d-block">
-									<span class="single-product-quantity position-absolute"
-										th:text="${orders.quantity}">2</span>
-								</div>
-								<p class="single-product-name" style="width: 50%;" th:text="${orders.product.name}">
-									Product
-									Name</p>
-								<p class="single-product-totalPrice" th:text="${'$'+orders.finalPrice}">$155</p>
-							</div>
-							<div class="totalPriceContent d-flex justify-content-end m-2">
-								<p>Total: $[(${order.totalPrice})]</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</main>
-		<!--Footer Area Start-->
-		<div th:replace="~{user/index.html :: footer-top}">
-		</div>
-		<footer th:replace="~{user/index.html :: footer}">
-		</footer>
-		<!--Footer Area End-->
-		<script>
-			$('.single-product').on('click', '.position-relative,.single-product-name', (e) => {
-				let name = $(e.target).parents('div.single-product').attr('name');
-				location.href = `/product/${name}`;
-			})
+                                                  th:text="${session.user.address}"></textarea>
+                                </div>
+                            </div>
+                            <div class="payment">
+                                <h3>Payment</h3>
+                                <p class="note border-0">All transactions are secure and encrypted.</p>
+                                <div>
+                                    <p>Cash on Delivery (COD)</p>
+                                    <p>We take your payment after arriving at your product.</p>
+                                </div>
+                            </div>
+                            <div class="order-summary mb-0">
+                                <h3>Order Summary([(${order.orderDetails.size()})])
+                                    <button class="show-order" onclick="showOrder(this)">Hide</button>
+                                </h3>
+                                <div class="pt-20">
+                                    <div class="single-product d-flex justify-content-between align-items-center m-2"
+                                         th:each="orders : ${order.orderDetails}" th:name="${orders.product.name}">
+                                        <div
+                                                class="position-relative d-flex justify-content-center align-items-center">
+                                            <img th:src="${orders.product.featuredImage}" alt="product image"
+                                                 loading="lazy" class="mw-100 mh-100 d-block">
+                                            <span class="single-product-quantity position-absolute"
+                                                  th:text="${orders.quantity}">2</span>
+                                        </div>
+                                        <p class="single-product-name" style="width: 50%;"
+                                           th:text="${orders.product.name}">
+                                            Product
+                                            Name</p>
+                                        <p class="single-product-totalPrice" th:text="${'$'+orders.finalPrice}">$155
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="totalPriceContent m-0 d-flex justify-content-between">
+                                    <p>Total:</p>
+                                    <p class="d-block">$[(${order.totalPrice})]</p>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" th:data-id="${order.id}">Complete
+                                Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div>
+                        <div class="single-product d-flex justify-content-between align-items-center m-2"
+                             th:each="orders : ${order.orderDetails}" th:name="${orders.product.name}">
+                            <div class="position-relative d-flex justify-content-center align-items-center">
+                                <img th:src="${orders.product.featuredImage}" alt="product image" loading="lazy"
+                                     class="mw-100 mh-100 d-block">
+                                <span class="single-product-quantity position-absolute"
+                                      th:text="${orders.quantity}">2</span>
+                            </div>
+                            <p class="single-product-name" style="width: 50%;" th:text="${orders.product.name}">
+                                Product
+                                Name</p>
+                            <p class="single-product-totalPrice" th:text="${'$'+orders.finalPrice}">$155</p>
+                        </div>
+                        <div class="totalPriceContent d-flex justify-content-end m-2">
+                            <p>Total: $[(${order.totalPrice})]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--Footer Area Start-->
+    <div th:replace="~{user/index.html :: footer-top}">
+    </div>
+    <footer th:replace="~{user/index.html :: footer}">
+    </footer>
+    <!--Footer Area End-->
+    <script>
+        $('.single-product').on('click', '.position-relative,.single-product-name', (e) => {
+            let name = $(e.target).parents('div.single-product').attr('name');
+            location.href = `/product/${name}`;
+        })
 
-			function showOrder(e) {
-				let ele = $(e);
-				if (ele.hasClass("show-order")) {
-					ele.addClass("hide-order")
-					ele.removeClass("show-order");
-					ele.text("Show");
-					$(".order-summary>div.pt-20").fadeToggle();
+        function showOrder(e) {
+            let ele = $(e);
+            if (ele.hasClass("show-order")) {
+                ele.addClass("hide-order")
+                ele.removeClass("show-order");
+                ele.text("Show");
+                $(".order-summary>div.pt-20").fadeToggle();
 
-				} else {
-					ele.removeClass("hide-order")
-					ele.addClass("show-order");
-					ele.text("Hide");
-					$(".order-summary>div.pt-20").fadeToggle()
-				}
-			}
+            } else {
+                ele.removeClass("hide-order")
+                ele.addClass("show-order");
+                ele.text("Hide");
+                $(".order-summary>div.pt-20").fadeToggle()
+            }
+        }
 
-			$(`button[type='submit']`).click((e) => {
-				let name = $(`input[name="fullName"]`).val();
-				let email = $('input[name="email"]').val();
-				let phone = $(`input[name="phone"]`).val();
-				let address = $('textarea').val();
-				let order_id = $(e.target).attr('data-id');
-				let products_name = [];
-				let products_quantity = [];
+        $(`button[type='submit']`).click((e) => {
+            let name = $(`input[name="fullName"]`).val();
+            let email = $('input[name="email"]').val();
+            let phone = $(`input[name="phone"]`).val();
+            let address = $('textarea').val();
+            let order_id = $(e.target).attr('data-id');
+            let products_name = [];
+            let products_quantity = [];
 
-				if (address === "" || name === "" || phone === "") {
-					Swal.fire({
-						icon: 'error',
-						title: 'Please fill in all the required fields!'
-					});
-					return;
-				}
+            if (address === "" || name === "" || phone === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Please fill in all the required fields!'
+                });
+                return;
+            }
 
-				if ($(window).width() <= 600) {
-					$('.order-summary .single-product').each((index, ele) => {
-						let name = $(ele).find(".single-product-name").text();
-						let quantity = $(ele).find(".single-product-quantity").text();
+            if ($(window).width() <= 600) {
+                $('.order-summary .single-product').each((index, ele) => {
+                    let name = $(ele).find(".single-product-name").text();
+                    let quantity = $(ele).find(".single-product-quantity").text();
 
-						products_name.push(name);
-						products_quantity.push(quantity);
-					})
-				} else {
-					$('main>.container>.row>div.col-md-4.col-12 .single-product').each((index, ele) => {
-						let name = $(ele).find(".single-product-name").text();
-						let quantity = $(ele).find(".single-product-quantity").text();
+                    products_name.push(name);
+                    products_quantity.push(quantity);
+                })
+            } else {
+                $('main>.container>.row>div.col-md-4.col-12 .single-product').each((index, ele) => {
+                    let name = $(ele).find(".single-product-name").text();
+                    let quantity = $(ele).find(".single-product-quantity").text();
 
-						products_name.push(name);
-						products_quantity.push(quantity);
-					})
-				}
+                    products_name.push(name);
+                    products_quantity.push(quantity);
+                })
+            }
 
-				console.log(products_name);
-				console.log(products_quantity);
+            console.log(products_name);
+            console.log(products_quantity);
 
-				$.ajax({
-					url: '/checkout',
-					type: 'POST',
-					data: {
-						address: address,
-						name: name,
-						email: email,
-						phone: phone,
-						order_id: order_id,
-						products_name: products_name,
-						products_quantity: products_quantity
-					},
-					success: function (data) {
-						if (data) {
-							Swal.fire({
-								icon: 'success',
-								title: 'Your order has been placed successfully!!!',
-								text: `Orders will be delivered to ${address} in the next few days.`,
-								showDenyButton: true,
-								confirmButtonText: 'Continue Shopping',
-								denyButtonText: 'View Order'
-							}).then((result) => {
-								if (result.isConfirmed) {
-									location.href = '/';
-								} else if (result.isDenied) {
-									location.href = `/order/detail/${order_id}`;
-								}
-							});
-						}
-					}
-				});
-			})
-		</script>
+            $.ajax({
+                url: '/checkout',
+                type: 'POST',
+                data: {
+                    address: address,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    order_id: order_id,
+                    products_name: products_name,
+                    products_quantity: products_quantity
+                },
+                success: function (data) {
+                    if (data) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Your order has been placed successfully!!!',
+                            text: `Orders will be delivered to ${address} in the next few days.`,
+                            showDenyButton: true,
+                            confirmButtonText: 'Continue Shopping',
+                            denyButtonText: 'View Order'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.href = '/';
+                            } else if (result.isDenied) {
+                                location.href = `/order/detail/${order_id}`;
+                            }
+                        });
+                    }
+                }
+            });
+        })
+    </script>
+</div>
 </body>
 
 </html>

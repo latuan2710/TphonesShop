@@ -1,15 +1,14 @@
-#
-# Build stage
-#
-FROM maven:3.8.5-openjdk-17-slim AS build
-COPY . .
-RUN mvn clean package -DskipTests
-
-#
-# Package stage
-#
+# Use an official Java runtime as the base image
 FROM openjdk:17-jdk-slim
-COPY --from=build target/TphonesShop-0.0.1-SNAPSHOT.jar app.jar
-# ENV PORT=8080
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the JAR file into the container
+COPY target/TphonesShop-0.0.1-SNAPSHOT.jar app.jar
+
+# Expose the port your app runs on
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import TphonesShop.service.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,294 +24,265 @@ import TphonesShop.model.Contact;
 import TphonesShop.model.Order;
 import TphonesShop.model.Product;
 import TphonesShop.model.User;
-import TphonesShop.service.BrandService;
-import TphonesShop.service.ContactService;
-import TphonesShop.service.OrderDetailService;
-import TphonesShop.service.OrderService;
-import TphonesShop.service.ProductService;
-import TphonesShop.service.UserService;
 import jakarta.annotation.Resource;
 
 @Controller
 public class AdminController {
 
-	@Resource
-	UserService userService;
-	@Resource
-	BrandService brandService;
-	@Resource
-	ProductService productService;
-	@Resource
-	OrderService orderService;
-	@Resource
-	OrderDetailService orderDetailService;
-	@Resource
-	ContactService contactService;
+    @Resource
+    UserService userService;
+    @Resource
+    BrandService brandService;
+    @Resource
+    ProductService productService;
+    @Resource
+    OrderService orderService;
+    @Resource
+    OrderDetailService orderDetailService;
+    @Resource
+    ContactService contactService;
+    @Resource
+    CloudinaryService cloudinaryService;
 
-	@GetMapping("/adminPage/admins")
-	public String adminPageAdmins(Model model) {
-		model.addAttribute("users", userService.getAdminList());
-		return "/admin/adminPage(admins).html";
-	}
+    @GetMapping("/adminPage/admins")
+    public String adminPageAdmins(Model model) {
+        model.addAttribute("users", userService.getAdminList());
+        return "admin/adminPage(admins).html";
+    }
 
-	@GetMapping("/adminPage/users")
-	public String adminPageUsers(Model model) {
-		model.addAttribute("users", userService.getUserList());
-		return "/admin/adminPage(users).html";
-	}
+    @GetMapping("/adminPage/users")
+    public String adminPageUsers(Model model) {
+        model.addAttribute("users", userService.getUserList());
+        return "admin/adminPage(users).html";
+    }
 
-	@GetMapping("/adminPage/products")
-	public String adminPageProducts(Model model) {
-		model.addAttribute("products", productService.getAll());
-		return "admin/adminPage(products).html";
-	}
+    @GetMapping("/adminPage/products")
+    public String adminPageProducts(Model model) {
+        model.addAttribute("products", productService.getAll());
+        return "admin/adminPage(products).html";
+    }
 
-	@GetMapping("/adminPage/brands")
-	public String adminPageBrands(Model model) {
-		model.addAttribute("brand", new Brand());
-		model.addAttribute("brands", brandService.getBrandList());
-		return "admin/adminPage(brands).html";
-	}
+    @GetMapping("/adminPage/brands")
+    public String adminPageBrands(Model model) {
+        model.addAttribute("brand", new Brand());
+        model.addAttribute("brands", brandService.getBrandList());
+        return "admin/adminPage(brands).html";
+    }
 
-	@GetMapping("/adminPage/orders")
-	public String adminPageOrders(Model model) {
-		model.addAttribute("orders", orderService.getOrdersBuyed());
-		return "admin/adminPage(orders).html";
-	}
+    @GetMapping("/adminPage/orders")
+    public String adminPageOrders(Model model) {
+        model.addAttribute("orders", orderService.getOrdersBuyed());
+        return "admin/adminPage(orders).html";
+    }
 
-	@GetMapping("/adminPage/contacts")
-	public String adminPageContacts(Model model) {
-		model.addAttribute("contacts", contactService.getContactList());
-		return "admin/adminPage(contacts).html";
-	}
+    @GetMapping("/adminPage/contacts")
+    public String adminPageContacts(Model model) {
+        model.addAttribute("contacts", contactService.getContactList());
+        return "admin/adminPage(contacts).html";
+    }
 
-	/* ADD */
+    /* ADD */
 
-	@GetMapping("/add-user")
-	public String toSaveUserPage(Model model, User user) {
-		model.addAttribute("saveUser", user);
-		return "admin/saveUser.html";
-	}
+    @GetMapping("/add-user")
+    public String toSaveUserPage(Model model, User user) {
+        model.addAttribute("saveUser", user);
+        return "admin/saveUser.html";
+    }
 
-	@GetMapping("/add-product")
-	public String toAddProductPage(Model model, Product product) {
-		model.addAttribute("brands", brandService.getBrandList());
-		model.addAttribute("product", product);
-		return "admin/saveProduct.html";
-	}
+    @GetMapping("/add-product")
+    public String toAddProductPage(Model model, Product product) {
+        model.addAttribute("brands", brandService.getBrandList());
+        model.addAttribute("product", product);
+        return "admin/saveProduct.html";
+    }
 
-	@GetMapping("/add-brand")
-	public String toSaveBrandPage(Model model, Brand brand) {
-		model.addAttribute("brand", brand);
-		return "admin/saveBrand.html";
-	}
+    @GetMapping("/add-brand")
+    public String toSaveBrandPage(Model model, Brand brand) {
+        model.addAttribute("brand", brand);
+        return "admin/saveBrand.html";
+    }
 
-	/* SAVE */
+    /* SAVE */
 
-	@PostMapping("/saveUser/{id}")
-	public String saveUser(Model model, @ModelAttribute("saveUser") User user) {
-		try {
-			if (user.getId() == 0) {
-				ShaEncoder encoder = new ShaEncoder();
-				user.setPassword(encoder.encode(user.getPassword()));
-			}
-			userService.save(user);
-			model.addAttribute("alert", "success");
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
-		return adminPageAdmins(model);
-	}
+    @PostMapping("/saveUser/{id}")
+    public String saveUser(Model model, @ModelAttribute("saveUser") User user) {
+        try {
+            if (user.getId() == 0) {
+                ShaEncoder encoder = new ShaEncoder();
+                user.setPassword(encoder.encode(user.getPassword()));
+            }
+            userService.save(user);
+            model.addAttribute("alert", "success");
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
+        return adminPageAdmins(model);
+    }
 
-	@PostMapping("/saveBrand")
-	public String saveBrand(Model model,
-			@RequestParam("brandImg") MultipartFile file,
-			@ModelAttribute Brand brand) {
-		try {
-			brand = brandService.save(brand);
+    @PostMapping("/saveBrand")
+    public String saveBrand(Model model,
+                            @RequestParam("brandImg") MultipartFile file,
+                            @ModelAttribute Brand brand) {
+        try {
+            if (brand.getId() != 0)
+                brand = brandService.findBrandById(brand.getId());
 
-			String uploadDir = "brand-upload/" + brand.getId() + "/";
+            if (file != null) {
+                String brandImage = brand.getImage();
+                if (brandImage != null) {
+                    cloudinaryService.deleteFile(brandImage, "brands");
+                }
 
-			String featuredImg = brand.getId() + ".jpg";
+                brandImage = saveFile(file, "brands");
+                brand.setImage(brandImage);
+            }
 
-			brand.setImage("/" + uploadDir + featuredImg);
+            brandService.save(brand);
 
-			saveFile(uploadDir, featuredImg, file);
+            System.out.println("Brand added successfully.");
+            model.addAttribute("alert", "success");
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
+        return adminPageBrands(model);
+    }
 
-			brandService.save(brand);
+    @PostMapping("/saveProduct")
+    public String saveProduct(Model model,
+                              @RequestParam("product_img") MultipartFile file,
+                              @ModelAttribute Product product) {
+        try {
+            if (product.getId() != 0)
+                product = productService.findProductById(product.getId());
 
-			System.out.println("Brand added successfully.");
-			model.addAttribute("alert", "success");
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
-		return adminPageBrands(model);
-	}
+            if (file != null) {
+                String productImage = product.getFeaturedImage();
+                if (productImage != null) {
+                    cloudinaryService.deleteFile(productImage, "products");
+                }
 
-	@PostMapping("/saveProduct")
-	public String saveProduct(Model model,
-			@RequestParam("product_img") MultipartFile file,
-			@ModelAttribute Product product) {
-		try {
-			product = productService.save(product);
+                productImage = saveFile(file, "products");
+                product.setFeaturedImage(productImage);
+            }
 
-			String uploadDir = "product-upload/" + product.getId() + "/";
+            product.setFinal_price();
+            productService.save(product);
 
-			String fileName = product.getId() + ".jpg";
-			product.setFeaturedImage("/" + uploadDir + fileName);
-			saveFile(uploadDir, fileName, file);
+            System.out.println("Product saved successfully.");
+            model.addAttribute("alert", "success");
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
+        return adminPageProducts(model);
+    }
 
-			product.setFinal_price();
-			productService.save(product);
+    /* EDIT */
 
-			System.out.println("Product saved successfully.");
-			model.addAttribute("alert", "success");
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
-		return adminPageProducts(model);
-	}
+    @GetMapping("/editUser")
+    public String editUser(Model model, @Param("id") int id) {
+        return toSaveUserPage(model, userService.findUserById(id));
+    }
 
-	/* EDIT */
+    @GetMapping("/editProduct")
+    public String editProduct(Model model, @Param("id") int id) {
+        return toAddProductPage(model, productService.findProductById(id));
+    }
 
-	@GetMapping("/editUser")
-	public String editUser(Model model, @Param("id") int id) {
-		return toSaveUserPage(model, userService.findUserById(id));
-	}
+    @GetMapping("/editBrand")
+    public String editBrand(Model model, @Param("id") int id) {
+        return toSaveBrandPage(model, brandService.findBrandById(id));
+    }
 
-	@GetMapping("/editProduct")
-	public String editProduct(Model model, Product product, @Param("id") int id) {
-		return toAddProductPage(model, productService.findProductById(id));
-	}
+    /* DELETE */
 
-	@GetMapping("/editBrand")
-	public String editBrand(Model model, Brand brand, @Param("id") int id) {
-		return toSaveBrandPage(model, brandService.findBrandById(id));
-	}
+    @GetMapping("/disable/{id}")
+    public String disableUser(@PathVariable Long id, Model model) {
+        User user = userService.findUserById(id);
+        try {
+            user.setStatus(!user.isStatus());
+            userService.save(user);
 
-	/* DELETE */
+            model.addAttribute("alert", "success");
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
 
-	@GetMapping("/disable/{id}")
-	public String disableUser(@PathVariable Long id, Model model) {
-		User user = userService.findUserById(id);
-		try {
-			user.setStatus(!user.isStatus());
-			userService.save(user);
+        if (user.getType().equals("admin"))
+            return adminPageAdmins(model);
 
-			model.addAttribute("alert", "success");
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
+        return adminPageUsers(model);
+    }
 
-		if (user.getType().equals("admin"))
-			return adminPageAdmins(model);
+    @GetMapping("/deleteProduct/{id}")
+    public String deleteProduct(@PathVariable Long id, Model model) {
+        try {
+            Product product = productService.findProductById(id);
 
-		return adminPageUsers(model);
-	}
+            if (product.getOrderDetails().isEmpty()) {
+                cloudinaryService.deleteFile(product.getFeaturedImage(), "products");
+                productService.delete(id);
+                model.addAttribute("alert", "success");
+            } else {
+                model.addAttribute("alert", "warning");
+            }
 
-	@GetMapping("/deleteProduct/{id}")
-	public String deleteProduct(@PathVariable Long id, Model model) {
-		try {
-			Product product = productService.findProductById(id);
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
+        return adminPageProducts(model);
+    }
 
-			if (product.getOrderDetails().isEmpty()) {
-				productService.delete(id);
-				deleteFile("product-upload/" + id + "/");
-				model.addAttribute("alert", "success");
-			} else {
-				model.addAttribute("alert", "warning");
-			}
+    @GetMapping("/deleteBrand/{id}")
+    public String deleteBrand(@PathVariable Long id, Model model) throws IOException {
 
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
-		return adminPageProducts(model);
-	}
+        try {
+            Brand brand = brandService.findBrandById(id);
 
-	@GetMapping("/deleteBrand/{id}")
-	public String deleteBrand(@PathVariable Long id, Model model) throws IOException {
+            if (brand.getProducts().isEmpty()) {
+                cloudinaryService.deleteFile(brand.getImage(), "brands");
+                brandService.delete(id);
+                model.addAttribute("alert", "success");
+            } else {
+                model.addAttribute("alert", "warning");
+            }
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
+        return adminPageBrands(model);
+    }
 
-		try {
-			Brand brand = brandService.findBrandById(id);
+    @GetMapping("/order/{order_id}/status/{order_status}")
+    public String updateOrderStatus(
+            @PathVariable int order_id,
+            @PathVariable int order_status) {
 
-			if (brand.getProducts().isEmpty()) {
-				deleteFile("brand-upload/" + id + "/");
-				brandService.delete(id);
-				model.addAttribute("alert", "success");
-			} else {
-				model.addAttribute("alert", "warning");
-			}
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
-		return adminPageBrands(model);
-	}
+        Order order = orderService.findOrderById(order_id);
+        order.setStatus(order_status);
+        orderService.save(order);
 
-	@GetMapping("/order/{order_id}/status/{order_status}")
-	public String updateOrderStatus(
-			@PathVariable int order_id,
-			@PathVariable int order_status) {
+        return "redirect:/adminPage/orders";
+    }
 
-		Order order = orderService.findOrderById(order_id);
-		order.setStatus(order_status);
-		orderService.save(order);
+    @GetMapping("/processContact/{id}")
+    public String contactProcess(@PathVariable long id, Model model) {
 
-		return "redirect:/adminPage/orders";
-	}
+        try {
+            Contact contact = contactService.findContactById(id);
+            contact.setStatus(!contact.getStatus());
+            contactService.save(contact);
+            model.addAttribute("alert", "success");
+        } catch (Exception e) {
+            model.addAttribute("alert", "error");
+        }
 
-	@GetMapping("/processContact/{id}")
-	public String contactProcess(@PathVariable long id, Model model) {
+        return adminPageContacts(model);
+    }
 
-		try {
-			Contact contact = contactService.findContactById(id);
-			contact.setStatus(!contact.getStatus());
-			contactService.save(contact);
-			model.addAttribute("alert", "success");
-		} catch (Exception e) {
-			model.addAttribute("alert", "error");
-		}
+    /* SAVE IMAGE METHOD */
 
-		return adminPageContacts(model);
-	}
-
-	/* SAVE IMAGE METHOD */
-
-	private void saveFile(String uploadDir,
-			String fileName,
-			MultipartFile multipartFile) throws IOException {
-
-		String orgName = multipartFile.getOriginalFilename();
-		if (orgName != "") {
-			Path uploadPath = Paths.get(uploadDir);
-
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-
-			try (InputStream inputStream = multipartFile.getInputStream()) {
-				Path filePath = uploadPath.resolve(fileName);
-				Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException ioe) {
-				throw new IOException("Could not save image file: " + fileName, ioe);
-			}
-		}
-	}
-
-	/* DELETE IMAGE METHOD */
-
-	private void deleteFile(String imgPath) throws IOException {
-		File file = new File(imgPath);
-		deleteDirectory(file);
-		file.delete();
-	}
-
-	private void deleteDirectory(File file) {
-		for (File subfile : file.listFiles()) {
-			if (subfile.isDirectory()) {
-				deleteDirectory(subfile);
-			}
-			subfile.delete();
-		}
-	}
+    private String saveFile(MultipartFile multipartFile, String folderName) throws IOException {
+        return cloudinaryService
+                .uploadFile(multipartFile, folderName).get("url").toString();
+    }
 
 }

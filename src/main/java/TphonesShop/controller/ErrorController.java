@@ -12,7 +12,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
 
     @RequestMapping("/error")
     public String ErrorPage(HttpServletRequest request) {
-        String errorPage = "error"; // default
+        String errorPage = "error";
 
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 

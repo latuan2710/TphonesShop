@@ -5,344 +5,349 @@
 </head>
 
 <body id="your-shopping-cart" class="template-cart">
-    <style>
-        table img {
-            max-height: 150px;
+<style>
+    table img {
+        max-height: 150px;
+    }
+
+    table .stt {
+        font-weight: bold;
+    }
+
+    .btn-outline-primary {
+        color: #007bff;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid #007bff;
+        display: inline-block;
+    }
+
+    .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-danger:hover {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+    .btn-success {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btn-success:hover {
+        color: #fff;
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .btn-outline-warning {
+        color: #ffc107;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid #ffc107;
+    }
+
+    .btn-outline-warning:hover {
+        color: #212529 !important;
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-outline-danger {
+        color: #dc3545;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid #dc3545;
+    }
+
+    .btn-outline-danger:hover {
+        color: #fff !important;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .mobile-cart-buttons {
+        display: none;
+    }
+
+    .mobile-picaboo-product-price {
+        display: none;
+        font-weight: bold;
+    }
+
+    @media (max-width: 480px) {
+        .mobile-picaboo-product-price {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
         }
 
-        table .stt {
-            font-weight: bold;
+        .picaboo-product-price,
+        .picaboo-product-quantity {
+            display: none;
         }
 
-        .btn-outline-primary {
-            color: #007bff;
-            background-color: transparent;
-            background-image: none;
-            border: 1px solid #007bff;
-            display: inline-block;
+        .cart-buttons {
+            display: none;
         }
 
-        .btn-outline-primary:hover {
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-danger {
-            color: #fff;
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .btn-danger:hover {
-            color: #fff;
-            background-color: #c82333;
-            border-color: #bd2130;
-        }
-
-        .btn-success {
-            color: #fff;
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-
-        .btn-success:hover {
-            color: #fff;
-            background-color: #218838;
-            border-color: #1e7e34;
-        }
-
-        .btn-outline-warning {
-            color: #ffc107;
-            background-color: transparent;
-            background-image: none;
-            border: 1px solid #ffc107;
-        }
-
-        .btn-outline-warning:hover {
-            color: #212529 !important;
-            background-color: #ffc107;
-            border-color: #ffc107;
-        }
-
-        .btn-outline-danger {
-            color: #dc3545;
-            background-color: transparent;
-            background-image: none;
-            border: 1px solid #dc3545;
-        }
-
-        .btn-outline-danger:hover {
-            color: #fff !important;
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
 
         .mobile-cart-buttons {
-            display: none;
+            display: block;
+            width: 100%;
+            text-align: left;
         }
 
-        .mobile-picaboo-product-price {
-            display: none;
-            font-weight: bold;
-        }
-
-        @media (max-width: 480px) {
-            .mobile-picaboo-product-price {
-                display: flex;
-                flex-wrap: nowrap;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .picaboo-product-price,
-            .picaboo-product-quantity {
-                display: none;
-            }
-
-            .cart-buttons {
-                display: none;
-            }
-
-
-            .mobile-cart-buttons {
-                display: block;
-                width: 100%;
-                text-align: left;
-            }
-
-        }
-    </style>
-    <div class="wrapper">
-        <!-- Header control start -->
-        <div id="shopify-section-header-two" class="shopify-section">
-            <!--Header Area Start-->
-            <header th:replace="~{user/index.html :: header}">
-            </header>
-            <!--Header Area End-->
-        </div>
-        <!-- Header control end -->
-        <!-- BREADCRUMBS SETCTION START -->
-        <div class="breadcrumb-wrapper">
-            <div class="breadcrumb-area breadcrumbs overlay-bg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="breadcrumb-content text-center">
-                                <h1 class="breadmome-name breadcrumbs-title">Your Shopping Cart</h1>
-                            </div>
+    }
+</style>
+<div class="wrapper">
+    <!-- Header control start -->
+    <div id="shopify-section-header-two" class="shopify-section">
+        <!--Header Area Start-->
+        <header th:replace="~{user/index.html :: header}">
+        </header>
+        <!--Header Area End-->
+    </div>
+    <!-- Header control end -->
+    <!-- BREADCRUMBS SETCTION START -->
+    <div class="breadcrumb-wrapper">
+        <div class="breadcrumb-area breadcrumbs overlay-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-content text-center">
+                            <h1 class="breadmome-name breadcrumbs-title">Your Shopping Cart</h1>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- BREADCRUMBS SETCTION END -->
-        <main>
-            <div id="shopify-section-template--14393660637254__main" class="shopify-section">
-                <!-- PAGE SECTION START -->
-                <div class="Shopping-cart-area mt-80 mb-80">
-                    <div class="container">
-                        <div th:if="${order!=null && order.orderDetails.size!=0}" class="row">
-                            <div class="col-12">
-                                <div class="table-content table-responsive mb-40 my-data-table">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="picaboo-product-remove"></th>
-                                                <th class="picaboo-product-thumbnail">Image</th>
-                                                <th class="cart-product-name">Product</th>
-                                                <th class="picaboo-product-price">Price</th>
-                                                <th class="mobile-picaboo-product-price">Price</th>
-                                                <th class="picaboo-product-quantity">Quantity</th>
-                                                <th class="picaboo-product-subtotal">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr th:each="order,index : ${order.orderDetails}">
-                                                <td class="picaboo-product-remove">
-                                                    <button th:onclick=" 'removeCart('+ ${order.id}+ ')' ">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                                <td class="picaboo-product-thumbnail">
-                                                    <a th:href="${'/product/'+order.product.name}">
-                                                        <img th:src="${order.product.featuredImage}"
-                                                            alt="Product title here - red" /></a>
-                                                </td>
-                                                <td class="picaboo-product-name">
-                                                    <a th:href="${'/product/'+order.product.name}">
-                                                        [(${order.product.name})]
-                                                    </a>
-                                                </td>
-                                                <td class="mobile-picaboo-product-price">
-                                                    <span>$[(${order.price})]</span>
-                                                    <span> x </span>
-                                                    <input class="cart-plus-minus-box quantity"
-                                                        th:data-id="${order.product.id}" type="text"
-                                                        th:value="${order.quantity}"
-                                                        th:quantity-max="${order.product.quantity}"
-                                                        onkeyup="typeQuantity(this)">
-                                                </td>
-                                                <td class="picaboo-product-price">
+    </div>
+    <!-- BREADCRUMBS SETCTION END -->
+    <main>
+        <div id="shopify-section-template--14393660637254__main" class="shopify-section">
+            <!-- PAGE SECTION START -->
+            <div class="Shopping-cart-area mt-80 mb-80">
+                <div class="container">
+                    <div th:if="${order!=null && order.orderDetails.size!=0}" class="row">
+                        <div class="col-12">
+                            <div class="table-content table-responsive mb-40 my-data-table">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="picaboo-product-remove"></th>
+                                        <th class="picaboo-product-thumbnail">Image</th>
+                                        <th class="cart-product-name">Product</th>
+                                        <th class="picaboo-product-price">Price</th>
+                                        <th class="mobile-picaboo-product-price">Price</th>
+                                        <th class="picaboo-product-quantity">Quantity</th>
+                                        <th class="picaboo-product-subtotal">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="order,index : ${order.orderDetails}">
+                                        <td class="picaboo-product-remove">
+                                            <button th:onclick=" 'removeCart('+ ${order.id}+ ')' ">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td>
+                                        <td class="picaboo-product-thumbnail">
+                                            <a th:href="${'/product/'+order.product.name}">
+                                                <img th:src="${order.product.featuredImage}"
+                                                     alt="Product title here - red"/></a>
+                                        </td>
+                                        <td class="picaboo-product-name">
+                                            <a th:href="${'/product/'+order.product.name}">
+                                                [(${order.product.name})]
+                                            </a>
+                                        </td>
+                                        <td class="mobile-picaboo-product-price">
+                                            <span>$[(${order.price})]</span>
+                                            <span> x </span>
+                                            <input class="cart-plus-minus-box quantity"
+                                                   th:data-id="${order.product.id}" type="text"
+                                                   th:value="${order.quantity}"
+                                                   th:quantity-max="${order.product.quantity}"
+                                                   onkeyup="typeQuantity(this)">
+                                        </td>
+                                        <td class="picaboo-product-price">
                                                     <span class="amount">
                                                         <span class=money>$[(${order.price})]</span>
                                                     </span>
-                                                </td>
-                                                <td class="picaboo-product-quantity">
-                                                    <div class="cart-plus-minus">
-                                                        <input class="cart-plus-minus-box quantity"
-                                                            th:data-id="${order.product.id}" type="text"
-                                                            th:value="${order.quantity}"
-                                                            th:quantity-max="${order.product.quantity}"
-                                                            onkeyup="typeQuantity(this)">
-                                                    </div>
-                                                </td>
-                                                <td class="product-subtotal">
-                                                    <span class=money>$[(${order.finalPrice})]</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="5"></td>
-                                                <td class="product-subtotal total text-center">
-                                                    <span class="money">$[(${order.totalPrice})]</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-12 d-flex flex-wrap justify-content-end all-cart-buttons">
-                                <div class="cart-buttons">
-                                    <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
-                                    <button class="default-btn btn-outline-danger clear-cart">Clear Cart</button>
-                                    <button class="default-btn btn-outline-warning update-cart">Update
-                                        Cart</button>
-                                    <button class="default-btn" th:order-id="${order.id}" onclick="checkout(this);"> Buy
-                                        now </button>
-                                </div>
-                                <div class="mobile-cart-buttons cart-buttons">
-                                    <button class="default-btn" th:order-id="${order.id}" onclick="checkout(this);"> Buy
-                                        now </button>
-                                    <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
-                                    <button class="default-btn btn-outline-warning update-cart">Update
-                                        Cart</button>
-                                    <button class="default-btn btn-outline-danger clear-cart">Clear Cart</button>
-                                </div>
+                                        </td>
+                                        <td class="picaboo-product-quantity">
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box quantity"
+                                                       th:data-id="${order.product.id}" type="text"
+                                                       th:value="${order.quantity}"
+                                                       th:quantity-max="${order.product.quantity}"
+                                                       onkeyup="typeQuantity(this)">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal">
+                                            <span class=money>$[(${order.finalPrice})]</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td class="product-subtotal total text-center">
+                                            <span class="money">$[(${order.totalPrice})]</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div th:if="${order==null || order.orderDetails.size==0}" class="row">
-                            <div class="col-lg-12 col-12">
-                                <div class="empty-cart-page">
-                                    <h2>Shopping Cart</h2>
-                                    <h3>Your cart is currently empty.</h3>
-                                    <p>Continue browsing <a href="/">here</a></p>
-                                </div>
+                        <div class="col-12 d-flex flex-wrap justify-content-end all-cart-buttons">
+                            <div class="cart-buttons">
+                                <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
+                                <button class="default-btn btn-outline-danger clear-cart">Clear Cart</button>
+                                <button class="default-btn btn-outline-warning update-cart">Update
+                                    Cart
+                                </button>
+                                <button class="default-btn" th:order-id="${order.id}" onclick="checkout(this);"> Buy
+                                    now
+                                </button>
+                            </div>
+                            <div class="mobile-cart-buttons cart-buttons">
+                                <button class="default-btn" th:order-id="${order.id}" onclick="checkout(this);"> Buy
+                                    now
+                                </button>
+                                <a class="default-btn btn-outline-primary" href="/">Continue Shopping</a>
+                                <button class="default-btn btn-outline-warning update-cart">Update
+                                    Cart
+                                </button>
+                                <button class="default-btn btn-outline-danger clear-cart">Clear Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${order==null || order.orderDetails.size==0}" class="row">
+                        <div class="col-lg-12 col-12">
+                            <div class="empty-cart-page">
+                                <h2>Shopping Cart</h2>
+                                <h3>Your cart is currently empty.</h3>
+                                <p>Continue browsing <a href="/">here</a></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- PAGE SECTION END -->
             </div>
-
-        </main>
-        <!--Footer Area Start-->
-        <div th:replace="~{user/index.html :: footer-top}">
+            <!-- PAGE SECTION END -->
         </div>
-        <footer th:replace="~{user/index.html :: footer}">
-        </footer>
-        <!--Footer Area End-->
-        <script>
-            $(window).ready(() => {
-                let width = window.outerWidth;
 
-                if (width <= 480) {
-                    $('table tr:last-child>td:first-child').attr('colspan', 4);
-                }
-            });
+    </main>
+    <!--Footer Area Start-->
+    <div th:replace="~{user/index.html :: footer-top}">
+    </div>
+    <footer th:replace="~{user/index.html :: footer}">
+    </footer>
+    <!--Footer Area End-->
+    <script>
+        $(window).ready(() => {
+            let width = window.outerWidth;
 
-            $(".my-data-table").on("click", ".qtybutton", function () {
-                let i = $(this);
-                s = i.parent().find("input");
-                let max = parseInt(s.attr("quantity-max"));
-                s = s.val();
+            if (width <= 480) {
+                $('table tr:last-child>td:first-child').attr('colspan', 4);
+            }
+        });
 
-                let quantity = 0;
-                if (i.hasClass("inc"))
-                    quantity = (s < max) ? (parseInt(s) + 1) : max;
-                else
-                    quantity = (s > 0) ? (parseInt(s) - 1) : 0;
+        $(".my-data-table").on("click", ".qtybutton", function () {
+            let i = $(this);
+            s = i.parent().find("input");
+            let max = parseInt(s.attr("quantity-max"));
+            s = s.val();
 
-                i.parent().find("input").val(quantity)
-            });
+            let quantity = 0;
+            if (i.hasClass("inc"))
+                quantity = (s < max) ? (parseInt(s) + 1) : max;
+            else
+                quantity = (s > 0) ? (parseInt(s) - 1) : 0;
 
-            function typeQuantity(e) {
-                let input = $(e);
+            i.parent().find("input").val(quantity)
+        });
 
-                let quantity = parseInt(input.val());
-                let max = parseInt(input.attr("quantity-max"));
+        function typeQuantity(e) {
+            let input = $(e);
 
-                quantity = (quantity < 0 || !quantity) ? 0 : ((quantity > max) ? max : quantity);
+            let quantity = parseInt(input.val());
+            let max = parseInt(input.attr("quantity-max"));
 
-                input.val(quantity);
+            quantity = (quantity < 0 || !quantity) ? 0 : ((quantity > max) ? max : quantity);
+
+            input.val(quantity);
+        }
+
+
+        $('.all-cart-buttons').on('click', '.update-cart', () => {
+            let postdata = [];
+            let list_pro;
+
+            if (window.outerWidth > 480) {
+                list_pro = $('td.picaboo-product-quantity input');
+            } else {
+                list_pro = $('td.mobile-picaboo-product-price input');
             }
 
-
-            $('.all-cart-buttons').on('click', '.update-cart', () => {
-                let postdata = [];
-                let list_pro;
-
-                if (window.outerWidth > 480) {
-                    list_pro = $('td.picaboo-product-quantity input');
-                } else {
-                    list_pro = $('td.mobile-picaboo-product-price input');
+            for (let i = 0; i < list_pro.length; i++) {
+                let object = {
+                    productId: $(list_pro[i]).attr('data-id'),
+                    quantity: $(list_pro[i]).val()
                 }
+                postdata.push(object);
+            }
 
-                for (let i = 0; i < list_pro.length; i++) {
-                    let object = {
-                        productId: $(list_pro[i]).attr('data-id'),
-                        quantity: $(list_pro[i]).val()
-                    }
-                    postdata.push(object);
-                }
-
-                $.ajax({
-                    type: "POST",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    url: "/update-cart",
-                    data: JSON.stringify(postdata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data) {
-                            localStorage.setItem("alert-action", data);
-                            location.reload()
-                        } else {
-                            localStorage.setItem("alert-action", data);
-                        }
-                    }
-                });
-            })
-
-            $('.all-cart-buttons').on('click', '.clear-cart', () => {
-                $.post('/clear-cart', function (data) {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                url: "/update-cart",
+                data: JSON.stringify(postdata),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
                     if (data) {
                         localStorage.setItem("alert-action", data);
                         location.reload()
                     } else {
                         localStorage.setItem("alert-action", data);
                     }
-                })
-            })
+                }
+            });
+        })
 
-            let checkout = (e) => {
-                let id = $(e).attr('order-id');
-                location.href = `/shipping/${id}`
-            }
-            alert_action(localStorage.getItem("alert-action"));
-        </script>
+        $('.all-cart-buttons').on('click', '.clear-cart', () => {
+            $.post('/clear-cart', function (data) {
+                if (data) {
+                    localStorage.setItem("alert-action", data);
+                    location.reload()
+                } else {
+                    localStorage.setItem("alert-action", data);
+                }
+            })
+        })
+
+        let checkout = (e) => {
+            let id = $(e).attr('order-id');
+            location.href = `/shipping/${id}`
+        }
+        alert_action(localStorage.getItem("alert-action"));
+    </script>
+</div>
 </body>
 
 </html>
